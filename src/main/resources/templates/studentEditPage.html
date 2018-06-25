@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>学员编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <form id="student">
+                        <input id="id" name="id" type="hidden" th:value="${student.id}"/>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">姓名</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="name" id="name"  class="form-control" th:value="${student.name}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">性别</label>
+                                <div class="col-sm-8">
+                                    <select id="gender" name="gender"  class="form-control" readonly="readonly">
+                                        <option value="1" th:selected="${student.gender==1?'selected':null}">男</option>
+                                        <option value="0" th:selected="${student.gender==0?'selected':null}">女</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">QQ</label>
+                                <div class="col-sm-8">
+                                    <input type="text"  id="qq"  name="qq" class="form-control" th:value="${student.qq}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">手机号</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="mobile" id="mobile"  class="form-control" th:value="${student.mobile}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">邮箱</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="email" id="email"  class="form-control" th:value="${student.email}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">身份证号码</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="identityNo" id="identityNo"  class="form-control" th:value="${student.identityNo}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">所属区域</label>
+                                <div class="col-sm-8">
+                                    <select id="unitId" name="unitId"  class="form-control" readonly="readonly">
+                                        <option value="">请选择所属区域</option>
+                                        <th:block th:each="list:${units}">
+                                            <option th:value="${list.id}" th:text="${list.name}" th:selected="${list.id==student.unitId?'selected':null}">男</option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">学费</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="tuition" id="tuition"  class="form-control" th:value="${student.tuition}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">是否购买保险</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="insurance" readonly="readonly">
+                                        <option value="1" th:selected="${student.insurance==1?'selected':null}">是</option>
+                                        <option value="0" th:selected="${student.insurance==0?'selected':null}">否</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">报名时间</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="enrollTime" id="enrollTime"  class="form-control" th:value="${student.enrollTime}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">学校</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="school" id="school"  class="form-control" th:value="${student.school}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">宿舍号</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="dormNo" id="dormNo"  class="form-control" th:value="${student.dormNo}" readonly="readonly"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">状态</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="status" readonly="readonly">
+                                        <option value="1" th:selected="${student.status==1?'selected':null}">启用</option>
+                                        <option value="0" th:selected="${student.status==0?'selected':null}">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="ibox-title">
+                <h5>考试信息</h5>
+                <div class="ibox-tools">
+                        <a  onclick="show()" class="btn btn-primary">添加 </a>
+                        <a  onclick="DM.back()" class="btn btn-warning">返回 </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>科目</th>
+                        <th>是否通过</th>
+                        <th>考试时间</th>
+                        <th>考试费用</th>
+                        <th>教练评价</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="pass_list" style="text-align: center" >
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+<div id="modalForm" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel" >添加考试信息</h4>
+                </div>
+                <br/>
+                <form id="passForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">科目：</label>
+                        <div class="col-sm-7">
+                            <select  id="subType" class="form-control" name="subType" onchange="">
+                                <option value="1">科目一</option>
+                                <option value="2">科目二</option>
+                                <option value="3">科目三</option>
+                                <option value="4">科目四</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label " onclick="">是否通过：</label>
+                        <div class="col-sm-7">
+                            <select id="isPass" name="isPass" class="form-control">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">考试时间：</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="testTime" id="testTime"  value="" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">考试费用：</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="spend" id="spend"  value="" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">师傅评价：</label>
+                        <div class="col-sm-7">
+                            <textarea type="text" name="evaluate" id="evaluate" class="form-control"/>
+                        </div>
+                    </div>
+                </form>
+                <div class="ibox-content" style="text-align: center">
+                    <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="add()">
+                        <span class="ladda-label"><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <a href="javascript:void(0)" id="cancel" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> 取消
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/wx/studentEdit.js"></script>
+<script>
+    var studentEdit = new StudentEdit();
+    $(function(){
+        studentEdit.init();
+        studentEdit.validInitPass();
+        studentEdit.getPassListByStuId();
+    });
+    function save() {
+        studentEdit.updateStudent();
+    }
+    function show() {
+        studentEdit.showSubjectPass();
+    }
+    function add() {
+        studentEdit.addSubjectPass();
+    }
+    function removePassById(id) {
+        Messager.confirm("是否删除?", function() {
+            studentEdit.removePassById(id);
+        });
+    }
+</script>
+
+</body>
+</html>

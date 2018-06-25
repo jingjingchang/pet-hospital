@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::editor"></div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>学员管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">学员新增</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>分类编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <form id="wxReply">
+                        <input type="hidden" name="id" th:value="${wxReply.id}" />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">关键字</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="keyName" id="keyName"  class="form-control" th:value="${wxReply.keyName}"/>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">回复类型</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="keyType" id="type" onchange="changeType()">
+                                        <option value="text" th:selected="${wxReply.keyType=='text'?'selected':null}">文本</option>
+                                        <option value="graphics" th:selected="${wxReply.keyType=='graphics'?'selected':null}">图文</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="gdiv" th:hidden="${wxReply.keyType=='text'?'true':'false'}">
+                                <label class="col-sm-2 control-label require">图文信息</label>
+                                <div class="col-sm-8">
+                                    <select  name="graphics" id="graphics"  class="form-control">
+                                        <option value="0">请选择</option>
+                                        <th:block th:each="list:${graphics}">
+                                            <option th:value="${list.id}" th:text="${list.title}" th:selected="${wxReply.graphics==list.id?'selected':null}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group"  id="ediv" th:hidden="${wxReply.keyType=='graphics'?'true':'false'}">
+                                <label class="col-sm-2 control-label require">内容</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" name="keyValue" id="keyValue"  class="form-control" th:text="${wxReply.keyValue}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">状态</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="status">
+                                        <option value="1" th:selected="${wxReply.status==1?'selected':null}">启用</option>
+                                        <option value="0" th:selected="${wxReply.status==0?'selected':null}">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <div class="ibox-content btn-center" style="text-align: center">
+                        <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="save()">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                        </button>
+
+                        <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                            <i class="fa fa-times" aria-hidden="true"></i> 返回
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<script src="/js/wxReply_list.js"></script>
+<script>
+    var wxReply = new WxReplyList();
+    $(function(){
+        wxReply.loadTableData();
+    });
+    function save() {
+        wxReply.updateWxReply();
+    }
+    $(function(){
+        KindEditor.ready(function(K) {
+            window.editor = K.create('#editor_id');
+        });
+    });
+    function changeType() {
+        var str =  $("#type").find("option:selected").eq(0).val();
+        if(str =="graphics" ){
+            $("#gdiv").attr("hidden",false);
+            $("#ediv").attr("hidden",true);
+        }else{
+            $("#gdiv").attr("hidden",true);
+            $("#ediv").attr("hidden",false);
+        }
+    }
+</script>
+
+</body>
+</html>

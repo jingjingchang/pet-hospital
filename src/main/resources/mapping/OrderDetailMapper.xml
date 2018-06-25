@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.OrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.OrderDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="p_id" jdbcType="INTEGER" property="pId" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="max_num" jdbcType="INTEGER" property="maxNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.OrderDetailDto" extends="BaseResultMap">
+    <result column="unitName" jdbcType="VARCHAR" property="unitName"></result>
+  </resultMap>
+  <sql id="basic_list">
+    od.id,od.start_time,od.end_time,od.status,od.created,od.max_num
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_order_detail od
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and od.name like CONCAT('%',#{keyword},'%')
+      </if>
+
+    </where>
+
+    ORDER BY od.id desc
+  </select>
+
+  <select id="getTimeListByOrderId" resultMap="BaseResultMap" parameterType="Integer">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_order_detail od
+    <where>
+      od.p_id=#{pId}
+    </where>
+    ORDER BY od.start_time ASC
+  </select>
+
+  <select id="getOrderNumByOrderDetailId" parameterType="Integer">
+    select sum(os.id)
+    from b_order_student os
+    <where>
+      <if test="odId!=null and orId!=null">
+        os.od_id=#{odId}
+      </if>
+      and substring(os.created,1,10)=date_sub(curdate(),interval -1 day)
+    </where>
+  </select>
+
+  <select id="getOrderDetailList" parameterType="Integer" resultMap="dto">
+    select
+    <include refid="basic_list"/>,u.name as unitName
+    from b_order_detail od
+    left join b_order o on o.id=od.p_id
+    left join b_unit u on u.id=o.unit_id
+  </select>
+</mapper>

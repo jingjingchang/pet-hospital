@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.WxMenuMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.WxMenu">
+    <id column="key" jdbcType="INTEGER" property="key" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="menu_value" jdbcType="VARCHAR" property="menuValue" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.WxMenuDto">
+    <id column="key" jdbcType="INTEGER" property="key" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="menu_value" jdbcType="VARCHAR" property="menuValue" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <select id="getAllMenus" resultMap="dto">
+    SELECT
+    wm.id,parent_id,name,type, menu_value, status, created,sort
+    FROM
+    b_wx_menu wm
+    WHERE status = 1
+    ORDER BY sort
+  </select>
+</mapper>

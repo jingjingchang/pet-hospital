@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div id="wrapper">
+    <div th:replace="menu::MENU"></div>
+
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div th:replace="header::HEADER"></div>
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>图文管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">图文管理</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+
+            <div class="ibox" id="ibox_id">
+
+                <div id="list_area">
+
+                    <div class="ibox-content">
+                        <div class="table-container">
+                            <div class="fixed-table-toolbar">
+                                <div class="bs-bars pull-left" id="news_cate_bar">
+                                    <a class="btn btn-primary" href="/admin/weChat/graphic/add">
+                                        <i class="fa fa-plus"></i> 新增
+                                    </a>
+                                    <button class="btn btn-danger"  onclick="">删除</button>
+                                </div>
+                            </div>
+                            <div id="datatable_ajax_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer">
+                                <div class="row">
+                                    <table id="graphic"></table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="/js/graphic_list.js"></script>
+<script>
+    var graphic = new GarphicList();
+    $(function(){
+        graphic.loadTableData();
+    });
+    function deleteGraphic(id) {
+        Messager.confirm("确定删除吗？",function () {
+            graphic.deleteGraphic(id);
+        })
+    }
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.UtilWebCategoryMapper">
+
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.UtilWebCategory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.UtilWebCategoryDto" extends="BaseResultMap">
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+  </resultMap>
+
+  <select id="listByPage" parameterType="map" resultMap="dto">
+
+    SELECT
+    ca.id, ca.name, ca.code,ca.status,ca.parent_id,cad.name as pname
+    FROM
+    b_util_web_category ca LEFT JOIN b_util_web_category cad ON cad.parent_id=ca.id
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and ca.name like CONCAT('%',#{keyword},'%')
+      </if>
+
+    </where>
+
+    ORDER BY ca.id desc
+  </select>
+
+  <select id="getAllUtilWebCategorys" parameterType="map" resultMap="dto">
+
+    SELECT
+    ca.id, ca.name, ca.code,ca.status,ca.parent_id,cad.name as pname
+    FROM
+    b_util_web_category ca LEFT JOIN b_util_web_category cad ON cad.parent_id=ca.id
+    ORDER BY  id desc
+  </select>
+</mapper>

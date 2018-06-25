@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <title>H+ 后台主题UI框架 - 空白页</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台"/>
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"/>
+
+    <link rel="shortcut icon" href="favicon.ico"/>
+
+</head>
+
+<body class="gray-bg">
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="middle-box text-center animated fadeInRightBig">
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                        <div class="row">
+                            <div class="form-group col-sm-5">
+                                <label class="control-label">开始日期:</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" id="startTime" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label class="control-label">结束日期:</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" id="endTime" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label class="control-label .sr-only"></label>
+                                <div class="input-group">
+                                    <a class="btn btn-primary" href="javascript:void(0)" onclick="initData()">
+                                        <i class="fa fa-search"></i> 查询
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                    <div id="main1" style="width: 600px;height:400px;"></div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="middle-box text-center animated fadeInRightBig">
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div id="main2" style="width: 600px;height:400px;"></div>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="middle-box text-center animated fadeInRightBig">
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div id="main3" style="width: 600px;height:400px;"></div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="middle-box text-center animated fadeInRightBig">
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div id="main4" style="width: 600px;height:400px;"></div>
+                </div>
+            </div>
+        </div>
+
+<script src="/js/valueFormat.js"></script>
+<script src="/js/index.js"></script>
+<!-- 自定义js -->
+<script src="/plugins/js/plugins/echarts/echarts.min.js"></script>
+<script src="/plugins/js/plugins/echarts/macarons.js"></script>
+<script>
+    var index = new Index();
+    $(function () {
+        var myDate = new Date();
+        $("#startTime").val(DM.format.formatDate(myDate.getFullYear()-1+"-"+parseInt(myDate.getMonth()+1)+"-"+myDate.getDate()));
+        $("#endTime").val(DM.format.formatDate(myDate.getFullYear()+"-"+parseInt(myDate.getMonth()+1)+"-"+myDate.getDate()));
+        index.init();
+    });
+    function initData() {
+        index.init();
+    }
+</script>
+</body>
+
+</html>

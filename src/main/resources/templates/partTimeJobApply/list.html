@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <title>H+ 后台主题UI框架 - 空白页</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台"/>
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"/>
+    <div th:replace="common::JS"></div>
+    <div th:replace="common::CSS"></div>
+
+</head>
+
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>标题</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li>
+                <strong>包屑导航</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            <a href="javascript:void(0)" class="btn btn-primary" onclick="DM.initModal()">活动区域</a>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="ibox" id="ibox_id">
+        <div id="list_area">
+            <div class="ibox-content">
+                <input type="hidden" th:value="${ptId}" id="ptId"/>
+                <div class="table-container">
+                    <div class="fixed-table-toolbar">
+                        <div class="bs-bars pull-left" id="news_cate_bar">
+                            <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                                <i class="fa fa-times" aria-hidden="true"></i> 返回
+                            </a>
+                        </div>
+                    </div>
+                    <div id="datatable_ajax_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer">
+                        <div class="row">
+                            <table id="partTimeJobApply"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalForm" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel" >请评分</h4>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label ">评分：</label>
+                    <div class="col-sm-7">
+                        <select name="score" id="score" class=" form-control">
+                            <option value="5">5分</option>
+                            <option value="4">4分</option>
+                            <option value="3">3分</option>
+                            <option value="2">2分</option>
+                            <option value="1">1分</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ibox-content" style="text-align: center">
+                    <input type="hidden" id="osId"/>
+                    <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="scoreStu()">
+                        <span class="ladda-label"><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <a href="javascript:void(0)" id="cancel" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> 取消
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/partTimeJobApply_list.js"></script>
+<script>
+    var partTimeJobApply = new PartTimeJobApplyList();
+    $(function(){
+        partTimeJobApply.loadTableData();
+    });
+
+    function deletePartTimeJobApply(id) {
+        Messager.confirm("是否删除?", function() {
+            partTimeJobApply.deletePartTimeJobApply(id);
+        });
+    }
+    function show(id) {
+        $("#osId").val(id);
+        $('#modalForm').modal('show');
+    }
+    function scoreStu() {
+        partTimeJobApply.scoreStu();
+    }
+</script>
+
+
+</body>
+
+</html>

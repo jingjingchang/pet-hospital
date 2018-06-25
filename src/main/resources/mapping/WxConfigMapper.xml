@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.WxConfigMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.WxConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="push" jdbcType="INTEGER" property="push" />
+    <result column="graphic_id" jdbcType="INTEGER" property="graphic_id" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="basic_list">
+    c.id,c.push,c.graphic_id,c.status
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_wx_config
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and c.push like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+  <select id="getConfig" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_wx_config
+  </select>
+</mapper>

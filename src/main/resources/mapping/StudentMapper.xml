@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="identity_no" jdbcType="VARCHAR" property="identityNo" />
+    <result column="qq" jdbcType="INTEGER" property="qq" />
+    <result column="tuition" jdbcType="DECIMAL" property="tuition" />
+    <result column="insurance" jdbcType="INTEGER" property="insurance" />
+    <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+    <result column="dorm_no" jdbcType="VARCHAR" property="dormNo" />
+    <result column="enroll_time" jdbcType="VARCHAR" property="enrollTime" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="study_status" jdbcType="INTEGER" property="studyStatus" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.StudentDto" extends="BaseResultMap">
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+  </resultMap>
+  <sql id="basic_list">
+    s.id, s.name,s.gender, s.mobile, s.email, s.insurance,s.identity_no, s.qq, s.tuition,s.unit_id, s.dorm_no, s.enroll_time,s.school,s.created,s.status,s.study_status
+  </sql>
+
+  <select id="listByPage" parameterType="map" resultMap="dto">
+
+    SELECT
+    <include refid="basic_list"></include>,u.name as uname
+    FROM
+    b_students s
+    LEFT JOIN
+    b_unit u
+    ON u.id=s.unit_id
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and s.name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY s.id desc
+  </select>
+
+  <select id="getAllStudents" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"></include>
+    FROM
+      b_students s
+    ORDER BY s.id desc
+  </select>
+
+  <select id="getStudentDtoByPhone" resultMap="dto" parameterType="String">
+    SELECT
+    <include refid="basic_list"></include>,u.name as uname
+    FROM
+    b_students s
+    LEFT JOIN
+    b_unit u
+    ON u.id = s.unit_id
+    <where>
+      <if test="phone!=null and phone!=''">
+          AND  s.mobile = #{phone}
+      </if>
+    </where>
+
+  </select>
+
+
+  <select id="getStudentDtoById" parameterType="Integer" resultMap="dto">
+    SELECT
+    <include refid="basic_list"></include>,u.name as uname
+    FROM
+    b_students s
+    LEFT JOIN
+    b_unit u
+    ON u.id = s.unit_id
+    <where>
+      <if test="id!=null and id!=''">
+        AND  s.id = #{id}
+      </if>
+    </where>
+  </select>
+  
+  <select id="getStudentGenderStatistics" resultType="map">
+    SELECT
+    s.gender,COUNT(s.gender) as num
+    FROM
+    b_students s
+    WHERE s.status = 1
+    GROUP BY
+    s.gender
+  </select>
+
+  <select id="getStudentUnitStatistics" resultType="map">
+     SELECT
+    u.name,COUNT(s.id) as num
+    FROM
+    b_students s
+    LEFT JOIN
+    b_unit u ON u.id = s.unit_id
+    WHERE s.status = 1
+    GROUP BY
+    u.id
+  </select>
+
+</mapper>

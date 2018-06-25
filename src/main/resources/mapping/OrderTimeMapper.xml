@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.OrderTimeMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.OrderTime">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <sql id="basic_list">
+    ot.id,ot.start_time,ot.end_time,ot.created
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_order_time ot
+    ORDER BY ot.created ASC
+  </select>
+
+</mapper>

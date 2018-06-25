@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="wxOpenId" jdbcType="VARCHAR" property="wxopenid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="auth_flag" jdbcType="BIT" property="authFlag" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="identityNo" jdbcType="VARCHAR" property="identityNo" />
+    <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
+    <result column="created" jdbcType="VARCHAR" property="created" />
+    <result column="cancel_date" jdbcType="VARCHAR" property="cancelDate" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+    <sql id="basic_list">
+      m.id, m.wxOpenId, m.name, m.gender,m.email, m.address,m.work_unit,m.identity_no,m.auth_flag,m.mobile,m.created,m.cancel_date,m.birthday, m.status,m.title
+    </sql>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+      <include refid="basic_list"/>
+    FROM
+      b_members m
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and m.name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+  <select id="getMemberByOpenId" parameterType="String" resultMap="BaseResultMap">
+      SELECT
+      <include refid="basic_list"/>
+      FROM
+      b_members m
+        <where>
+          <if test="id!=null and id!=''">
+            m.wxOpenId=#{id}
+          </if>
+        </where>
+  </select>
+
+  <select id="getAllMembers" resultMap="BaseResultMap">
+
+      SELECT
+      <include refid="basic_list"/>
+      FROM
+      b_members m
+      ORDER BY m.id
+  </select>
+
+  <select id="getAllTrueMembers" resultMap="BaseResultMap">
+
+      SELECT
+      <include refid="basic_list"/>
+      FROM
+      b_members m
+    <where>
+      m.status = 1 AND m.auth_flag=TRUE
+    </where>
+    ORDER BY m.id
+  </select>
+
+
+  <select id="getMembersSexStatistics" resultType="map" parameterType="Integer">
+    SELECT
+        count(m.id) AS other,
+        (
+            SELECT
+                count(mm.id)
+            FROM
+                b_members mm
+          <where>
+              AND  mm.sex = 1
+          </where>
+
+        ) AS female,
+        (
+            SELECT
+                count(gg.id)
+            FROM
+                b_members gg
+            <where>
+              AND  gg.sex = 0
+            </where>
+        ) AS male
+        FROM
+      b_members m
+      <where>
+          and   m.sex !='0' and m.sex!='1'
+      </where>
+
+  </select>
+
+  <select id="getMembersFlagStatistics" resultType="map" parameterType="Integer">
+   SELECT
+	count(mf.id) AS ffalse,
+	(
+		SELECT
+			count(mt.id)
+		FROM
+			b_members mt
+      <where>
+          <if test="id!=null and id!=''">
+              mt.branch_id=#{id}
+          </if>
+          and mt.auth_flag = TRUE
+      </where>
+
+	) AS ftrue
+    FROM
+        b_members mf
+    <where>
+        <if test="id!=null and id!=''">
+            mf.branch_id=#{id}
+        </if>
+        and mf.auth_flag = FALSE
+    </where>
+
+  </select>
+
+
+</mapper>

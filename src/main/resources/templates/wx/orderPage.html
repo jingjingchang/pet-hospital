@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>预约时间选择</title>
+</head>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInUp">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox" >
+                <input type="hidden" id="startTime" th:value="${orderTime.startTime}"/>
+                <input type="hidden" id="endTime" th:value="${orderTime.endTime}"/>
+                <div class="ibox-title" style="text-align: center;">
+                    <strong>预约时间</strong><br/>
+                    <strong style="font-size: 16px" th:text="${orderTime.startTime}"></strong>-- <strong style="font-size: 16px" th:text="${orderTime.endTime}"></strong>
+                </div>
+                <th:block th:each="list:${orderDto}">
+                    <div class="ibox-title">
+                        <strong th:text="${list.name}">所有项目</strong>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="project-list">
+                            <table class="table table-hover center-block">
+                                <tbody>
+                                <th:block th:each="olist:${list.odList}">
+                                    <tr th:onclick="'javascript:turnToTeacherPage(\''+${olist.id}+'\',\''+${olist.leftNum}+'\',\''+${olist.startTime+'--'+olist.endTime}+'\')'">
+                                            <td class="project-status">
+                                                <span th:if="${olist.leftNum>0}" th:text="可预约" class="label label-primary"/>
+                                                <span th:if="${0>=olist.leftNum}" th:text="已满" class="label label-default"/>
+                                            </td>
+                                            <td class="project-title">
+                                                <span  th:text="${olist.startTime}" style="font-size: 18px;"></span>--<span th:text="${olist.endTime}" style="font-size: 18px;"></span>
+                                                    <br/>
+                                                    <small>当前可预约数：</small><small th:text="${olist.leftNum==null?olist.maxNum:olist.leftNum}">创建于 2014.08.15</small>
+                                            </td>
+                                    </tr>
+                                </th:block>
+                                <!--<th:block th:each="olist:${list.odList}">
+                                    <tr th:onclick="'javascript:turnToTeacherPage(\''+${olist.id}+'\',\''+${olist.leftNum}+'\',\''+${olist.startTime+'&#45;&#45;'+olist.endTime}+'\')'">
+                                            <td class="project-status">
+                                                <span th:text="可预约" class="label label-primary"/>
+                                            </td>
+                                            <td class="project-title">
+                                                <span  th:text="${olist.startTime}" style="font-size: 18px;"></span>&#45;&#45;<span th:text="${olist.endTime}" style="font-size: 18px;"></span>
+                                                    <br/>
+                                                    <small>当前已预约数：</small><small th:text="${olist.orderNum==null?0:olist.orderNum}">创建于 2014.08.15</small>
+                                            </td>
+                                    </tr>
+                                </th:block>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </th:block>
+                <tr>
+                    <td>注：1.提交预约了后会由师傅对预约情况进行分析后安排学车，若师傅安排到您学车则会收到短信通知和微信提醒，若未收到短信通知则暂时未安排到您学车。</td>
+                </tr>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/wx/orderPage.js"></script>
+<script src="/js/valueFormat.js"></script>
+<script>
+    var orderPage = new OrderPage();
+    function turnToTeacherPage(id,leftNum,time) {
+        Messager.confirm("确定选择："+time+"这个时间吗？",function () {
+            orderPage.turnToTeacherPage(id,leftNum);
+        });
+    }
+</script>
+</html>

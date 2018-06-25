@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>资产管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">资产编辑</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>分类编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <form id="inout">
+                        <input name="id" id="id" type="hidden" th:value="${inout.id}"/>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="name" id="name"  class="form-control" th:value="${inout.name}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">类型</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="type">
+                                        <option value="income" th:selected="${inout.type=='income'?'selected':null}">收入</option>
+                                        <option value="outcome" th:selected="${inout.type=='outcome'?'selected':null}">支出</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">日期</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="madeTime" id="madeTime"  class="form-control" th:value="${inout.madeTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">金额</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="money" id="money"  class="form-control" th:value="${inout.money}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">简介</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" name="brief" id="brief"  class="form-control" th:text="${inout.brief}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">状态</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="status">
+                                        <option value="1" th:selected="${inout.status==1?'selected':null}">启用</option>
+                                        <option value="0" th:selected="${inout.status==0?'selected':null}">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <div class="ibox-content btn-center" style="text-align: center">
+                        <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="save()">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                        </button>
+
+                        <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                            <i class="fa fa-times" aria-hidden="true"></i> 返回
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+<script src="/js/inout_list.js"></script>
+<script>
+    var inout = new InOutList();
+    $(function(){
+        inout.init();
+    });
+    function save() {
+        inout.updateInOut()
+    }
+
+</script>
+
+</body>
+</html>

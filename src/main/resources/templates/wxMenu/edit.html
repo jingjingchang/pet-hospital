@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>图文信息</title>
+
+</head>
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div id="wrapper">
+    <div th:replace="menu::MENU"></div>
+
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div th:replace="header::HEADER"></div>
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>图文管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">图文管理</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>分类编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <form id="graphic">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <input  name="id" hidden="hidden" th:value="${graphic.id}" />
+                                <label class="col-sm-2 control-label require">标题</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="title" id="title"  class="form-control" th:value="${graphic.title}" />
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">链接地址</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="url" id="url"  class="form-control" th:value="${graphic.url}" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">略缩图</label>
+                                <div class="col-sm-8">
+                                    <input  name="imgurl" id="picUrl" hidden="hidden" th:value="${graphic.id}" />
+
+                                    <p><a id="UploadBtn" title=" 上传" class="btn btn-default" href="javascript:void(0)">上传</a></p>
+
+                                    <div id="pic" class="gallery">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">状态</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="status">
+                                        <option value="0">启用</option>
+                                        <option value="1">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="ibox-title" >
+                            <h5>内容</h5>
+                        </div>
+
+                        <form name="editor" method="post">
+                            <textarea  id="editor_id" cols="100" rows="8" style="width:100%;height:100%;visibility:hidden;" th:text="${graphic.content}"></textarea>
+                            <br />
+                        </form>
+                    </form>
+
+                    <div class="ibox-content btn-center">
+                        <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="save()">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                        </button>
+
+                        <a href="javascript:void(0)" class="btn btn-default" onclick="DM.back()">
+                            <i class="fa fa-times" aria-hidden="true"></i> 返回
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<!-- 富文本编辑器 -->
+<link rel="stylesheet" href="/plugins/kindeditor/themes/default/default.css" />
+<link rel="stylesheet" href="/plugins/kindeditor/plugins/code/prettify.css" />
+<script charset="utf-8" src="/plugins/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="/plugins/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="/plugins/kindeditor/plugins/code/prettify.js"></script>
+
+<!-- 上传控件 -->
+<script src="/plugins/webuploader/jQuery.md5.js"></script>
+<script src="/plugins/webuploader/mimeTypes.js"></script>
+<script src="/plugins/webuploader/webuploader.js"></script>
+<script src="/plugins/webuploader/webuploader.plugin.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/webuploader/webuploader.css" />
+<script src="/js/common.js"></script>
+
+<script src="/js/graphic_list.js"></script>
+<script>
+    var graphic = new GarphicList();
+    com = new common();
+    $(function(){
+        KindEditor.ready(function(K) {
+            window.editor = K.create('#editor_id');
+        });
+        graphic.init();
+    });
+    function save() {
+        graphic.updateGraphic();
+    }
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Teacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="identity_no" jdbcType="VARCHAR" property="identityNo" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="created" jdbcType="VARCHAR" property="created" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="tId" jdbcType="INTEGER" property="tId" />
+    <result column="sub_three" jdbcType="INTEGER" property="subThree" />
+    <result column="sub_two" jdbcType="INTEGER" property="subTwo" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.TeacherDto" extends="BaseResultMap">
+    <result column="aLevel" jdbcType="DOUBLE" property="aLevel" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+  </resultMap>
+
+  <sql id="basic_list">
+    t.id,t.id as tId, t.name,t.gender, t.mobile, t.email, t.identity_no, t.number, t.brief, t.title, t.pic_url,t.status,t.pwd,t.sub_two,t.sub_three
+  </sql>
+
+  <select id="listByPage" parameterType="map" resultMap="dto">
+    SELECT
+    <include refid="basic_list"/>,u.name as uname
+    FROM
+    b_teachers t
+    LEFT JOIN
+    b_unit u ON u.id = t.unit_id
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and t.name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+    ORDER BY t.Id desc
+  </select>
+
+  <select id="getAllTeachers" resultMap="dto">
+
+    SELECT
+    <include refid="basic_list"/>,
+    ((SELECT SUM(e.level) FROM b_evaluate e WHERE e.tea_id = t.id)/(SELECT COUNT(el.id) FROM b_evaluate el WHERE el.tea_id = t.id)) as aLevel
+    FROM
+      b_teachers t
+    where t.status = 1
+  </select>
+
+  <select id="getTeacherListWithOutByUnitId" resultMap="dto">
+    SELECT
+    t.id,t.name,t.gender,t.mobile,t.email,t.number,t.title,t.pic_url,t.status
+    FROM
+    b_teachers t
+    WHERE t.id not in (SELECT ut.teacher_id FROM b_unit_teacher ut WHERE ut.unit_id=#{unitId})
+  </select>
+
+  <select id="teacherLogin" resultMap="BaseResultMap" parameterType="String">
+    SELECT
+    id,name,gender,mobile,email,number,title,pic_url,status
+    FROM
+    b_teachers
+    <where>
+      <if test="username!=null and username!=''" >
+        and mobile = #{username}
+      </if>
+      <if test="pwd!=null and pwd!=''">
+        and pwd = #{pwd}
+      </if>
+    </where>
+  </select>
+</mapper>

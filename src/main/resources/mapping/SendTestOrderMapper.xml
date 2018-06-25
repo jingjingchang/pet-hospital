@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.SendTestOrderMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.SendTestOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="s_time" jdbcType="VARCHAR" property="sTime" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.SendTestOrderDto">
+    <result column="studentName" jdbcType="VARCHAR" property="studentName" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="mobile" jdbcType="INTEGER" property="mobile" />
+  </resultMap>
+
+  <sql id="basic_list">
+    sto.id,sto.stu_id,sto.adress,sto.s_time,sto.status
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="dto">
+
+    SELECT
+    <include refid="basic_list"/>,s.name as studentName,s.gender as gender ,s.mobile as mobile
+    FROM
+    b_send_test_order sto
+    left join b_students s on s.id = sto.stu_id
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.UtilWebMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.UtilWeb">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.UtilWebDto" extends="BaseResultMap">
+    <result column="categoryName" jdbcType="VARCHAR" property="categoryName"></result>
+  </resultMap>
+
+  <select id="listByPage" parameterType="map" resultMap="dto">
+    SELECT
+    uw.id, uw.name, uw.brief,uw.url,uw.status,uwc.name as categoryName
+    FROM
+    b_util_web uw LEFT JOIN b_util_web_category uwc ON uwc.id = uw.category_id
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+    ORDER BY Id desc
+  </select>
+
+  <select id="getAllUtilWebs" parameterType="map" resultMap="dto">
+    SELECT
+    uw.id, uw.name, uw.brief,uw.url,uw.status,uwc.name as categoryName
+    FROM
+    b_util_web uw LEFT JOIN b_util_web_category uwc ON uwc.id = uw.category_id
+    ORDER BY  id desc
+  </select>
+</mapper>

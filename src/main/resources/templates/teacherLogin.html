@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>教练登录</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/plugins/css/font-awesome.min.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/plugins/css/animate.css" rel="stylesheet"/>
+    <link href="/plugins/css/style.css?v=4.1.0" rel="stylesheet"/>
+    <!--[if lte IE 8]>
+    <script src="/plugins/static/ace/js/html5shiv.js"></script>
+    <script src="/plugins/static/ace/js/respond.js"></script>
+    <![endif]-->
+</head>
+
+<body style="background-color: white;">
+
+<div class=" animated fadeInDown">
+    <div class="row">
+        <div class="col-md-7">
+            <h1 style="margin: 10px;padding: 25px;font-weight: bold;"><img src="/img/logo.jpg" width="50" height="50"/> 征诚驾培后台管理系统</h1>
+        </div>
+        <!--<div class="col-md-5">
+            <div style="margin: 10px;float: left;">
+                <a href="download/apk/wa.apk" class="btn btn-primary" style="float: left;margin-top: 20px;">下载手机客户端</a>
+                <div style="float: right;padding-left: 20px;">
+                    <div style="float: left;padding-right: 5px;margin-top: 20px;">
+                        <p style="text-align: right;margin: 0px;padding: 0px;">扫描二维码</p>
+                        <p style="text-align: right;margin: 0px;padding: 0px;">下载手机客户端</p>
+                    </div>
+                    <img src="public/createDownloadQRCode" width="80" height="80"/>
+                </div>
+            </div>
+        </div>-->
+    </div>
+    <div class="row" style="background-image: url('/img/bg.jpg');background-repeat: no-repeat;background-size:100% 100%;">
+
+        <!-- <div class="col-md-6">
+            <h2 class="font-bold">欢迎进入+</h2>
+
+            <p>
+                    完美的设计和精确的管理主题与超过50页的新的网络应用程序视图。
+            </p>
+
+            <p>
+                Lorem Ipsum只是印刷排版业虚拟文本 Lorem Ipsum自从16世纪以后一直是行业的标准虚拟文本。
+            </p>
+
+            <p>
+                                                                 当一个未知的打印机把厨房型和炒它做字体样本。
+            </p>
+
+            <p>
+                <small>它不仅存活了五个世纪，而且还跨越了电子排版，基本上保持不变。</small>
+            </p>
+
+        </div> -->
+        <div class="col-md-offset-7 col-md-5">
+            <div class="ibox-content" style="margin: 30px;max-width: 400px;">
+                <form id="loginForm" class="m-t" role="form" action="login" method="post">
+                    <h1 style="color: #1ab394;font-weight: bold;">教练登录</h1>
+                    <div id="error" style="display:none;font-size:x-small;color: red;"></div>
+                    <hr/>
+                    <div class="form-group">
+                        <input type="text"  class="form-control" placeholder="用户名" id="username" name="username"  tabindex="1"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password"  class="form-control" placeholder="密码" id="password" name="password"  tabindex="2"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <input type="text"  name="inputVcode" id="inputVcode" class="form-control" placeholder="验证码" tabindex="3"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="javascript:void(0)" onclick="WX.login.flushImg()" style="float: left;"><img class="vc-pic" width="65" height="35"/></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button id="loginBtn" type="button" class="btn btn-primary block full-width m-b m-t" onclick="WX.login.teacherLogin();">确定</button>
+                    </div>
+                    <!-- <p style="text-align: right;">
+                        <a href="#"><small>忘记密码?</small></a>
+                    </p> -->
+
+                    <!-- <p class="text-muted text-center">
+                        <small>没有账户?</small>
+                    </p> -->
+                    <!-- <a class="btn btn-sm btn-white btn-block" href="register.html">创建账户</a> -->
+                </form>
+
+                <!-- <p class="m-t">
+                    <small>我们的应用程序主要基于Bootstrap 3 &copy; 2014</small>
+                </p> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;padding: 10px;">
+        <div class="col-md-6">
+            ©2017Chris周  技术支持:Chris周
+        </div>
+        <div class="col-md-6 text-right">
+            <span class="hidden-xs">建议使用Chrome浏览器进行访问。</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/sha256.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+<script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript">
+    $(function($) {
+        $("#username").focus();
+        document.onkeydown = function(e) {
+            var theEvent = window.event || e;
+            var code = theEvent.keyCode || theEvent.which;
+            if (code == 13) {
+                $("#loginBtn").click();
+            }
+        };
+        if (self.location != top.location) {
+            top.location = $('base')[0].href + "/";
+        }
+        WX.login.flushImg();
+    });
+</script>
+</body>
+
+</html>

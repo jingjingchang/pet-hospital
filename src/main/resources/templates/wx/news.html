@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>征诚驾培</title>
+    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/plugins/css/font-awesome.min.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/plugins/css/animate.css" rel="stylesheet"/>
+    <link href="/plugins/css/style.css?v=4.1.0" rel="stylesheet"/>
+    <script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+</head>
+<body class="white-bg">
+    <div class="container" id="content">
+        <input type="hidden" name="id" id="id" th:value="${news.id}"/>
+        <div class="row text-center">
+            <h1 th:text="${news.title}"></h1>
+        </div>
+        <div class="row col-md-12 text-center">
+            <span >征诚驾培</span><span class="col-xs-offset-1">发表时间：</span><span th:text="${#dates.format(news.created,'yyyy-MM-dd')}"></span><span class="col-xs-offset-1">阅读量: </span><span th:text="${news.readNum}"></span>
+        </div>
+        <hr/>
+        <div  style="font-size: 18px"><span th:utext="${news.content}"></span></div>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/wx/news/addReadNum',
+            data: {id:$("#id").val()},
+            success: function (data) {
+                console.log(data.resultText);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("==============");
+                Messager.alert("系统错误！");
+                console.log("==============");
+            }
+        })
+    })
+</script>

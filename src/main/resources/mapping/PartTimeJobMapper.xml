@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.PartTimeJobMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.PartTimeJob">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="max_num" jdbcType="INTEGER" property="maxNum" />
+    <result column="salary" jdbcType="VARCHAR" property="salary" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.PartTimeJobDto" extends="BaseResultMap">
+    <result column="applyNum" jdbcType="INTEGER" property="applyNum" />
+  </resultMap>
+  <sql id="basic_list">
+    pt.id,pt.name,pt.content,pt.start_time,pt.end_time,pt.salary,pt.max_num,pt.created,pt.status
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="dto">
+    SELECT
+    <include refid="basic_list"/>,
+    (select count(pja.id) from b_parttime_job_apply pja where pja.j_id=pt.id) as applyNum
+    FROM
+    b_parttime_job pt
+    ORDER BY pt.created ASC
+  </select>
+
+  <select id="getPartTimeJobList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_parttime_job pt
+    WHERE pt.status = 1
+    ORDER BY pt.start_time DESC
+  </select>
+</mapper>

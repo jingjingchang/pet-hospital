@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>信息完善</title>
+
+</head>
+<style type="text/css">
+    .input {
+        width:60%;
+        height:30px;
+        font-size: 16px;
+        border-top:0px;
+        border-left:0px;
+        border-right:0px;
+        border-bottom:0px;
+    }
+    .col-center-block {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .select{
+        font-size: 16px;
+        border-top:0px;
+        border-left:0px;
+        border-right:0px;
+        border-bottom:0px;
+    }
+    .div_bottom{
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 18px;
+    }
+    .btn-top{
+        padding-top: 20px;
+    }
+    label{
+        font-size: 16px;
+    }
+</style>
+
+<body class="gray-bg">
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+  <div class="row">
+
+      <div class="wrapper wrapper-content">
+          <!--<div class="ibox-title">
+              <h5>您还没有认证，请先认证</h5>
+          </div>-->
+          <div class="ibox-content" style="padding-bottom: 0px;">
+              <form id="memberInfo">
+                  <input type="hidden" name="id" th:value="${member.id}"/>
+                  <div class="form-horizontal ">
+                      <div class="form-group div_bottom " style="text-align: center;">
+                          <h2><strong>信息完善</strong></h2>
+                      </div>
+
+                      <div class="form-group div_bottom">
+                          <label>&nbsp;&nbsp;姓&nbsp;&nbsp;&nbsp;名:</label>
+                          <input class="input" type="text" placeholder="请输入姓名" name="name" id="name" th:value="${member.name}"/>
+                      </div>
+
+                      <div class="form-group div_bottom">
+                          <label>&nbsp;&nbsp;性&nbsp;&nbsp;&nbsp;别:</label>
+                          <select  name="sex" class="select" style="width: 60%;height: 30px;">
+                              <option value="0" th:selected="${member.sex==0?'selected':null}">男</option>
+                              <option value="1" th:selected="${member.sex==1?'selected':null}">女</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group div_bottom">
+                          <label>&nbsp;&nbsp;手机号码:</label>
+                          <input class="input" type="text" placeholder="请输入手机号" name="mobile" id="mobile" th:value="${member.mobile}"/>
+                      </div>
+
+                      <div class="form-group div_bottom">
+                          <label>&nbsp;&nbsp;邮箱:</label>
+                          <input class="input" type="text" placeholder="请输入邮箱" name="mobile" id="email" th:value="${member.email}"/>
+                      </div>
+
+                  </div>
+              </form>
+
+          </div>
+          <div class="gray-bg  btn-top">
+              <div class="col-center-block" style="width: 90%;">
+                  <button class="ladda-button btn btn-primary btn-block m-t" style="height: 50px;" onclick="save()"><span style="font-size: 18px;">提交</span></button>
+              </div>
+          </div>
+      </div>
+
+  </div>
+<hr/>
+
+
+</body>
+<script src="/plugins/js/plugins/ladda/spin.min.js"></script>
+<script src="/plugins/js/plugins/ladda/ladda.min.js"></script>
+<script src="/plugins/js/plugins/ladda/ladda.jquery.min.js"></script>
+<link href="/plugins/css/plugins/ladda/ladda-themeless.min.css"/>
+
+
+<script src="/js/wx/memberInfo.js"></script>
+<script>
+
+    var ladda;
+    var userInfo = new AddUserInfo();
+    $(function () {
+        ladda = $('.ladda-button').ladda();
+        userInfo.init();
+    })
+    function save() {
+        userInfo.save();
+    }
+</script>
+</html>

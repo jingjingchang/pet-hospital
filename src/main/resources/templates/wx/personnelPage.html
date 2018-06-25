@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>征诚驾培</title>
+    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/plugins/css/animate.css" rel="stylesheet"/>
+    <link href="/plugins/css/font-awesome.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/plugins/css/style.css?v=4.1.0" rel="stylesheet"/>
+</head>
+<body>
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs" >
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> <i class="fa fa-user"></i>我的学车资料</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"><i class="fa fa-car"></i>我的学车情况</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <strong>姓名：</strong> <strong th:text="${student.name}">周红星</strong><hr/>
+                                    <strong>性别：</strong> <strong th:text="${student.gender==1?'男':'女'}">男</strong><hr/>
+                                    <strong>电话号码：</strong> <strong th:text="${student.mobile}">13258179872</strong><hr/>
+                                    <strong>报名时间：</strong> <strong th:text="${student.enrollTime}">2018-3-2</strong><hr/>
+                                    <strong>所属区域：</strong> <strong th:text="${student.uname}">成都理工</strong><hr/>
+                                    <strong>是否购买考试险：</strong> <strong th:text="${student.insurance==1?'是':'否'}">是</strong><hr/>
+                                    <strong>学校：</strong> <strong th:text="${student.school}">成都理工大学</strong><hr/>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div style="text-align: center;">
+                                        <strong th:if="${student.studyStatus==1}">科目一学习中</strong>
+                                        <strong th:if="${student.studyStatus==2}">科目二学习中</strong>
+                                        <strong th:if="${student.studyStatus==3}">科目三学习中</strong>
+                                        <strong th:if="${student.studyStatus==4}">科目四学习中</strong>
+                                        <strong th:if="${student.studyStatus==5}">已毕业</strong>
+                                    </div>
+                                    <br/>
+                                    <th:block th:each="list:${passList}">
+                                        <div class="timeline-item">
+                                            <div class="row">
+                                                <div class="col-xs-3 date">
+                                                    <i class="fa fa-car"></i><span th:text="${list.testTime}"></span><br/>
+                                                    <small class="text-navy" th:if="${list.isPass==1}"  th:text="${list.isPass==1?'通过':'未通过'}"></small>
+                                                    <small class="text-danger" th:if="${list.isPass==0}" th:text="${list.isPass==1?'通过':'未通过'}"></small>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-xs-7 content">
+                                                    <p class="m-b-xs">
+                                                        <strong th:if="${list.subType==1}">科目一 </strong>
+                                                        <strong th:if="${list.subType==2}">科目二 </strong>
+                                                        <strong th:if="${list.subType==3}">科目三 </strong>
+                                                        <strong th:if="${list.subType==4}">科目四 </strong>
+                                                        <small class="text-navy"> 考试费用：</small><small class="text-navy" th:text="${list.spend}">180</small>
+                                                    </p>
+                                                    <p><strong>教练评价：</strong><br/>
+                                                        <span th:text="${list.evaluate}"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</body>
+</html>
+<script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+<script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+<script>
+   /* $(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/wx/news/addReadNum',
+            data: {id:$("#id").val()},
+            success: function (data) {
+                console.log(data.resultText);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("==============");
+                Messager.alert("系统错误！");
+                console.log("==============");
+            }
+        })
+    })*/
+</script>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.UnitTeacherMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.UnitTeacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.UnitTeacherDto">
+    <result column="tname" jdbcType="VARCHAR" property="tname" />
+    <result column="tId" jdbcType="VARCHAR" property="tId" />
+    <result column="tmobile" jdbcType="VARCHAR" property="tmobile" />
+    <result column="aLevel" jdbcType="VARCHAR" property="aLevel" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+  </resultMap>
+  <sql id="basic_list">
+    ut.id,ut.unit_id,ut.teacher_id,ut.status,ut.created
+  </sql>
+  <select id="getTeacherListByUnitId" parameterType="map" resultMap="dto">
+    SELECT
+    <include refid="basic_list"/>,t.id as tId,t.name,t.mobile,t.title,t.brief,t.pic_url,((SELECT SUM(e.level) FROM b_evaluate e WHERE e.tea_id = t.id)/(SELECT COUNT(el.id) FROM b_evaluate el WHERE el.tea_id = t.id)) as aLevel
+    FROM
+    b_unit_teacher ut
+    LEFT JOIN
+    b_teachers t ON t.id = ut.teacher_id
+    LEFT JOIN b_unit u ON u.id = ut.unit_id
+    WHERE  ut.unit_id=#{unitId}
+    ORDER BY ut.id desc
+  </select>
+  
+  <select id="listByPage" resultMap="BaseResultMap" parameterType="String">
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_unit_teacher ut
+    WHERE
+    ut.status = 1
+    ORDER BY ut.id desc
+  </select>
+</mapper>

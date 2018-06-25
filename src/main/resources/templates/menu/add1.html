@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div id="wrapper">
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>菜单管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">菜单管理</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>分类编辑</h5>
+            </div>
+            <div class="ibox-content">
+            <div class="ibox">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">名称</label>
+                        <div class="col-sm-8">
+                            <div class="zTreeDemoBackground left" >
+                                <ul id="treeDemo" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div id="modalForm" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body form-horizontal">
+                <form id="menuForm">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel" >添加菜单</h4>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <input name="parentId" id="parentId" hidden="hidden" />
+                    <label class="col-sm-3 control-label ">名称：</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="name" id="name"  class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label " onclick="">代码：</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="code" id="code"  class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label ">路径：</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="uri" id="uri"  class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label ">顺序：</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="sequence" id="sequence"  class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label ">样式：</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="css" id="css"  class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">状态：</label>
+                    <div class="col-sm-7">
+                        <select class=" form-control" name="status">
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                </form>
+                <div class="ibox-content" style="text-align: center">
+                    <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="addMenu()">
+                        <span class="ladda-label" ><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <a href="javascript:void(0)" class="btn btn-default"  data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> 返回
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="rMenu">
+    <ul>
+        <li id="m_add" onclick="showArea();">增加菜单</li>
+        <li id="m_del" onclick="removeTreeNode();">删除菜单</li>
+    </ul>
+</div>
+<style type="text/css">
+    div#rMenu {
+        position:absolute;
+        visibility:hidden;
+        top:0;
+        background-color: #555;
+        text-align: left;
+        padding: 2px;
+    }
+    div#rMenu ul li{
+        margin: 1px 0;
+        padding: 0 5px;
+        cursor: pointer;
+        list-style: none outside none;
+        background-color: #DFDFDF;
+    }
+</style>
+<script type="text/javascript" src="/plugins/js/plugins/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/plugins/js/plugins/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/plugins/js/plugins/ztree/jquery.ztree.exedit.js"></script>
+<link rel="stylesheet" href="/plugins/css/plugins/ztree/zTreeStyle.css" type="text/css"/>
+<script src="/js/menu.js"></script>
+
+<script>
+$(function () {
+    getMenus();
+    validInit();
+})
+</script>
+
+
+</body>
+</html>

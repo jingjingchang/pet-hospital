@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.InOutMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.InOut">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="made_time" jdbcType="VARCHAR" property="madeTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <sql id="basic_list">
+    i.id,i.name,i.type,i.money,i.brief,i.status,i.created,i.made_time
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_inout i
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and i.name like CONCAT('%',#{keyword},'%')
+      </if>
+
+    </where>
+
+    ORDER BY i.id desc
+  </select>
+
+  <select id="getInOutByTime" resultType="map">
+    SELECT sum(i.money) as money,i.`type` as `type`
+    FROM b_inout i
+    <where>
+      <if test="startTime!=null and startTime!=''">
+       AND str_to_date(i.made_time, '%Y-%m-%d')>str_to_date(#{startTime} , '%Y-%m-%d')
+      </if>
+      <if test="endTime !=null and endTime !=''">
+        AND str_to_date(#{endTime} , '%Y-%m-%d')>str_to_date(i.made_time, '%Y-%m-%d')
+      </if>
+        AND  i.status = 1
+    </where>
+    GROUP BY i.`type`
+  </select>
+
+  <select id="getNowYearIncome" resultType="map">
+    select sum(i.money) from b_inout i where i.`type`='income' and substring(i.made_time,1,4)= DATE_FORMAT(NOW(), '%Y')
+  </select>
+
+  <select id="getLastMouthInOut" resultType="map">
+  SELECT i.`type`, SUM(i.money) as thisMouth,ifnull(
+  (SELECT SUM(io.money)
+  FROM b_inout io
+  WHERE DATE_FORMAT(io.made_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'%Y-%m') and io.`type`=i.`type`),0) as lastMouth
+  FROM b_inout i
+  WHERE DATE_FORMAT(i.made_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+  GROUP BY i.`type`
+  </select>
+
+  <select id="getMouthInOutByTime" resultType="map">
+        SELECT SUBSTR(io.made_time, 1, 7) AS mouth, IFNULL((
+        SELECT SUM(i1.money)
+        FROM b_inout i1
+        WHERE i1.`type` = 'outcome' AND SUBSTR(i1.made_time, 1, 7) = SUBSTR(io.made_time, 1, 7)), 0) AS outcome, IFNULL((
+        SELECT SUM(i2.money)
+        FROM b_inout i2
+        WHERE i2.`type` = 'income' AND SUBSTR(i2.made_time, 1, 7) = SUBSTR(io.made_time, 1, 7)), 0) AS income
+        FROM b_inout io
+        WHERE io.status = 1
+        GROUP BY SUBSTR(io.made_time, 1, 7)
+        ORDER BY io.made_time ASC
+  </select>
+</mapper>

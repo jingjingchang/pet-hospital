@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.PassMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Pass">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="sub_type" jdbcType="INTEGER" property="subType" />
+    <result column="is_pass" jdbcType="INTEGER" property="isPass" />
+    <result column="test_time" jdbcType="INTEGER" property="testTime" />
+    <result column="spend" jdbcType="DECIMAL" property="spend" />
+    <result column="evaluate" jdbcType="VARCHAR" property="evaluate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.PassDto" extends="BaseResultMap">
+    <result column="sname" jdbcType="VARCHAR" property="sname" ></result>
+  </resultMap>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+      p.id, p.stu_id,p.sub_type, p.is_pass, p.spend, p.evaluate, p.status,p.test_time
+    FROM
+    b_pass p
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and p.sub_type like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+  <select id="getListByStuId" resultMap="BaseResultMap" parameterType="Integer">
+
+    SELECT
+      p.id, p.stu_id,p.sub_type, p.is_pass, p.spend, p.evaluate, p.status,p.test_time
+    FROM
+      b_pass p
+    <where>
+       p.stu_id=#{stuId}
+    </where>
+    ORDER BY p.sub_type,p.test_time  desc
+  </select>
+
+</mapper>

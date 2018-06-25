@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.OrderStudentMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.OrderStudent">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="od_id" jdbcType="INTEGER" property="odId" />
+    <result column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="teach_id" jdbcType="INTEGER" property="teachId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sms" jdbcType="INTEGER" property="sms" />
+    <result column="final_time" jdbcType="VARCHAR" property="finalTime"></result>
+    <result column="final_pickup" jdbcType="VARCHAR" property="finalPickup"></result>
+    <result column="pickup_time" jdbcType="VARCHAR" property="pickupTime"></result>
+    <result column="sub_type" jdbcType="INTEGER" property="subType" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <resultMap id="dto" extends="BaseResultMap" type="com.zcmzjp.wx.dto.OrderStudentDto">
+    <result column="stuName" jdbcType="VARCHAR" property="stuName"></result>
+    <result column="teachName" jdbcType="VARCHAR" property="teachName"></result>
+    <result column="smobile" jdbcType="VARCHAR" property="smobile"></result>
+    <result column="tmobile" jdbcType="VARCHAR" property="tmobile"></result>
+    <result column="oTime" jdbcType="VARCHAR" property="oTime"></result>
+    <result column="uname" jdbcType="VARCHAR" property="uname"></result>
+    <result column="pickup" jdbcType="VARCHAR" property="pickup"></result>
+    <result column="successNum" jdbcType="INTEGER" property="successNum"></result>
+    <result column="orderNum" jdbcType="INTEGER" property="orderNum"></result>
+    <result column="wxOpenId" jdbcType="VARCHAR" property="wxOpenId"></result>
+  </resultMap>
+
+  <sql id="basic_list">
+    os.id,os.od_id,os.stu_id,os.teach_id,os.status,os.created,os.sms,os.sub_type,os.final_time,os.final_pickup,os.pickup_time
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="dto">
+    SELECT
+    <include refid="basic_list"/>,s.name as stuName,s.mobile as smobile,t.name as teachName,concat(od.start_time,'--', od.end_time ) as oTime,u.name as uname,u.pickup as pickup,
+    (select count(st.id) from b_order_student st where st.stu_id=os.stu_id) as orderNum,
+    (select count(st.id) from b_order_student st where st.sms=1 and st.stu_id=os.stu_id) as successNum
+    FROM
+    b_order_student os
+    LEFT JOIN
+    b_students s ON s.id=os.stu_id
+    LEFT JOIN
+    b_teachers t ON t.id=teach_id
+    LEFT JOIN
+    b_order_detail od on od.id = os.od_id
+    LEFT JOIN
+    b_unit u ON u.id=s.unit_id
+
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        AND s.name like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="dateTime!=null and dateTime!=''" >
+        AND date_format(os.created,'%Y-%m-%d')=str_to_date(#{dateTime}, '%Y-%m-%d')
+      </if>
+      <if test="subType!=null and subType!=''" >
+        AND os.sub_type=#{subType}
+      </if>
+      <if test="teacherId!=null and teacherId!=''" >
+        AND os.teach_id=#{teacherId}
+      </if>
+
+      <if test="unitId!=null and unitId!=''" >
+        AND s.unit_id=#{unitId}
+      </if>
+
+      <if test="orderDetail!=null and orderDetail!=''" >
+        AND os.od_id=#{orderDetail}
+      </if>
+
+    </where>
+
+    ORDER BY oTime ASC
+  </select>
+
+  <select id="getOrderStudentByStuId" parameterType="String" resultMap="dto">
+    SELECT
+    <include refid="basic_list"/>
+    ,s.name as stuName,s.mobile as smobile,t.name as teachName,t.mobile as tmobile,t.name as tname,concat(od.start_time,'--', od.end_time ) as oTime
+    ,u.name as uname,u.pickup as pickup,m.wxOpenId as wxOpenId
+    FROM
+    b_order_student os
+    LEFT JOIN
+    b_students s ON s.id=os.stu_id
+    LEFT JOIN
+    b_teachers t ON t.id=teach_id
+    LEFT JOIN
+    b_order_detail od on od.id = os.od_id
+    LEFT JOIN
+    b_unit u ON u.id=s.unit_id
+    LEFT JOIN
+    b_members m ON m.mobile = s.mobile
+
+    <where>
+      <if test="stuId!=null and stuId!=''" >
+        AND os.stu_id =#{stuId}
+      </if>
+      AND substring(os.created,1,10) = curdate()
+    </where>
+    limit 1
+  </select>
+  
+  <select id="getTomorrowOrderStudent" resultType="map">
+      select count(os.id) as num,DATE_FORMAT(NOW(), '%Y-%m-%d') as odTime
+      from b_order_student os
+      where  DATE_FORMAT(os.created,'%Y-%m-%d') =  DATE_FORMAT(NOW(), '%Y-%m-%d')
+  </select>
+
+
+  <select id="getOrderStudentBySmsStatus" parameterType="Integer" resultMap="dto">
+    SELECT
+    <include refid="basic_list"/>
+    ,s.name as stuName,s.mobile as smobile,t.name as teachName,t.mobile as tmobile,t.name as tname,concat(od.start_time,'--', od.end_time ) as oTime
+    ,u.name as uname,u.pickup as pickup,m.wxOpenId as wxOpenId
+    FROM
+    b_order_student os
+    LEFT JOIN
+    b_students s ON s.id=os.stu_id
+    LEFT JOIN
+    b_teachers t ON t.id=teach_id
+    LEFT JOIN
+    b_order_detail od on od.id = os.od_id
+    LEFT JOIN
+    b_unit u ON u.id=s.unit_id
+    LEFT JOIN
+    b_members m ON m.mobile = s.mobile
+
+    <where>
+      <if test="smsStatus!=null and smsStatus != ''" >
+        AND os.sms =#{smsStatus}
+      </if>
+        AND os.sms = 0
+      <if test="teacherId!=null and teacherId!=''" >
+        AND os.teach_id=#{teacherId}
+      </if>
+      AND substring(os.created,1,10) = curdate()
+    </where>
+  </select>
+</mapper>

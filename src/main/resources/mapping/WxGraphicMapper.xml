@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.WxGraphicMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.WxGraphic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="imgurl" jdbcType="VARCHAR" property="imgurl" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="read_num" jdbcType="INTEGER" property="readNum" />
+  </resultMap>
+
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    id, title, url, imgurl,content, status, created,content,read_num,brief
+    FROM
+    b_wx_graphic
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and title like CONCAT('%',#{keyword},'%')
+      </if>
+
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+  <select id="getAllGraphics"  resultMap="BaseResultMap">
+
+    SELECT
+    id, title, url, imgurl,content, status, created,content,read_num,brief
+    FROM
+    b_wx_graphic
+    <where>
+        status = 1
+    </where>
+
+    ORDER BY Id desc
+  </select>
+  <update id="addReadNum" parameterType="Integer">
+    UPDATE b_wx_graphic wg
+    SET wg.read_num=wg.read_num+1
+    WHERE
+      id=#{id}
+  </update>
+</mapper>

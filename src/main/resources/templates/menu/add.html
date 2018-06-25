@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>H+ 后台主题UI框架 - 空白页</title>
+    <meta name="keywords" content="H+后台bootstrap框架"/>
+    <meta name="description" content="H+使用了Html5+CSS3等现代技术"/>
+
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/plugins/css/font-awesome.css?v=4.4.0" rel="stylesheet"/>
+
+    <link href="/plugins/css/animate.css" rel="stylesheet"/>
+    <link href="/plugins/css/style.css?v=4.1.0" rel="stylesheet"/>
+
+    <link href="/plugins/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+
+</head>
+<style type="text/css">
+    div#rMenu {
+        position:absolute;
+        visibility:hidden;
+        top:0;
+        text-align: left;
+        padding:4px;
+        width: 150px
+    }
+    div#rMenu a{
+        padding: 3px 15px 3px 15px;
+        background-color:#cad4e6;
+        vertical-align:middle;
+        font-size: 16px;
+        line-height: 30px;
+    }
+</style>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>标题</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">主页</a>
+                </li>
+                <li>
+                    <strong>包屑导航</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-sm-8">
+            <div class="title-action">
+                <a href="add.html" class="btn btn-primary">活动区域</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content">
+        <div class="ibox-title">
+            <h5>分类编辑</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="ibox">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">名称</label>
+                        <div class="col-sm-8">
+                            <div class="zTreeDemoBackground left" >
+                                <ul id="treeDemo" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div id="modalForm" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body form-horizontal">
+                    <form id="menuForm">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel" >添加菜单</h4>
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <input name="parentId" id="parentId" hidden="hidden" />
+                            <label class="col-sm-3 control-label ">名称：</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="name" id="name"  class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label " onclick="">代码：</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="code" id="code"  class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label ">路径：</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="url" id="url"  class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label ">顺序：</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="sequence" id="sequence"  class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label ">样式：</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="css" id="css"  class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状态：</label>
+                            <div class="col-sm-7">
+                                <select class=" form-control" name="status">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="ibox-content" style="text-align: center">
+                        <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="addMenu()">
+                            <span class="ladda-label" ><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                        <a href="javascript:void(0)" class="btn btn-default"  data-dismiss="modal">
+                            <i class="fa fa-times" aria-hidden="true"></i> 返回
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div  >
+        <div id="rMenu">
+            <a href="#" id="m_add" class="list-group-item" onclick="showArea();">创建菜单</a>
+            <a href="#" id="m_del" class="list-group-item" onclick="removeTreeNode();">删除</a>
+            <a href="#" id="m_edit" class="list-group-item" onclick="modifyNode();">修改信息</a>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/plugins/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="/plugins/js/plugins/sweetalert/messager.js"></script>
+
+    <script src="/plugins/js/plugins/validate/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/plugins/js/plugins/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/plugins/js/plugins/ztree/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="/plugins/js/plugins/ztree/jquery.ztree.exedit.js"></script>
+    <link rel="stylesheet" href="/plugins/css/plugins/ztree/zTreeStyle.css" type="text/css"/>
+    <script src="/js/menu.js"></script>
+
+
+    <!-- 自定义js -->
+    <script src="/plugins/js/content.js?v=1.0.0"></script>
+
+    <script>
+        $(function () {
+            getMenus();
+        })
+    </script>
+
+</body>
+
+</html>

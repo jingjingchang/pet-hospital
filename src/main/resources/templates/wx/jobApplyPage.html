@@ -1,0 +1,171 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>填写报名信息</title>
+    <link rel='stylesheet prefetch' href='/css/jobApply/reset.css'/>
+    <link rel="stylesheet" type="text/css" href="/css/jobApply/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/jobApply/styles.css"/>
+    <!-- Sweet Alert -->
+    <link href="/plugins/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+
+</head>
+<body>
+<article class="htmleaf-content">
+    <!-- multistep form -->
+    <form id="msform">
+        <input type="hidden" name="mId" id="mId" th:value="${member.id}"/>
+        <input type="hidden" name="jId" id="jId" th:value="${jId}"/>
+        <!-- progressbar -->
+        <!-- <ul id="progressbar">
+             <li class="active">账号设置</li>
+             <li>社交账号</li>
+             <li>个人详细信息</li>
+         </ul>-->
+        <!-- fieldsets -->
+        <fieldset>
+            <h2 class="fs-title">填写您的报名信息</h2>
+            <h3 class="fs-subtitle">这是第一步</h3>
+            <input type="text" name="name" placeholder="请输入姓名" th:value="${member.name}"/>
+            <select  name="gender" class="select" style="width: 100%;height: 50px;border: 1px solid #ccc;font-family:'Microsoft YaHei',montserrat;
+            color: #2C3E50;">
+                <option value="1" th:selected="${member.gender==1?'selected':null}">男</option>
+                <option value="0" th:selected="${member.gender==0?'selected':null}">女</option>
+            </select>
+            <br/><br/>
+            <input type="text" name="mobile" placeholder="请输入电话号码" th:value="${member.mobile}"/>
+            <input type="text" name="address" placeholder="请输入您的学校或所属区域" th:value="${member.address}"/>
+            <input type="button" name="next" class="next action-button" value="下一步" />
+        </fieldset>
+        <!--<fieldset>
+            <h2 class="fs-title">填写社交账号</h2>
+            <h3 class="fs-subtitle">填写你的常用社交网络账号</h3>
+            <input type="text" name="x-weibo" placeholder="新浪微博" />
+            <input type="text" name="t-weibo" placeholder="腾讯微博" />
+            <input type="text" name="qq" placeholder="腾讯QQ" />
+            <input type="button" name="previous" class="previous action-button" value="上一步" />
+            <input type="button" name="next" class="next action-button" value="下一步" />
+        </fieldset>-->
+        <fieldset>
+            <h2 class="fs-title">自我描述</h2>
+            <h3 class="fs-subtitle">请填写您竞争此兼职的优势</h3>
+            <!--<input type="text" name="fname" placeholder="昵称" />
+            <input type="text" name="lname" placeholder="姓名" />
+            <input type="text" name="phone" placeholder="电话号码" />-->
+            <textarea name="reason"  id="reason" placeholder="自我描述"></textarea>
+            <input type="button" name="previous" class="previous action-button" value="上一步" />
+            <input type="button" name="submit" class="submit action-button" value="提交报名" />
+        </fieldset>
+    </form>
+</article>
+<script src="/plugins/js/jquery.min.js"></script>
+<script src="/plugins/js/jquery.easing.min.js" type="text/javascript"></script>
+<script src="/plugins/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/plugins/js/plugins/sweetalert/messager.js"></script>
+<script>
+    var current_fs, next_fs, previous_fs;
+    var left, opacity, scale;
+    var animating;
+    var options;
+    $('.next').click(function () {
+        if (animating)
+            return false;
+        animating = true;
+        current_fs = $(this).parent();
+        next_fs = $(this).parent().next();
+        $('#progressbar li').eq($('fieldset').index(next_fs)).addClass('active');
+        next_fs.show();
+        current_fs.animate({ opacity: 0 }, {
+            step: function (now, mx) {
+                scale = 1 - (1 - now) * 0.2;
+                left = now * 50 + '%';
+                opacity = 1 - now;
+                current_fs.css({ 'transform': 'scale(' + scale + ')' });
+                next_fs.css({
+                    'left': left,
+                    'opacity': opacity
+                });
+            },
+            duration: 800,
+            complete: function () {
+                current_fs.hide();
+                animating = false;
+            },
+            easing: 'easeInOutBack'
+        });
+    });
+    $('.previous').click(function () {
+        if (animating)
+            return false;
+        animating = true;
+        current_fs = $(this).parent();
+        previous_fs = $(this).parent().prev();
+        $('#progressbar li').eq($('fieldset').index(current_fs)).removeClass('active');
+        previous_fs.show();
+        current_fs.animate({ opacity: 0 }, {
+            step: function (now, mx) {
+                scale = 0.8 + (1 - now) * 0.2;
+                left = (1 - now) * 50 + '%';
+                opacity = 1 - now;
+                current_fs.css({ 'left': left });
+                previous_fs.css({
+                    'transform': 'scale(' + scale + ')',
+                    'opacity': opacity
+                });
+            },
+            duration: 800,
+            complete: function () {
+                current_fs.hide();
+                animating = false;
+            },
+            easing: 'easeInOutBack'
+        });
+    });
+    $('.submit').click(function () {
+        if(!$("#jId").val()){
+            Messager.error("参数错误，请刷新再试！")
+            return;
+        }else if(!$("#mId").val()){
+            Messager.error("请先登录！",function () {
+                window.location.href="/wx/getPartTimeJobList";
+            });
+            return;
+        }else if(!$("#reason").val()){
+            Messager.error("竞争优势内容不能为空！")
+            return;
+        }else{
+            $.ajax({
+                type: 'POST',
+                url: "/weChat/wxEvent/addJobApply",
+                data: {
+                    mId:$("#mId").val(),
+                    reason:$("#reason").val(),
+                    jId:$("#jId").val(),
+                    status:1
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.success){
+                        Messager.success(data.resultText, function() {
+                            window.location.href="/wx/getPartTimeJobList";
+                        });
+                    }else{
+                        Messager.error(data.resultText,function () {
+                            window.location.href="/wx/getPartTimeJobList";
+                        });
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("==============");
+                    Messager.alert("操作失败！");
+                    console.log(XMLHttpRequest.responseText);
+                    console.log("==============");
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

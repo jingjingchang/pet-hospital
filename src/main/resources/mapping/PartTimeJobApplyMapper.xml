@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.PartTimeJobApplyMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.PartTimeJobApply">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="j_id" jdbcType="INTEGER" property="jId" />
+    <result column="m_id" jdbcType="INTEGER" property="mId" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.PartTimeJobApplyDto">
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+  <sql id="basic_list">
+    pta.id,pta.j_id,pta.m_id,pta.created,pta.status,pta.reason,pta.score
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="dto">
+
+    SELECT
+    <include refid="basic_list"/>,m.name,m.gender,m.mobile,m.email,((select SUM(ja.score) FROM b_parttime_job_apply ja WHERE ja.m_id=m.id)/(SELECT COUNT(ja.score) FROM b_parttime_job_apply ja WHERE ja.m_id=m.id)) as ascore
+    FROM
+    b_parttime_job_apply pta
+    LEFT JOIN b_parttime_job pj
+    ON pj.id = pta.j_id
+    LEFT JOIN b_members m
+    ON m.id = pta.m_id
+    <where>
+      <if test="jId!=null and jId!=''">
+        AND pta.j_id = #{jId}
+      </if>
+    </where>
+    ORDER BY pta.created ASC
+  </select>
+
+  <select id="getJobApplyListByJobId" parameterType="Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>,m.name,m.gengder,m.mobile
+    FROM  b_parttime_job_apply pta
+
+    <if test="ptId!=null and ptId!=''">
+      pta.j_id = #{ptId}
+    </if>
+    ORDER BY pta.created ASC
+  </select>
+
+  <select id="getJobApplyByJobAndMId" parameterType="Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>
+    FROM  b_parttime_job_apply pta
+    <where>
+      <if test="jId!=null and jId!=''">
+       AND pta.j_id = #{jId}
+      </if>
+      <if test="mId!=null and mId!=''">
+       AND pta.m_id = #{mId}
+      </if>
+    </where>
+    ORDER BY pta.created ASC
+  </select>
+</mapper>

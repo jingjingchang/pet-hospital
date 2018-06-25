@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="/css/starScore/starScore.css" rel="stylesheet"/>
+    <title>教练详情</title>
+</head>
+<body class="white-bg">
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+  <div class="row" >
+      <div class="col-lg-12 ">
+          <div class="ibox float-e-margins">
+                <div class="ibox-title" style="text-align: center;font-size: 18px">
+                  <span>教练介绍</span>
+                </div>
+                <div class="ibox-content" style="text-align: center">
+                    <input type="hidden" id="teaId" th:value="${teacher.id}"/>
+                    <img class="img-responsive center-block" th:src="${teacher.picUrl}" style="max-height: 200px;max-width: 150px;"/><br/>
+                    <strong th:text="${teacher.name}" style="font-size: 18px;">曾宝仪</strong><br/>
+                    <strong style="font-size: 16px;">职务</strong ><strong>：</strong><strong th:text="${teacher.title}" style="font-size: 16px;"></strong><br/>
+                    <strong th:utext="${teacher.brief}"></strong>
+                </div>
+              <div class="ibox-title">
+                  <h3>学员评价</h3>
+                  <hr/>
+                  <th:block th:each="list:${evaluates}">
+                      <div th:id="${'star_'+list.id}">
+                      </div>
+                      <h4 th:utext="${list.brief}"></h4>
+                      <h6 th:text="${#dates.format(list.created, 'yyyy-MM-dd HH:mm:ss')}" style="color:darkgrey">类型</h6><br/>
+                  </th:block>
+              </div>
+        </div>
+      </div>
+      <!--右侧边栏结束-->
+      <div id="small-chat" th:onclick="'javascript:getEvaluatePage()'">
+          <a class="open-small-chat">
+              <i class="fa fa-comments"></i>
+          </a>
+      </div>
+      <!--mini聊天窗口结束-->
+  </div>
+<script src="/plugins/js/markingSystem.js"></script>
+<script src="/js/wx/evaluate.js"></script>
+<script th:inline="javascript">
+    var evaluateList = [[${evaluates}]]
+    $(function () {
+        Evaluate.initStarScore(evaluateList);
+    });
+    function getEvaluatePage() {
+        location.href="/weChat/wxEvent/getEvaluatePage/"+$("#teaId").val();
+    }
+</script>
+</body>
+</html>

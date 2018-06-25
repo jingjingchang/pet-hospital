@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::zTree"></div>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>标题</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">主页</a>
+                </li>
+                <li>
+                    <strong>包屑导航</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-sm-8">
+            <div class="title-action">
+                <a href="add.html" class="btn btn-primary">活动区域</a>
+            </div>
+        </div>
+    </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>分类编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label require">名称</label>
+                            <div class="col-sm-8">
+                                <div class="zTreeDemoBackground left" >
+                                    <ul id="treeDemo" class="ztree"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="ibox-content" style="text-align: center">
+                        <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="sendMenu()">
+                            <span class="ladda-label" ><i class="fa fa-floppy-o" aria-hidden="true"></i> 提交</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                        <a href="javascript:void(0)"  class="btn btn-default" data-dismiss="modal">
+                            <i class="fa fa-times" aria-hidden="true"></i> 取消
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div id="modalForm" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body form-horizontal">
+                <form id="menuForm">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel" >添加菜单</h4>
+                    </div>
+                    <br/>
+                    <input type="hidden" id="id" name="id" value=""/>
+                    <div class="form-group">
+                        <input name="parentId" id="parentId" hidden="hidden" />
+                        <label class="col-sm-3 control-label ">名称：</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="name" id="name"  class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label " onclick="">菜单类型：</label>
+                        <div class="col-sm-7">
+                           <select class=" form-control" name="type" id="type" onchange="showGraphic(this)">
+                               <option value="view">链接</option>
+                               <option value="graphic">图文</option>
+                               <option value="click">点击事件</option>
+                           </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="div_graphic" hidden="hidden">
+                        <label class="col-sm-3 control-label ">图文：</label>
+                        <div class="col-sm-7">
+                            <select class=" form-control" id="graphic" onchange="setMenuValue(this)">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">菜单值：</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="menuValue" id="menuValue"  class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">顺序：</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="sort" id="sort"  class="form-control" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">状态：</label>
+                        <div class="col-sm-7">
+                            <select class=" form-control" name="status">
+                                <option value="1">启用</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="ibox-content" style="text-align: center">
+                    <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="addMenu()">
+                        <span class="ladda-label" ><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <a href="javascript:void(0)" id="cancel" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> 取消
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div  >
+    <div id="rMenu">
+        <a href="#" id="m_add" class="list-group-item" onclick="showArea();">创建菜单</a>
+        <a href="#" id="m_del" class="list-group-item" onclick="removeTreeNode();">删除</a>
+        <a href="#" id="m_edit" class="list-group-item" onclick="modifyNode();">修改信息</a>
+    </div>
+</div>
+<style type="text/css">
+    div#rMenu {
+        position:absolute;
+        visibility:hidden;
+        top:0;
+        text-align: left;
+        padding:4px;
+        width: 150px
+    }
+    div#rMenu a{
+        padding: 3px 15px 3px 15px;
+        background-color:#cad4e6;
+        vertical-align:middle;
+        font-size: 16px;
+        line-height: 30px;
+    }
+</style>
+<script src="/js/wxMenu.js"></script>
+<script>
+    $(function () {
+        getMenus();
+        validInit();
+        getGraphicList();
+    })
+
+    function showGraphic(that) {
+        if($(that).val()=="graphic"){
+            $("#div_graphic").show();
+        }else{
+            $("#div_graphic").hide();
+            $("#menuValue").attr("readonly",false);
+        }
+    }
+    function setMenuValue(that) {
+        $("#menuValue").val($(that).val());
+        $("#menuValue").attr("readonly","readonly");
+    }
+
+</script>
+
+
+</body>
+</html>

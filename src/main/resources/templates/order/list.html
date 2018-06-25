@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <title>H+ 后台主题UI框架 - 空白页</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台"/>
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题"/>
+    <div th:replace="common::JS"></div>
+    <div th:replace="common::CSS"></div>
+    <div th:replace="common::dateTimePicker"></div>
+
+</head>
+
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>标题</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li>
+                <strong>包屑导航</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            <a href="javascript:void(0)" class="btn btn-primary" onclick="DM.initModal()">活动区域</a>
+        </div>
+    </div>
+</div>
+<div class="fixed-table-toolbar">
+    <div class="bs-bars pull-left" id="news_cat">
+        <div class="form-inline center-block">
+            <div class="form-group">
+                <input type="hidden" th:value="${orderTime.id}" id="orderTimeId" name="orderTimeId"/>
+                <label class="col-sm-4 control-label">预约开始时间:</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" id="startTime" class="form-control wd" th:value="${orderTime.startTime}"/>
+                    </div>
+                </div>
+            </div>
+            ——
+            <div class="form-group">
+                <label class="col-sm-4 control-label">预约结束时间:</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" id="endTime" class="form-control wd" th:value="${orderTime.endTime}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-primary" href="javascript:void(0)" onclick="updateOrderTime()">
+                    <i class="fa fa-floppy-o"></i> 保存
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="wrapper wrapper-content">
+    <div class="ibox" id="ibox_id">
+        <div id="list_area">
+            <div class="ibox-content">
+                <div class="table-container">
+                    <div class="fixed-table-toolbar">
+                        <div class="bs-bars pull-left" id="news_cate_bar">
+                            <a class="btn btn-primary" href="/admin/sys/car/order/add">
+                                <i class="fa fa-plus"></i> 新增
+                            </a>
+                        </div>
+                    </div>
+                    <div id="datatable_ajax_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer">
+                        <div class="row">
+                            <table id="order"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/order_list.js"></script>
+<script>
+    var order = new OrderList();
+    $(function(){
+        order.loadTableData();
+        $("#startTime,#endTime").datetimepicker({
+            format: 'hh:ii',
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  true,
+            autoclose: true,
+            todayHighlight: true,
+            startView: 1,
+            minView: 0,
+            forceParse: false
+        });
+    });
+    function deleteOrder(id) {
+        Messager.confirm("是否删除?", function() {
+            order.deleteOrder(id);
+        });
+    }
+
+    function updateOrderTime() {
+        order.updateOrderTime();
+    }
+</script>
+
+
+</body>
+
+</html>

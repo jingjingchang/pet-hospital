@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="auth" jdbcType="VARCHAR" property="auth" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.RoleDto">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    id, code, name,auth, status
+    FROM
+    b_roles
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and name like CONCAT('%',#{keyword},'%')
+      </if>
+
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+  <select id="getRolesByUserId" parameterType="map" resultMap="dto">
+
+    SELECT
+    r.id, r.code, r.name,auth, r.status,u.id as rId
+    FROM
+    b_roles r
+    LEFT JOIN b_users u ON u.role_id=r.id
+    <if test="id!=null and id!=''" >
+        AND u.id = #{id}
+    </if>
+    ORDER BY  r.id desc
+  </select>
+
+  <select id="getAllRoles" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    id, code, name,auth, status
+    FROM
+    b_roles
+    ORDER BY  id desc
+  </select>
+</mapper>

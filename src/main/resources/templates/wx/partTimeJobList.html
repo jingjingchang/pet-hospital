@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>征诚驾培</title>
+    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/plugins/css/font-awesome.min.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/plugins/css/animate.css" rel="stylesheet"/>
+    <link href="/plugins/css/style.css?v=4.1.0" rel="stylesheet"/>
+    <script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+</head>
+<body class="white-bg">
+<div class="row" >
+    <div class="ibox float-e-margins">
+        <div class="ibox-title" style="text-align: center">
+            <strong style="font-size: 18px">兼职列表</strong>
+        </div>
+        <div class="ibox-content">
+            <div>
+                <div class="feed-activity-list">
+                    <strong  th:if="${jobs == null || jobs.size()==0}" th:text="暂无兼职"></strong>
+                    <th:block th:each="list:${jobs}">
+                        <a th:href="@{'/wx/getPartTimeJobDetail/'+${list.id}}">
+                            <div class="feed-element">
+                                <img alt="image" class="img-rounded pull-left" style="height: 70px;width: 20%"  src="/img/job.png" th:src="${list.picUrl==null?'/img/job.png':''}" />
+
+                                <div class="media-body ">
+                                    <strong class="pull-left" th:text="${list.name}">5小时前</strong>
+                                    <br/>
+                                    <strong><small>人数：</small></strong><small th:text="${list.maxNum}"></small>
+                                    <br/>
+                                    <strong><small>薪资：</small></strong><small th:text="${list.salary}"></small>
+                                    <br/>
+                                    <strong><small>时间：</small></strong><small th:text="${list.startTime}"></small>—<small th:text="${list.endTime}"></small>
+                                </div>
+                            </div>
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

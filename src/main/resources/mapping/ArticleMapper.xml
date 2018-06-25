@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Article">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="read_num" jdbcType="INTEGER" property="readNum" />
+    <result column="likes" jdbcType="INTEGER" property="likes" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="category_id" jdbcType="TIMESTAMP" property="categoryId" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <resultMap id="dto" type="com.zcmzjp.wx.dto.ArticleDto" extends="BaseResultMap">
+    <result column="categoryName" jdbcType="VARCHAR" property="categoryName"></result>
+  </resultMap>
+
+  <select id="listByPage" parameterType="map" resultMap="dto">
+
+    SELECT
+    a.id, a.title, a.content, a.read_num,a.likes,a.status,a.created,a.category_id,a.pic_url,c.name as categoryName
+    FROM
+    b_article a
+    LEFT JOIN b_article_category c ON c.id=a.category_id
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and a.title like CONCAT('%',#{keyword},'%')
+      </if>
+
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+  <select id="getAllArticles" parameterType="map" resultMap="dto">
+
+   SELECT
+    a.id, a.title, a.content, a.read_num,a.likes,a.status,a.created,a.pic_url,a.category_id,c.name as category_name
+    FROM
+    b_article a
+    LEFT JOIN b_article_category c ON c.id=a.category_id
+    ORDER BY  a.created desc
+  </select>
+</mapper>

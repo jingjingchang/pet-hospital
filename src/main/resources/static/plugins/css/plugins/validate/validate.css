@@ -1,0 +1,14 @@
+/* UPA.validate.js样式*/
+
+.help-block {
+  text-align: right;
+}
+
+label.require:after {
+  content: '*' !important;
+  color: red;
+}
+
+
+
+

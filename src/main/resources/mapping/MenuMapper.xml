@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.Menu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="css" jdbcType="VARCHAR" property="css" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+    <resultMap id="dto" type="com.zcmzjp.wx.dto.MenuDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="sequence" jdbcType="INTEGER" property="sequence" />
+        <result column="css" jdbcType="VARCHAR" property="css" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="rId" jdbcType="INTEGER" property="rId" />
+    </resultMap>
+    <sql id="basic_list">
+      id, parent_id, code, name, url, sequence, css, status
+    </sql>
+  <select id="getAllMenus" resultMap="dto" >
+    SELECT
+      m.id, m.parent_id, m.code, m.name, m.url, m.sequence, m.css, m.status
+     FROM
+     b_menus m
+     <where>
+          m.status = 1
+     </where>
+      ORDER  BY m.sequence
+  </select>
+
+    <select id="getAllMenusByRoleId" resultMap="dto" >
+        SELECT  m.*,rm.id as rId FROM b_menus m
+        left join b_role_menu rm on rm.menu_id = m.id
+        and
+        rm.role_id in (select id from b_roles r where r.id=#{id} and status = 1)
+    </select>
+
+    <select id="getMenusByUserId" resultMap="dto" >
+       SELECT
+        m.id, m.parent_id, m.code, m.name, m.url, m.sequence, m.css, m.status
+        FROM b_menus m
+       WHERE m.id IN
+        (SELECT rm.menu_id FROM b_role_menu rm
+          WHERE
+           rm.role_id=
+           (SELECT r.id FROM b_roles r
+               LEFT JOIN
+               b_users u
+               ON
+               r.id=u.role_id
+               WHERE u.id=#{id}))
+      ORDER  BY m.sequence
+    </select>
+  
+</mapper>
