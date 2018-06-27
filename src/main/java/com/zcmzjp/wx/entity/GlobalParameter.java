@@ -7,12 +7,12 @@ package com.zcmzjp.wx.entity;
 public class GlobalParameter {
 
     //测试帐号
-    public static String HOST_ADDRESS = "http://16738cc132.iok.la";
+    public static String HOST_ADDRESS = "http://wx.tuofor.com";
     public static String AppID = "wx428db2722153d12d";
     public static String  AppSecret="e1e8aed568ff374cb368428529c78d13";
-    public static String webSite = "http%3a%2f%2f16738cc132.iok.la%2fweChat%2fwxEvent%2freg";
-    public static String sessionURL = "http%3a%2f%2f16738cc132.iok.la%2fweChat%2fwxEvent%2fuserReg";
-    public static String webURL = "http://16738cc132.iok.la";
+    public static String webSite = "http%3a%2f%2fwx.tuofor.com%2fweChat%2fwxEvent%2freg";
+    public static String sessionURL = "http%3a%2f%2fwx.tuofor.com%2fweChat%2fwxEvent%2fuserReg";
+    public static String webURL = "http://wx.tuofor.com";
     public static String newsURL = HOST_ADDRESS+"/";
     public static String bossMobile = "13258179872";
 
