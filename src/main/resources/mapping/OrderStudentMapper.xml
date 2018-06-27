@@ -156,6 +156,6 @@
     b_unit u ON u.id=s.unit_id
     LEFT JOIN
     b_members m ON m.mobile = s.mobile
-    where os.student_id=#{studentId}
+    where os.stu_id=#{studentId}
   </select>
 </mapper>
