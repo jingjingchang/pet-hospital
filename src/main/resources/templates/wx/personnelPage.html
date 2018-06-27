@@ -81,7 +81,7 @@
                                                <small class="pull-right" th:text="${'师傅: '+ list.teachName}">2小时前</small>
                                                <strong th:text="${list.oTime}"> 作家崔成浩</strong><span th:text="${list.subType==2?'科目二':'科目三'}"></span>
                                                <br/>
-                                               <small class="text-muted" th:if="${list.sms==1}" th:text="${'状态：预约成功 预约时间：'+ #dates.format(list.created,'yyyy-MM-dd')}">预约成功</small>
+                                               <small class="text-muted" th:if="${list.sms!=0}" th:text="${'状态：预约成功 预约时间：'+ #dates.format(list.created,'yyyy-MM-dd')}">预约成功</small>
                                                <small class="text-muted" th:if="${list.sms==0 and #dates.format(list.created,'yyyy-MM-dd')!=#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}" th:text="${'状态：预约失败 预约时间：'+ #dates.format(list.created,'yyyy-MM-dd')}">预约成功</small>
                                                <div class="pull-right" th:if="${list.sms==0 and #dates.format(list.created,'yyyy-MM-dd')==#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}" th:onclick="'javascript:deleteOrder(\''+${list.id}+'\')'" >
                                                    <a  class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
