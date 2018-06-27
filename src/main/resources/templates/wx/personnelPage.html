@@ -81,7 +81,7 @@
                                                <br/>
                                                <small class="text-muted" th:if="${list.sms==1}" th:text="${list.created + '状态：预约成功'}">预约成功</small>
                                                <div class="pull-right">
-                                                   <a th:onclick="'javascript:deleteOrder(\''+${list.id}+'\')'" th:if="${list.sms==0 && ${#dates.format(list.created,'yyyy-MM-dd'}==${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}}" class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
+                                                   <a th:onclick="'javascript:deleteOrder(\''+${list.id}+'\')'" th:if="${list.sms==0 & ${#dates.format(list.created,'yyyy-MM-dd'}==${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}}" class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
                                                </div>
                                            </div>
                                        </div>
