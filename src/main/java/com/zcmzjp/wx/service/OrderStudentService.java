@@ -35,4 +35,8 @@ public class OrderStudentService extends BaseService<OrderStudent> {
        return orderStudentMapper.getOrderStudentBySmsStatus(smsStatus,teacherId);
     }
 
+    public List<OrderStudentDto> getOrderListByStudentId(Integer studentId){
+        return orderStudentMapper.getOrderListByStudentId(studentId);
+    }
+
 }

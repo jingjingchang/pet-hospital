@@ -77,7 +77,11 @@ public class WXEventController {
     WxConfigService wxConfigService;
 
     @Autowired
+    OrderStudentService orderStudentService;
+
+    @Autowired
     UnitTeacherService unitTeacherService;
+
     //微信配置拦截地址验证
     @RequestMapping(value = "/getEvent",method = RequestMethod.GET)
     public void getEvent(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -445,8 +449,10 @@ public class WXEventController {
                 ret = "wx/notStudent";
             }else{
                 List<PassDto> passDtoList = passService.getListByStuId(studentDto.getId());
+                List<OrderStudentDto> orderStudentDtos = orderStudentService.getOrderListByStudentId(studentDto.getId());
                 view.addAttribute("student",studentDto);
                 view.addAttribute("passList",passDtoList);
+                view.addAttribute("orderList",orderStudentDtos);
                 ret = "wx/personnelPage";
             }
         }else{

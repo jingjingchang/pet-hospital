@@ -89,7 +89,6 @@ public class OrderStudentController extends BaseController<OrderStudent> {
             return new JsonResult(flag,"对不起，只能只能给明天学车的学员发送短信！");
         }
         try {
-
             SendSmsResponse response = SendSMSUtil.sendOrderSms(o.getStuName(),o.getSmobile(),o.getTeachName(),o.getTmobile(),finalTime,pickupTime,finalPickup);
             if (response.getCode().equals("OK")){
                 o.setSms(1);
@@ -128,6 +127,12 @@ public class OrderStudentController extends BaseController<OrderStudent> {
             e.printStackTrace();
         }
         return new JsonResult(true,"成功推送："+num+"条消息");
+    }
+
+    @RequestMapping("/getOrderListByStudentId")
+    @ResponseBody
+    public List getOrderListByStudentId(Integer studentId){
+        return orderStudentService.getOrderListByStudentId(studentId);
     }
 
 }

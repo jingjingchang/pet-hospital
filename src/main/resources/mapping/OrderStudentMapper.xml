@@ -137,4 +137,25 @@
       AND substring(os.created,1,10) = curdate()
     </where>
   </select>
+
+
+  <select id="getOrderListByStudentId">
+    SELECT
+    <include refid="basic_list"/>
+    ,s.name as stuName,s.mobile as smobile,t.name as teachName,t.mobile as tmobile,t.name as tname,concat(od.start_time,'--', od.end_time ) as oTime
+    ,u.name as uname,u.pickup as pickup,m.wxOpenId as wxOpenId
+    FROM
+    b_order_student os
+    LEFT JOIN
+    b_students s ON s.id=os.stu_id
+    LEFT JOIN
+    b_teachers t ON t.id=teach_id
+    LEFT JOIN
+    b_order_detail od on od.id = os.od_id
+    LEFT JOIN
+    b_unit u ON u.id=s.unit_id
+    LEFT JOIN
+    b_members m ON m.mobile = s.mobile
+    where os.student_id=#{studentId}
+  </select>
 </mapper>
