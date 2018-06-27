@@ -79,11 +79,9 @@
                                                <small class="pull-right" th:text="${'师傅: '+ list.teachName}">2小时前</small>
                                                <strong th:text="${list.oTime}"> 作家崔成浩</strong><span th:text="${list.subType==2?'科目二':'科目三'}"></span>
                                                <br/>
-                                               <small class="text-muted" th:text="${list.sms!=null}">预约成功</small>
+                                               <small class="text-muted" th:if="${list.sms==1}">预约成功</small>
                                                <div class="pull-right">
-                                                   <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
-                                                   <a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> 收藏</a>
-                                                   <a th:if="${list.sms==null}" class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
+                                                   <a th:if="${list.sms==0}" class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
                                                </div>
                                            </div>
                                        </div>
