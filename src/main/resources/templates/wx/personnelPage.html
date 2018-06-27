@@ -80,7 +80,7 @@
                                                <strong th:text="${list.oTime}"> 作家崔成浩</strong><span th:text="${list.subType==2?'科目二':'科目三'}"></span>
                                                <br/>
                                                <small class="text-muted" th:if="${list.sms==1}">预约成功</small>
-                                               <div class="pull-right">
+                                               <div class="pull-right"  th:onclick="'javascript:deleteOrder('+${list.id}+')'">
                                                    <a th:if="${list.sms==0}" class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
                                                </div>
                                            </div>
@@ -94,20 +94,32 @@
 </html>
 <script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
 <script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/order_list.js"></script>
 <script>
-   /* $(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/wx/news/addReadNum',
-            data: {id:$("#id").val()},
-            success: function (data) {
-                console.log(data.resultText);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log("==============");
-                Messager.alert("系统错误！");
-                console.log("==============");
-            }
-        })
-    })*/
+    function deleteOrder(id) {
+        Messager.confirm("确认取消并删除此次预约吗?", function() {
+            $.ajax({
+                type: 'POST',
+                url: '/wx/deleteOrderStudent/delete',
+                data: {
+                    id:id
+                },
+                success: function (data) {
+                    if(data.success){
+                        history.go(0);
+                    }else{
+                        Messager.error(data.resultText,function () {
+                            history.go(0);
+                        });
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("==============");
+                    Messager.alert("操作失败！");
+                    console.log(XMLHttpRequest);
+                    console.log("==============");
+                }
+            });
+        });
+    }
 </script>
