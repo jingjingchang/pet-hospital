@@ -76,14 +76,14 @@
                                    <th:block th:each="list:${orderList}">
                                        <div class="feed-element">
                                            <div class="media-body ">
-                                               <small class="pull-right">2小时前</small>
-                                               <strong>作家崔成浩</strong> 抽奖中了20万
+                                               <small class="pull-right" th:text="${list.tname+'师傅'}">2小时前</small>
+                                               <strong th:text="${list.oTime}"> 作家崔成浩</strong><span th:text="${list.subType==2?'科目二':'科目三'}"></span>
                                                <br/>
-                                               <small class="text-muted">今天 09:27 来自 Koryolink iPhone</small>
+                                               <small class="text-muted" th:text="${list.sms!=null}">预约成功</small>
                                                <div class="pull-right">
                                                    <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
                                                    <a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> 收藏</a>
-                                                   <a class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> 评论</a>
+                                                   <a th:if="${list.sms==null}" class="btn btn-xs btn-warning"><i class="fa fa-trash-o"></i> 取消预约</a>
                                                </div>
                                            </div>
                                        </div>
