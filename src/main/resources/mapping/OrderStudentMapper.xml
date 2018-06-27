@@ -139,7 +139,7 @@
   </select>
 
 
-  <select id="getOrderListByStudentId">
+  <select id="getOrderListByStudentId" resultMap="dto" parameterType="Integer">
     SELECT
     <include refid="basic_list"/>
     ,s.name as stuName,s.mobile as smobile,t.name as teachName,t.mobile as tmobile,t.name as tname,concat(od.start_time,'--', od.end_time ) as oTime
