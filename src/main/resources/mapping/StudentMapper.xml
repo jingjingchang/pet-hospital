@@ -108,4 +108,8 @@
     u.id
   </select>
 
+  <select id="getStudentStudyStatusStatistics" resultType="map">
+    select  ifnull(s.study_status,1) as studyStatus,count(s.id) as num from b_students s where s.`status`=1
+    group by s.study_status
+  </select>
 </mapper>

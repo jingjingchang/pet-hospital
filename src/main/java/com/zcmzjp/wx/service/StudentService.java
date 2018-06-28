@@ -41,7 +41,12 @@ public class StudentService extends BaseService<Student> {
     public List<Map<Object,Object>> getStudentGenderStatistics(){
         return studentMapper.getStudentGenderStatistics();
     }
+
     public List<Map<Object,Object>> getStudentUnitStatistics(){
         return studentMapper.getStudentUnitStatistics();
+    }
+
+    public List<Map<Object,Object>> getStudentStudyStatusStatistics(){
+        return studentMapper.getStudentStudyStatusStatistics();
     }
 }

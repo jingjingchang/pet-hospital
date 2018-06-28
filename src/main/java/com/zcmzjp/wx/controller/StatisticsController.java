@@ -74,4 +74,10 @@ public class StatisticsController {
     public String getIndex2(){
         return "index2";
     }
+
+    @ResponseBody
+    @RequestMapping("/getStudentStudyStatusStatistics")
+    public List<Map<Object,Object>> getStudentStudyStatusStatistics(){
+        return studentService.getStudentStudyStatusStatistics();
+    }
 }

@@ -25,6 +25,7 @@ var Index = function () {
         this.getUnitStatisticsData();
         this.getGenderStatisticsData();
         this.getInOutByTime();
+        this.getStudyStatusStatisticsData();
     };
     this.getInOutByTime = function () {
         var that = this;
@@ -127,6 +128,53 @@ var Index = function () {
             }
         });
     };
+    this.getStudyStatusStatisticsData =function(){
+        var that = this;
+        $.ajax({
+            type: 'POST',
+            url: '/admin/sys/car/statistics/getStudentStudyStatusStatistics',
+            data: {},
+            success: function (data) {
+                var str='[';
+                var names='[';
+                for(var i=0;i<data.length;i++){
+                    var temName = '';
+                    if(data[i].studyStatus==1){
+                        temName = '科目一';
+                        names += "'科目一'";
+                    }else if(data[i].studyStatus==2){
+                        temName = '科目二';
+                        names +=  "'科目二'";
+                    }else if(data[i].studyStatus==3){
+                        temName = '科目三';
+                        names +=  "'科目三'";
+                    }else if(data[i].studyStatus==4){
+                        temName = '科目四';
+                        names +=  "'科目四'";
+                    }else{
+                        temName = '已毕业';
+                        names +=  "'已毕业'";
+                    }
+                    str += '{';
+                    str +="value:"+data[i].num+",name:'"+temName+"'"
+                    str +='}';
+                    if(i<data.length-1){
+                        str +=',';
+                        names+=',';
+                    }
+                }
+                str +=']';
+                names+=']';
+                console.log(names);
+                that.initStadyStatusCharts(eval(str),eval(names));
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("==============");
+                Messager.alert("操作失败！");
+                console.log(XMLHttpRequest.responseText);
+            }
+        });
+    };
     this.initUnitCharts = function(str,names) {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main2'), 'macarons');
@@ -208,6 +256,36 @@ var Index = function () {
             series : [
                 {
                     name: '性别统计',
+                    type: 'pie',
+                    radius: '55%',
+                    data:str
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    };
+    this.initStadyStatusCharts =function(str,names) {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main4'), 'macarons');
+        // 指定图表的配置项和数据
+        var option = {
+            title : {
+                text: '学员学车状态统计',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: names
+            },
+            series : [
+                {
+                    name: '状态统计',
                     type: 'pie',
                     radius: '55%',
                     data:str
