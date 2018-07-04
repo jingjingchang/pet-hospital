@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.QuestionAnswerMapper">
+    <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.QuestionAnswer">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+        <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+        <result column="question_id" jdbcType="VARCHAR" property="questionId" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+    </resultMap>
+
+    <resultMap id="dto" type="com.zcmzjp.wx.dto.QuestionAnswerDto" extends="BaseResultMap">
+        <result column="studentName" jdbcType="VARCHAR" property="studentName" />
+        <result column="teacherName" jdbcType="VARCHAR" property="teacherName" />
+        <result column="questionName" jdbcType="VARCHAR" property="questionName" />
+    </resultMap>
+
+    <sql id="basic_list">
+    qa.id,qa.student_id,qa.teacher_id,qa.question_id,qa.created
+    </sql>
+
+    <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        <include refid="basic_list"/>
+        left join b_questionnaire q
+        on q.id = qa.question_id
+        FROM
+        b_question_answer qa
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and q.name like CONCAT('%',#{keyword},'%')
+            </if>
+
+        </where>
+
+        ORDER BY Id desc
+    </select>
+
+</mapper>
