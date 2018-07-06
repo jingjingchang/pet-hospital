@@ -33,7 +33,7 @@
      <where>
           m.status = 1
      </where>
-      ORDER  BY m.sequence
+      ORDER  BY m.id, m.sequence
   </select>
 
     <select id="getAllMenusByRoleId" resultMap="dto" >
@@ -41,6 +41,7 @@
         left join b_role_menu rm on rm.menu_id = m.id
         and
         rm.role_id in (select id from b_roles r where r.id=#{id} and status = 1)
+        ORDER  BY m.id, m.sequence
     </select>
 
     <select id="getMenusByUserId" resultMap="dto" >
@@ -57,7 +58,7 @@
                ON
                r.id=u.role_id
                WHERE u.id=#{id}))
-      ORDER  BY m.sequence
+     ORDER  BY m.id, m.sequence
     </select>
   
 </mapper>
