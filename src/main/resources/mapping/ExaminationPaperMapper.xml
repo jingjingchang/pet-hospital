@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.ExaminationPaperMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.ExaminationPaper">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+
+  <sql id="basic_list">
+    ep.id,ep.name, ep.brief,ep.status,ep.created
+    </sql>
+
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_examination_paper ep
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and q.name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY Id desc
+  </select>
+
+</mapper>

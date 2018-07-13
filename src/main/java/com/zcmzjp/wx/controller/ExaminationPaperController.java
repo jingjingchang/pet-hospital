@@ -1,8 +1,8 @@
 package com.zcmzjp.wx.controller;
 
-import com.zcmzjp.wx.entity.Questionnaire;
+import com.zcmzjp.wx.entity.ExaminationPaper;
 import com.zcmzjp.wx.service.BaseService;
-import com.zcmzjp.wx.service.QuestionnaireService;
+import com.zcmzjp.wx.service.ExaminationPaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Date: 2018-07-04 10:43
  */
 
-@RequestMapping("/admin/sys/questionnaire")
 @Controller
-public class QuestionnaireController extends BaseController<Questionnaire> {
+@RequestMapping("/admin/sys/questionnaire")
+public class ExaminationPaperController extends BaseController<ExaminationPaper> {
 
     @Autowired
-    QuestionnaireService questionnaireService;
+    ExaminationPaperService examinationPaperService;
 
     @Override
-    public BaseService<Questionnaire> getService() {
-        return questionnaireService;
+    public BaseService<ExaminationPaper> getService() {
+        return examinationPaperService;
     }
 
     @Override

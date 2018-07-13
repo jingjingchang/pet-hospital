@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.ExaminationAnswerMapper">
+    <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.ExaminationAnswer">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="paper_id" jdbcType="INTEGER" property="paperId" />
+        <result column="student_id" jdbcType="INTEGER" property="studentId" />
+        <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+        <result column="question_id" jdbcType="INTEGER" property="questionId" />
+        <result column="answer" jdbcType="INTEGER" property="answer" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+    </resultMap>
+
+    <resultMap id="dto" type="com.zcmzjp.wx.dto.ExaminationAnswerDto" extends="BaseResultMap">
+        <result column="paperName" jdbcType="VARCHAR" property="paperName" />
+        <result column="studentName" jdbcType="VARCHAR" property="studentName" />
+        <result column="teacherName" jdbcType="VARCHAR" property="teacherName" />
+        <result column="questionName" jdbcType="VARCHAR" property="questionName" />
+    </resultMap>
+
+    <sql id="basic_list">
+    ea.id,ea.student_id,ea.teacher_id,ea.question_id,ea.answer,ea.created
+    </sql>
+
+    <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        <include refid="basic_list"/>
+        left join b_examination_paper ep on ep.id = ea.paper_id
+        left join b_questions q on q.id = ea.question_id
+        left join b_students s on s.id = ea.student_id
+        left join b_teachers t on t.id = ea.teacher_id
+        FROM
+        b_examination_answer ea
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and q.name like CONCAT('%',#{keyword},'%')
+            </if>
+
+        </where>
+
+        ORDER BY Id desc
+    </select>
+
+</mapper>

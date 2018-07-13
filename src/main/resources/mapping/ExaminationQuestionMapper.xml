@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcmzjp.wx.mapper.QuestionAnswerMapper">
-    <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.QuestionAnswer">
+<mapper namespace="com.zcmzjp.wx.mapper.ExaminationQuestionMapper">
+    <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.ExaminationQuestion">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="student_id" jdbcType="VARCHAR" property="studentId" />
-        <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+        <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
         <result column="question_id" jdbcType="VARCHAR" property="questionId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
         <result column="created" jdbcType="TIMESTAMP" property="created" />
     </resultMap>
 
-    <resultMap id="dto" type="com.zcmzjp.wx.dto.QuestionAnswerDto" extends="BaseResultMap">
-        <result column="studentName" jdbcType="VARCHAR" property="studentName" />
-        <result column="teacherName" jdbcType="VARCHAR" property="teacherName" />
+    <resultMap id="dto" type="com.zcmzjp.wx.dto.ExaminationQuestionDto" extends="BaseResultMap">
+        <result column="paperName" jdbcType="VARCHAR" property="paperName" />
         <result column="questionName" jdbcType="VARCHAR" property="questionName" />
     </resultMap>
 
     <sql id="basic_list">
-    qa.id,qa.student_id,qa.teacher_id,qa.question_id,qa.created
+    eq.id,eq.question_id,eq.status,qa.created
     </sql>
 
     <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
         <include refid="basic_list"/>
-        left join b_questionnaire q
-        on q.id = qa.question_id
+        left join b_examination_paper ep on ep.id = eq.paper_id
+        left join b_questions q on q.id = eq.question_id
         FROM
-        b_question_answer qa
+        b_examination_question eq
         <where>
             <if test="keyword!=null and keyword!=''" >
                 and q.name like CONCAT('%',#{keyword},'%')

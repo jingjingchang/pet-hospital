@@ -1,22 +1,23 @@
 package com.zcmzjp.wx.entity;
 
-import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * @Author: Chris E-mail:961860916@qq.com
- * @Date: 2018-07-04 9:47
+ * @Date: 2018-07-13 15:28
  */
-@Table(name = "b_questionnaire")
-public class Questionnaire {
+@Table(name = "b_examination_question")
+public class ExaminationQuestion {
 
-    @Id
     private Integer id;
 
-    private String name;
+    @Column(name = "paper_id")
+    private Integer paperId;
 
-    private String brief;
+    @Column(name = "question_id")
+    private Integer questionId;
 
     private Integer status;
 
@@ -30,20 +31,20 @@ public class Questionnaire {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getPaperId() {
+        return paperId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
     }
 
-    public String getBrief() {
-        return brief;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setBrief(String brief) {
-        this.brief = brief;
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
     }
 
     public Integer getStatus() {

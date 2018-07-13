@@ -8,10 +8,13 @@ import java.util.Date;
  * @Author: Chris E-mail:961860916@qq.com
  * @Date: 2018-07-04 9:51
  */
-@Table(name="b_question_answer")
-public class QuestionAnswer {
+@Table(name="b_examination_answer")
+public class ExaminationAnswer {
 
     private Integer id;
+
+    @Column(name = "paper_id")
+    private Integer paperId;
 
     @Column(name = "question_id")
     private Integer questionId;
@@ -30,6 +33,14 @@ public class QuestionAnswer {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
     }
 
     public Integer getQuestionId() {

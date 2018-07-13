@@ -1,8 +1,8 @@
 package com.zcmzjp.wx.service;
 
 import com.zcmzjp.wx.config.BaseMapper;
-import com.zcmzjp.wx.entity.QuestionAnswer;
-import com.zcmzjp.wx.mapper.QuestionAnswerMapper;
+import com.zcmzjp.wx.entity.ExaminationAnswer;
+import com.zcmzjp.wx.mapper.ExaminationAnswerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
  * @Date: 2018-07-04 10:00
  */
 @Service
-public class QuestionAnswerSevice extends BaseService<QuestionAnswer> {
+public class ExaminationAnswerService extends BaseService<ExaminationAnswer> {
 
     @Autowired
-    QuestionAnswerMapper questionAnswerMapper;
+    ExaminationAnswerMapper questionAnswerMapper;
 
     @Override
-    public BaseMapper<QuestionAnswer> getMapper() {
+    public BaseMapper<ExaminationAnswer> getMapper() {
         return questionAnswerMapper;
     }
 }
