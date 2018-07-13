@@ -25,6 +25,6 @@ public class QuestionsController extends BaseController<Questions> {
 
     @Override
     public String getViewPrefix() {
-        return "questions";
+        return "question";
     }
 }

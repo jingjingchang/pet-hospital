@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Date: 2018-07-04 10:42
  */
 @Controller
-@RequestMapping("/admin/sys/questionAnswer")
+@RequestMapping("/admin/sys/examinationAnswerService")
 public class ExaminationAnswerController extends BaseController<ExaminationAnswer> {
 
     @Autowired

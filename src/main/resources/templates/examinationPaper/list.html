@@ -57,18 +57,18 @@
         </div>
     </div>
 </div>
-<script src="/js/questionnaire_list.js"></script>
+<script src="/js/examinationPaper_list.js"></script>
 <script src="/plugins/js/plugins/bootstrap-table/bootstrap-table-export.js"></script>
 <script src="/plugins/js/plugins/bootstrap-table/tableExport.js"></script>
 <script>
-    var questionnaire = new QuestionnaireList();
+    var examinationPaper = new ExaminationPaperList();
     $(function(){
-        questionnaire.loadTableData();
+        examinationPaper.loadTableData();
     });
 
-    function deleteQuestionnaire(id) {
+    function deleteExaminationPaper(id) {
         Messager.confirm("是否删除?", function() {
-            questionnaire.deleteQuestionnaire(id);
+            examinationPaper.deleteExaminationPaper(id);
         });
     }
 </script>

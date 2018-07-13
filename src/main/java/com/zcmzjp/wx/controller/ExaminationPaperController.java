@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/admin/sys/questionnaire")
+@RequestMapping("/admin/sys/examinationPaper")
 public class ExaminationPaperController extends BaseController<ExaminationPaper> {
 
     @Autowired
@@ -26,6 +26,6 @@ public class ExaminationPaperController extends BaseController<ExaminationPaper>
 
     @Override
     public String getViewPrefix() {
-        return "questionnaire";
+        return "examinationPaper";
     }
 }

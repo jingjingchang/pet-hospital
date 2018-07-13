@@ -1,9 +1,9 @@
-var QuestionnaireList = function () {
+var QuestionList = function () {
     this.url = {
-        listByPage:"/admin/sys/questionnaire/listByPage",
-        create:"/admin/sys/questionnaire/create",
-        deleteQuestionnaire:"/admin/sys/questionnaire/remove",
-        updateQuestionnaire:"/admin/sys/questionnaire/update",
+        listByPage:"/admin/sys/question/listByPage",
+        create:"/admin/sys/question/create",
+        deleteQuestion:"/admin/sys/question/remove",
+        updateQuestion:"/admin/sys/question/update",
     };
     this.init = function () {
         this.validInit();
@@ -12,7 +12,7 @@ var QuestionnaireList = function () {
     this.loadTableData = function () {
         var that = this;
 
-        $('#questionnaire').bootstrapTable({
+        $('#question').bootstrapTable({
             striped: true,
             pagination: true,
             toorbar:'#news_cate_bar',
@@ -71,15 +71,15 @@ var QuestionnaireList = function () {
                 title: '操作',
                 formatter : function (value, row, index) {
                     var arr = [];
-                    arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/questionnaire/edit/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
-                    arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deleteQuestionnaire("+row.id+")'><i class='fa fa-trash-o text-warning'></i></a>");
+                    arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/question/edit/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
+                    arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deleteQuestion("+row.id+")'><i class='fa fa-trash-o text-warning'></i></a>");
                     return arr;
                 }
             }]
         });
     };
     this.save = function () {
-        var valid = $('#questionnaire').valid();
+        var valid = $('#question').valid();
         if (!valid) {
             return false;
         }
@@ -87,11 +87,11 @@ var QuestionnaireList = function () {
         $.ajax({
             type: 'POST',
             url: that.url.create,
-            data: $("#questionnaire").serialize(),
+            data: $("#question").serialize(),
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                            location.href='/admin/sys/questionnaire/list';
+                            location.href='/admin/sys/question/list';
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -105,16 +105,16 @@ var QuestionnaireList = function () {
             }
         });
     };
-    this.deleteQuestionnaire = function (id) {
+    this.deleteQuestion = function (id) {
         var that = this;
         $.ajax({
             type: 'POST',
-            url: that.url.deleteQuestionnaire,
+            url: that.url.deleteQuestion,
             data: {id:id},
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                        location.href='/admin/sys/questionnaire/list';
+                        location.href='/admin/sys/question/list';
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -127,20 +127,20 @@ var QuestionnaireList = function () {
             }
         });
     }
-    this.updateQuestionnaire = function () {
-        var valid = $('#questionnaire').valid();
+    this.updateQuestion = function () {
+        var valid = $('#question').valid();
         if (!valid) {
             return false;
         }
         var that = this;
         $.ajax({
             type: 'POST',
-            url: that.url.updateQuestionnaire,
-            data: $("#student").serialize(),
+            url: that.url.updateQuestion,
+            data: $("#question").serialize(),
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                        location.href='/admin/sys/questionnaire/list';
+                        location.href='/admin/sys/question/list';
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -156,7 +156,7 @@ var QuestionnaireList = function () {
     };
     this.validInit  = function () {
         WX.validate.init({
-            selector : '#questionnaire',
+            selector : '#question',
             rules : {
                 name : {
                     required : true,
@@ -166,9 +166,6 @@ var QuestionnaireList = function () {
         });
     };
 
-}
-
-function onCheck(e, treeId, treeNode) {
 }
 
 
