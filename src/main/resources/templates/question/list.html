@@ -63,12 +63,12 @@
 <script>
     var question = new QuestionList();
     $(function(){
-        questions.loadTableData();
+        question.loadTableData();
     });
 
     function deleteQuestion(id) {
         Messager.confirm("是否删除?", function() {
-            questions.deleteQuestion(id);
+            question.deleteQuestion(id);
         });
     }
 </script>

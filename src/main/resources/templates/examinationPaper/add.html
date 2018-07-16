@@ -21,7 +21,7 @@
             </div>
             <div class="ibox-content">
                 <div class="ibox">
-                    <form id="questionnaire">
+                    <form id="examinationPaper">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label require">名称</label>
@@ -68,14 +68,14 @@
         </div>
 
 
-<script src="/js/questionnaire_list.js"></script>
+<script src="/js/examinationPaper_list.js"></script>
 <script>
-    var questionnaire = new QuestionnaireList();
+    var examinationPaperList = new ExaminationPaperList();
     $(function(){
-        questionnaire.init();
+        examinationPaperList.init();
     });
     function save() {
-        questionnaire.save();
+        examinationPaperList.save();
     }
 </script>
 
