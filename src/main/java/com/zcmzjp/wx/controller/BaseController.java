@@ -128,7 +128,7 @@ public abstract class BaseController<T>
 
     @PostMapping({"/remove"})
     @ResponseBody
-    public Message deleteSection(@RequestParam int id)
+    public Message deleteById(@RequestParam int id)
     {
         boolean ret = getService().deleteById(id);
         return getMessage(ret);

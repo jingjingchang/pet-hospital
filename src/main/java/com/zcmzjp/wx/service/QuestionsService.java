@@ -6,6 +6,8 @@ import com.zcmzjp.wx.mapper.QuestionsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: Chris E-mail:961860916@qq.com
  * @Date: 2018-07-13 16:45
@@ -19,5 +21,9 @@ public class QuestionsService extends BaseService<Questions> {
     @Override
     public BaseMapper<Questions> getMapper() {
         return questionsMapper;
+    }
+
+    public List<Questions> getQuestionsNotInPaper(String paperId){
+        return questionsMapper.getQuestionsNotInPaper(paperId);
     }
 }

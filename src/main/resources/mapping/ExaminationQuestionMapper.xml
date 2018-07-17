@@ -11,26 +11,29 @@
 
     <resultMap id="dto" type="com.zcmzjp.wx.dto.ExaminationQuestionDto" extends="BaseResultMap">
         <result column="paperName" jdbcType="VARCHAR" property="paperName" />
+        <result column="brief" jdbcType="VARCHAR" property="brief" />
         <result column="questionName" jdbcType="VARCHAR" property="questionName" />
     </resultMap>
 
     <sql id="basic_list">
-    eq.id,eq.question_id,eq.status,qa.created
+     eq.id,eq.question_id,eq.status,eq.created
     </sql>
 
-    <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+    <select id="listByPage" parameterType="map" resultMap="dto">
 
         SELECT
-        <include refid="basic_list"/>
-        left join b_examination_paper ep on ep.id = eq.paper_id
-        left join b_questions q on q.id = eq.question_id
+        <include refid="basic_list"/>,q.name as questionName,ep.name as paperName,q.brief as brief
         FROM
         b_examination_question eq
+        left join b_examination_paper ep on ep.id = eq.paper_id
+        left join b_questions q on q.id = eq.question_id
         <where>
             <if test="keyword!=null and keyword!=''" >
                 and q.name like CONCAT('%',#{keyword},'%')
             </if>
-
+            <if test="paperId!=null and paperId!=''" >
+                and eq.paper_id =#{paperId}
+            </if>
         </where>
 
         ORDER BY Id desc

@@ -239,6 +239,7 @@ var OrderStudentList = function () {
 
     this.sendSMS = function () {
         var that = this;
+        ladda.ladda('start');
         $.ajax({
             type: 'POST',
             url: that.url.sendSMS,
@@ -250,6 +251,7 @@ var OrderStudentList = function () {
             },
             success: function (data) {
                 if(data.success){
+                    ladda.ladda('stop');
                     Messager.success(data.resultText, function() {
                         $('#modalForm').modal('hide');
                         that.selectAftre();

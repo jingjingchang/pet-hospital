@@ -27,5 +27,17 @@
 
     ORDER BY Id desc
   </select>
+  <select id="getQuestionsNotInPaper" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_questions q
+    <where>
+      and q.id not in (select eq.question_id from b_examination_question eq where eq.paper_id = #{paperId})
+    </where>
+
+    ORDER BY Id desc
+  </select>
 
 </mapper>

@@ -5,6 +5,8 @@ import com.zcmzjp.wx.service.BaseService;
 import com.zcmzjp.wx.service.ExaminationPaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -28,4 +30,11 @@ public class ExaminationPaperController extends BaseController<ExaminationPaper>
     public String getViewPrefix() {
         return "examinationPaper";
     }
+
+    @RequestMapping("/queryQuestions/{id}")
+    public String queryQuestions(Model view, @PathVariable String id){
+        view.addAttribute("paperId",id);
+        return "examinationPaper/queryQuestions";
+    }
+
 }

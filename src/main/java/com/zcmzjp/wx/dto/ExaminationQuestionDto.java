@@ -12,6 +12,8 @@ public class ExaminationQuestionDto extends ExaminationQuestion {
 
     private String questionName;
 
+    private String brief;
+
     public String getPaperName() {
         return paperName;
     }
@@ -26,5 +28,14 @@ public class ExaminationQuestionDto extends ExaminationQuestion {
 
     public void setQuestionName(String questionName) {
         this.questionName = questionName;
+    }
+
+
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
     }
 }
