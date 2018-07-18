@@ -211,7 +211,7 @@ var ExaminationPaperList = function () {
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                        location.href='/admin/sys/examinationPaper/list';
+                       that.selectAfter();
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -274,7 +274,7 @@ var ExaminationPaperList = function () {
                 paperId:id
             },
             success: function (data) {
-                console.log(data.resultText[0]);
+                $("#questions").empty();
                 data.resultText.forEach(function(value,index,array){
                     var str = '<option value="'+value.id+'">'+value.name+'</option>'
                     $("#questions").append(str);
@@ -301,11 +301,13 @@ var ExaminationPaperList = function () {
             url: that.url.addPaperQuestion,
             data: {
                 paperId:$("#paperId").val(),
-                questionId: $("#questions").val()
+                questionId: $("#questions").val(),
+                status:1
             },
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！");
+                    $('#modalForm').modal('hide');
                     that.selectAfter();
                 }else{
                     Messager.alert("操作失败！");

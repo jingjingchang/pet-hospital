@@ -3,8 +3,8 @@
 <mapper namespace="com.zcmzjp.wx.mapper.ExaminationQuestionMapper">
     <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.ExaminationQuestion">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
-        <result column="question_id" jdbcType="VARCHAR" property="questionId" />
+        <result column="paper_id" jdbcType="INTEGER" property="paperId" />
+        <result column="question_id" jdbcType="INTEGER" property="questionId" />
         <result column="status" jdbcType="INTEGER" property="status" />
         <result column="created" jdbcType="TIMESTAMP" property="created" />
     </resultMap>

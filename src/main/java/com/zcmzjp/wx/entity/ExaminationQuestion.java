@@ -1,6 +1,7 @@
 package com.zcmzjp.wx.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 @Table(name = "b_examination_question")
 public class ExaminationQuestion {
 
+    @Id
     private Integer id;
 
     @Column(name = "paper_id")
