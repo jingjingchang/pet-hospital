@@ -13,11 +13,19 @@ import java.util.Date;
  * @Date: 2018-07-16 15:45
  */
 public class SendEmailUtil {
-    private static String host = "smtp.163.com";
+    //腾讯企业邮箱
+    private static String host = "smtp.exmail.qq.com";
+    private static int port = 465;
+    private static String userName = "chris@zhouhongxing.cn";
+    private static String password = "zZ8302812520";
+    private static String to = "961860916@qq.com";
+/* //163
+  private static String host = "smtp.163.com";
     private static int port = 25;
     private static String userName = "13258179872@163.com";
     private static String password = "z8302812";
     private static String to = "961860916@qq.com";
+*/
 
     /**
      * 发送文本邮件
