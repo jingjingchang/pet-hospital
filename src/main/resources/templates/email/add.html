@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::editor"></div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>问题管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">问题新增</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>分类编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <form id="email">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">主题</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="subject" id="subject"  class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">收件人</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="addressee" id="addressee"  class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">发件人名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="senderName" id="senderName"  class="form-control"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <input type="text" hidden="hidden" id="content" name="content"/>
+                        <div class="ibox-title" >
+                            <h5>内容</h5>
+                        </div>
+
+                        <form name="editor" method="post">
+                            <textarea  id="editor_id" cols="100" rows="8" style="width:100%;height:100%;visibility:hidden;"></textarea>
+                            <br />
+                        </form>
+                    </form>
+
+                    <div class="ibox-content btn-center" style="text-align: center">
+                        <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="emailListTs.save()">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                        </button>
+
+                        <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                            <i class="fa fa-times" aria-hidden="true"></i> 返回
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+<script src="/js/email_list.js"></script>
+<script>
+    $(function(){
+        window.editor = KindEditor.create('#editor_id', {
+            uploadJson :  '/upload/emailFileUpload',
+            fileManagerJson :  '/dm/newsinfo',
+            allowFileManager : false,
+            afterCreate: function () {
+                //要取值设置这里 这个函数就是同步KindEditor的值到textarea文本框
+                this.sync();
+            },
+            afterBlur: function () {  //同时设置这里
+                this.sync();
+            }});
+    });
+</script>
+
+</body>
+</html>

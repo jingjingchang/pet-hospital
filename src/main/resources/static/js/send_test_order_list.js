@@ -1,5 +1,8 @@
 var SendTestOrderList = /** @class */ (function () {
     function SendTestOrderList() {
+        this.url = {
+            listByPage: "/sendTestOrder/listByPage"
+        };
     }
     SendTestOrderList.prototype.loadTableData = function () {
         var that = this;

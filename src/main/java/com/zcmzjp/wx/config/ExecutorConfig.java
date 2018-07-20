@@ -15,7 +15,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @Date: 2018-07-19 16:39
  */
 @Configuration
-@EnableScheduling
 @EnableAsync
 public class ExecutorConfig {
 

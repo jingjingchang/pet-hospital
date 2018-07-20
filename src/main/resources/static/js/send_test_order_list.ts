@@ -1,10 +1,10 @@
 class SendTestOrderList{
-    url:{
-        listByPage:"/seendTestOrder/listByPage"
-    },
+    url={
+        listByPage:"/sendTestOrder/listByPage"
+    };
     params:{
 
-    }
+    };
 
     loadTableData() {
         var that = this;

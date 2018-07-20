@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="/css/starScore/starScore.css" rel="stylesheet"/>
+    <title>教练</title>
+</head>
+
+<body class="white-bg">
+
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+
+  <div class="row">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title" style="text-align: center;font-size: 18px">
+              <span>教练选择</span>
+          </div>
+          <div class="ibox-content">
+              <input type="hidden" id="odId" th:value="${odId}"/>
+              <input type="hidden" id="stuId" th:value="${student.id}"/>
+             <!-- <select  id="subType" class="form-control" name="subType">
+                  <option value="">请选择科目</option>
+                  <option value="2">科目二</option>
+                  <option value="3">科目三</option>
+              </select>-->
+              <br/>
+              <th:block th:each="list:${teachers}">
+                  <div class="col-sm-4 col-xs-4 col-lg-4" style="min-height:150px;overflow: hidden" th:onclick="'javascript:addOrderStudent(\''+${list.tId}+'\',\''+${list.name}+'\')'">
+                      <img class="img-circle center-block" style="height:60%;width:60%;" th:src="${list.picUrl}"/>
+                      <div style="width: 100%;height: 100%;text-align: center;">
+                          <small th:text="${list.name}">李飞雪</small><br/>
+                          <small th:text="${list.title}">四川大学</small><br/>
+                          <div th:id="${list.id}">
+                          </div>
+                      </div>
+                  </div>
+              </th:block>
+          </div>
+      </div>
+  </div>
+</body>
+<script src="/js/wx/orderPage.js"></script>
+<script src="/plugins/js/markingSystem.js"></script>
+<script th:inline="javascript">
+    var teacherList = [[${teachers}]]
+    var orderPage = new OrderPage();
+    $(function () {
+        orderPage.initStarScore(teacherList);
+    });
+    function addOrderStudent(teachId,name) {
+        /*if(!$("#subType").val()){
+            Messager.error("请选择预约科目！");
+            return;
+        }*/
+        Messager.confirm("确定选择："+name+"师傅吗？",function () {
+
+            orderPage.addOrderStudent(teachId,$("#odId").val(),$("#stuId").val());
+        });
+    }
+</script>
+</html>
