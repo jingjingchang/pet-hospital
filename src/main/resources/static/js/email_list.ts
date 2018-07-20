@@ -116,25 +116,28 @@ class emailList {
     };
     deleteEmail(id){
         var that = this;
-        $.ajax({
-            type: 'POST',
-            url: that.url.delete,
-            data: {id:id},
-            success: function (data) {
-                if(data.status){
-                    Messager.success("操作成功！", function() {
-                        location.href='/admin/weChat/email/list';
-                    });
-                }else{
+        Messager.confirm("是否删除?", function() {
+            $.ajax({
+                type: 'POST',
+                url: that.url.delete,
+                data: {id:id},
+                success: function (data) {
+                    if(data.status){
+                        Messager.success("操作成功！", function() {
+                            location.href='/admin/sys/email/list';
+                        });
+                    }else{
+                        Messager.alert("操作失败！");
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("==============");
                     Messager.alert("操作失败！");
+                    console.log(XMLHttpRequest.responseText);
                 }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log("==============");
-                Messager.alert("操作失败！");
-                console.log(XMLHttpRequest.responseText);
-            }
+            });
         });
+
     }
 
 }
