@@ -1,6 +1,7 @@
 package com.zcmzjp.wx.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -11,7 +12,11 @@ import java.util.Date;
 @Table(name="b_examination_answer")
 public class ExaminationAnswer {
 
+    @Id
     private Integer id;
+
+    @Column(name = "order_id")
+    private Integer orderId;
 
     @Column(name = "paper_id")
     private Integer paperId;
@@ -33,6 +38,14 @@ public class ExaminationAnswer {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public Integer getPaperId() {
