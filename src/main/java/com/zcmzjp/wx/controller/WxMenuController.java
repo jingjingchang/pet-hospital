@@ -46,7 +46,7 @@ public class WxMenuController extends BaseController<WxMenu> {
     @Override
     public Message create(WxMenu obj) throws Exception {
         if(obj.getType().equals("graphic")){
-            obj.setMenuValue(GlobalParameter.webURL+"/wx/news/"+obj.getMenuValue());
+            obj.setMenuValue(GlobalParameter.HOST_ADDRESS+"/wx/news/"+obj.getMenuValue());
             obj.setType("view");
         }
         return super.create(obj);

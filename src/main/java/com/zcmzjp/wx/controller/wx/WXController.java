@@ -1,5 +1,6 @@
 package com.zcmzjp.wx.controller.wx;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.github.pagehelper.PageInfo;
@@ -9,6 +10,7 @@ import com.zcmzjp.wx.service.*;
 import com.zcmzjp.wx.utils.DateUtils;
 import com.zcmzjp.wx.utils.SendSMSUtil;
 import com.zcmzjp.wx.utils.WeixinUtil;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,6 +72,9 @@ public class WXController {
 
     @Autowired
     OrderDetailService orderDetailService;
+
+    @Autowired
+    ExaminationAnswerService examinationAnswerService;
 
     @RequestMapping("/userInfo")
     public String userInfo(Model view){
@@ -505,6 +510,23 @@ public class WXController {
             return null;
         }
 
+    }
+
+    //添加问卷答案信息
+    @ResponseBody
+    @RequestMapping("/addExaminationAnswer")
+    public JsonResult addExaminationAnswer(String answerList,Integer studentId){
+        List<ExaminationAnswer> array = JSON.parseArray(answerList,ExaminationAnswer.class);
+        ExaminationAnswer answer = examinationAnswerService.getByLatestOrderStuId(studentId);
+        if(answer!=null){
+            return new JsonResult(false,"您已提交答案请勿重复提交！");
+        }else{
+            Boolean flag = false;
+            for(ExaminationAnswer ea:array) {
+                flag = examinationAnswerService.add(ea);
+            }
+            return new JsonResult(flag,flag?"提交成功！":"提交失败，请重试！");
+        }
     }
 
 

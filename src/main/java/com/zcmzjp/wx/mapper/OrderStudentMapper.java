@@ -15,9 +15,12 @@ public interface OrderStudentMapper extends BaseMapper<OrderStudent> {
 
     OrderStudentDto getOrderStudentByStuId(@Param("stuId") Integer stuId);
 
+    OrderStudentDto getLatestOrderByStudentId(@Param("studentId") Integer studentId);
+
     List<Map<String,Object>> getTomorrowOrderStudent();
 
     List<OrderStudentDto> getOrderStudentBySmsStatus(@Param("smsStatus") Integer smsStatus,@Param("teacherId") Integer teacherId);
 
     List<OrderStudentDto> getOrderListByStudentId(@Param("studentId") Integer studentId) ;
+
 }

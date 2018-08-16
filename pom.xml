@@ -134,7 +134,11 @@
 			<version>1.5.14.RELEASE</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.5</version>
+		</dependency>
 
 	</dependencies>
 

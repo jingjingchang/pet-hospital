@@ -20,4 +20,12 @@ public class ExaminationPaperService extends BaseService<ExaminationPaper> {
     public BaseMapper<ExaminationPaper> getMapper() {
         return questionnaireMapper;
     }
+
+    public ExaminationPaper getByOpenStatus(){
+        return questionnaireMapper.getByOpenStatus();
+    }
+
+    public boolean updateOthersById(Integer id){
+        return questionnaireMapper.updateOthersById(id);
+    }
 }

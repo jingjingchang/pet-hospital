@@ -18,7 +18,7 @@
   <div class="row">
       <div class="ibox float-e-margins">
           <div class="ibox-title" style="text-align: center;font-size: 18px">
-              <span>教练选择</span>
+              <span>问卷调查</span>
           </div>
           <div class="ibox-content">
               <input type="hidden" id="odId" th:value="${odId}"/>
@@ -29,14 +29,16 @@
                   <option value="3">科目三</option>
               </select>-->
               <br/>
-              <th:block th:each="list:${teachers}">
-                  <div class="col-sm-4 col-xs-4 col-lg-4" style="min-height:150px;overflow: hidden" th:onclick="'javascript:addOrderStudent(\''+${list.tId}+'\',\''+${list.name}+'\')'">
-                      <img class="img-circle center-block" style="height:60%;width:60%;" th:src="${list.picUrl}"/>
-                      <div style="width: 100%;height: 100%;text-align: center;">
-                          <small th:text="${list.name}">李飞雪</small><br/>
-                          <small th:text="${list.title}">四川大学</small><br/>
-                          <div th:id="${list.id}">
-                          </div>
+              <th:block th:each="list:${questions}">
+                  <div class="col-sm-4 col-xs-4 col-lg-4" style="min-height:150px;overflow: hidden" th:onclick="'javascript:addOrderStudent()'">
+                      <p>行级显示</p>
+                      <div class="radio radio-info radio-inline">
+                          <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked=""/>
+                          <label for="inlineRadio1"> 选项 01 </label>
+                      </div>
+                      <div class="radio radio-inline">
+                          <input type="radio" id="inlineRadio2" value="option2" name="radioInline"/>
+                          <label for="inlineRadio2"> 选项 02 </label>
                       </div>
                   </div>
               </th:block>
@@ -53,10 +55,6 @@
         orderPage.initStarScore(teacherList);
     });
     function addOrderStudent(teachId,name) {
-        /*if(!$("#subType").val()){
-            Messager.error("请选择预约科目！");
-            return;
-        }*/
         Messager.confirm("确定选择："+name+"师傅吗？",function () {
 
             orderPage.addOrderStudent(teachId,$("#odId").val(),$("#stuId").val());

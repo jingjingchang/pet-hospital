@@ -30,6 +30,8 @@ public class ExaminationAnswer {
     @Column(name = "teacher_id")
     private Integer teacherId;
 
+    private String answer;
+
     private Date created;
 
     public Integer getId() {
@@ -86,5 +88,13 @@ public class ExaminationAnswer {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

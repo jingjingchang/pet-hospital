@@ -28,4 +28,23 @@
     ORDER BY Id desc
   </select>
 
+  <select id="getByOpenStatus" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_examination_paper ep
+    where
+    ep.status=1
+    ORDER BY ep.created desc
+    limit 1
+  </select>
+
+  <update id="updateOthersById" parameterType="Integer">
+    update
+    b_examination_paper ep
+    set ep.status=0
+    where ep.id !=#{id}
+  </update>
+
 </mapper>

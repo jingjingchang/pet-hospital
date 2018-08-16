@@ -42,4 +42,18 @@
         ORDER BY Id desc
     </select>
 
+    <select id="getByStudentAndOrderId" parameterType="Integer" resultMap="BaseResultMap">
+        select * from b_examination_answer ea where eq.student_id = #{stuId} and eq.order_id =#{orderId}
+    </select>
+
+   <select id="getByLatestOrderStuId" parameterType="Integer" resultMap="BaseResultMap">
+           select * from b_examination_answer ea where ea.order_id =
+            (
+                select os.id from b_order_student os
+                where os.stu_id=#{studentId} and os.sms=1
+                order by os.created desc limit 1
+            )
+            limit 1
+   </select>
+
 </mapper>

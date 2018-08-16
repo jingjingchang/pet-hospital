@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MenuService
-        extends BaseService<Menu>
-{
+public class MenuService  extends BaseService<Menu> {
     @Autowired
     MenuMapper menuMapper;
 

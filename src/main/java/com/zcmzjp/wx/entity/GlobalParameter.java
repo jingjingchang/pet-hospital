@@ -7,24 +7,24 @@ package com.zcmzjp.wx.entity;
 public class GlobalParameter {
 
     //测试帐号
-    /*public static String HOST_ADDRESS = "http://zcmzjp.zhouhongxing.cn";
+    public static String HOST_ADDRESS = "http://j4n7ys.natappfree.cc";
     public static String AppID = "wx428db2722153d12d";
     public static String  AppSecret="e1e8aed568ff374cb368428529c78d13";
-    public static String webSite = "http%3a%2f%2fzcmzjp.zhouhongxing.cn%2fweChat%2fwxEvent%2freg";
-    public static String sessionURL = "http%3a%2f%2fzcmzjp.zhouhongxing.cn%2fweChat%2fwxEvent%2fuserReg";
-    public static String webURL = "http://zcmzjp.zhouhongxing.cn";
+    public static String encodingURL= "http%3a%2f%2ftest.zhouhongxing.cn";
+    public static String webSite = encodingURL+"%2fweChat%2fwxEvent%2freg";
+    public static String sessionURL = encodingURL+"%2fweChat%2fwxEvent%2fuserReg";
     public static String newsURL = HOST_ADDRESS+"/";
-    public static String bossMobile = "13258179872";*/
+    public static String bossMobile = "13258179872";
 
     //郭鑫帐号
-    public static String HOST_ADDRESS = "http://wx.zcmzjp.com";
+    /*public static String HOST_ADDRESS = "http://wx.zcmzjp.com";
     public static String AppID = "wxcd549b92e607753c";
     public static String  AppSecret="7a20aab77bb2c1391c80214abf8e84f2";
     public static String webSite = "http%3a%2f%2fwx.zcmzjp.com%2fweChat%2fwxEvent%2freg";
     public static String sessionURL = "http%3a%2f%2fwx.zcmzjp.com%2fweChat%2fwxEvent%2fuserReg";
     public static String webURL = "http://wx.zcmzjp.com";
     public static String newsURL = HOST_ADDRESS+"/";
-    public static String bossMobile = "15682539763";
+    public static String bossMobile = "15682539763";*/
    //阿里云短信服务
    public static String AccessKey = "LTAIy1UuyeMTMS6S";
 

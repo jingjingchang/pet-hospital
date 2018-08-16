@@ -6,6 +6,8 @@ import com.zcmzjp.wx.dto.*;
 import com.zcmzjp.wx.entity.*;
 import com.zcmzjp.wx.service.*;
 import com.zcmzjp.wx.utils.*;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -81,6 +83,18 @@ public class WXEventController {
 
     @Autowired
     UnitTeacherService unitTeacherService;
+
+    @Autowired
+    SysConfigService sysConfigService;
+
+    @Autowired
+    ExaminationAnswerService examinationAnswerService;
+
+    @Autowired
+    ExaminationPaperService examinationPaperService;
+
+    @Autowired
+    ExaminationQuestionService examinationQuestionService;
 
     //微信配置拦截地址验证
     @RequestMapping(value = "/getEvent",method = RequestMethod.GET)
@@ -261,6 +275,8 @@ public class WXEventController {
         }
     }
 
+
+
     //预约页面跳转
     @RequestMapping("/getOrderPage")
     public String getOrderPage(Model view, HttpServletRequest request, HttpServletResponse response){
@@ -282,6 +298,21 @@ public class WXEventController {
                 view.addAttribute("member",member);
                 str = "wx/notStudent";
             }else if(student.getStudyStatus()!=null){
+                SysConfig sysConfig = sysConfigService.getByCode("IsOrderExam");
+                if(sysConfig!=null&&sysConfig.getStatus()==1){
+                    ExaminationAnswer examinationAnswer = examinationAnswerService.getByLatestOrderStuId(student.getId());
+                    if(examinationAnswer==null){
+                        ExaminationPaper examinationPaper = examinationPaperService.getByOpenStatus();
+                        OrderStudent orderStudent = orderStudentService.getLatestOrderByStudentId(student.getId());
+                        List<ExaminationQuestion> list = examinationQuestionService.getPaperQuestionsByPaperId(examinationPaper.getId());
+                        view.addAttribute("questions",list);
+                        view.addAttribute("examinationPaper",examinationPaper);
+                        view.addAttribute("orderStudent",orderStudent);
+                        System.out.println("进入评教页面");
+                        return "wx/stuexam";
+                    }
+                }
+
                 if(student.getStudyStatus().equals(2)||student.getStudyStatus().equals(3)){
                     List<OrderDto> list;
                     if(student.getUnitId()!=null){

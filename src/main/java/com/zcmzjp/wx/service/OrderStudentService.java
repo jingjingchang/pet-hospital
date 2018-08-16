@@ -39,4 +39,8 @@ public class OrderStudentService extends BaseService<OrderStudent> {
         return orderStudentMapper.getOrderListByStudentId(studentId);
     }
 
+    public OrderStudent getLatestOrderByStudentId(Integer id){
+        return orderStudentMapper.getLatestOrderByStudentId(id);
+    }
+
 }

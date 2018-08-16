@@ -20,4 +20,12 @@ public class ExaminationAnswerService extends BaseService<ExaminationAnswer> {
     public BaseMapper<ExaminationAnswer> getMapper() {
         return questionAnswerMapper;
     }
+
+    public ExaminationAnswer getByStudentAndOrderId(Integer stuId,Integer orderId){
+       return questionAnswerMapper.getByStudentAndOrderId(stuId,orderId);
+    }
+
+    public ExaminationAnswer getByLatestOrderStuId(Integer studentId){
+        return questionAnswerMapper.getByLatestOrderStuId(studentId);
+    }
 }

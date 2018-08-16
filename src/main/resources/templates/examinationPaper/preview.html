@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="/plugins/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet"/>
+    <title>教练</title>
+</head>
+
+<body class="white-bg">
+
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title" style="text-align: center;font-size: 18px">
+            <span th:text="${paper.name}">问卷调查</span>
+        </div>
+        <div class="ibox-content">
+            <form id="view_form">
+            <input type="hidden" id="paperId" th:value="${paperId}"/>
+            <br/>
+            <div class="row">
+            <th:block th:each="list:${questions}">
+
+                    <div class="col-sm-12 col-xs-12 col-lg-12">
+                        <p th:text="${list.questionName}">行级显示</p>
+                        <div class="radio">
+                            <input type="radio" th:id="${'opt1_'+list.questionId}" value="yes" th:name="${list.questionId}" checked=""/>
+                            <label th:for="${'opt1_'+list.questionId}"> 是</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" th:id="${'opt2_'+list.questionId}"  value="no" th:name="${list.questionId}"/>
+                            <label th:for="${'opt2_'+list.questionId}" > 否</label>
+                        </div>
+                    </div>
+
+            </th:block>
+                <div class="ibox-content" style="text-align: center">
+                    <button type="button" class="ladda-button btn btn-primary"  data-style="expand-left" onclick="test()">
+                        <span class="ladda-label"><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                        <i class="fa fa-times" aria-hidden="true"></i> 返回
+                    </a>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/wx/orderPage.js"></script>
+<script th:inline="javascript">
+   function test() {
+       var that = this;
+       var paperId = $("#paperId").val();
+       var studentId = $("#studentId").val();
+       var orderId = $("#orderId").val();
+       var teacherId = $("#teacherId").val();
+
+       var array = $("#view_form").serializeArray();
+       var answerList = [];
+       array.forEach(function(value, index, arr){
+           var obj ={
+               paperId:paperId,
+               answerList:studentId,
+               orderId:orderId,
+               teacherId:teacherId,
+               questionId:null,
+               answer:null
+           }
+           obj.questionId=value.name;
+           obj.answer=value.value;
+           answerList.push(obj);
+       });
+
+       console.log(answerList);
+       $.ajax({
+           type: 'POST',
+           url:"/wx/addExaminationAnswer",
+           data: {
+               studentId:studentId,
+               answerList:JSON.stringify(answerList),
+           },
+           success: function (data) {
+               if(data.success){
+                   Messager.success(data.resultText, function() {
+                       location.href='/wx/getOrderPage';
+                   });
+               }else{
+                   Messager.error(data.resultText, function() {
+                       location.href='/wx/getOrderPage';
+                   });
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               console.log("==============");
+               Messager.alert("操作失败！");
+               console.log(XMLHttpRequest);
+               console.log("==============");
+           }
+       });
+   }
+</script>
+</html>

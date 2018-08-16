@@ -39,4 +39,18 @@
         ORDER BY Id desc
     </select>
 
+
+    <select id="getPaperQuestionsByPaperId" parameterType="map" resultMap="dto">
+
+        SELECT
+        <include refid="basic_list"/>,q.name as questionName,ep.name as paperName,q.brief as brief
+        FROM
+        b_examination_question eq
+        left join b_questions q on q.id = eq.question_id
+        left join b_examination_paper ep on ep.id = eq.paper_id
+        <where>
+            eq.paper_id = #{paperId}
+        </where>
+        ORDER BY Id desc
+    </select>
 </mapper>
