@@ -10,7 +10,7 @@ public class GlobalParameter {
     public static String HOST_ADDRESS = "http://j4n7ys.natappfree.cc";
     public static String AppID = "wx428db2722153d12d";
     public static String  AppSecret="e1e8aed568ff374cb368428529c78d13";
-    public static String encodingURL= "http%3a%2f%2ftest.zhouhongxing.cn";
+    public static String encodingURL= "http%3a%2f%2fua6bzq.natappfree.cc";
     public static String webSite = encodingURL+"%2fweChat%2fwxEvent%2freg";
     public static String sessionURL = encodingURL+"%2fweChat%2fwxEvent%2fuserReg";
     public static String newsURL = HOST_ADDRESS+"/";

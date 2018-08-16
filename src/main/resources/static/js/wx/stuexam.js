@@ -14,7 +14,7 @@ var StuExam = function () {
         array.forEach(function(value, index, arr){
             var obj ={
                 paperId:paperId,
-                answerList:studentId,
+                studentId:studentId,
                 orderId:orderId,
                 teacherId:teacherId,
                 questionId:null,
@@ -40,7 +40,7 @@ var StuExam = function () {
                     });
                 }else{
                     Messager.error(data.resultText, function() {
-                        location.href='/wx/getOrderPage';
+                        location.href='/weChat/wxEvent/getOrderPage';
                     });
                 }
             },
