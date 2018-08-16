@@ -22,19 +22,25 @@
     ea.id,ea.student_id,ea.teacher_id,ea.question_id,ea.answer,ea.created
     </sql>
 
-    <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+    <select id="listByPage" parameterType="map" resultMap="dto">
 
         SELECT
-        <include refid="basic_list"/>
+        <include refid="basic_list"/>,ep.name as paperName,q.name as questionName,s.name as studentName,t.name as teacherName
+        FROM
+        b_examination_answer ea
         left join b_examination_paper ep on ep.id = ea.paper_id
         left join b_questions q on q.id = ea.question_id
         left join b_students s on s.id = ea.student_id
         left join b_teachers t on t.id = ea.teacher_id
-        FROM
-        b_examination_answer ea
         <where>
             <if test="keyword!=null and keyword!=''" >
-                and q.name like CONCAT('%',#{keyword},'%')
+                and s.name like CONCAT('%',#{keyword},'%')
+            </if>
+            <if test="paperId!=null and paperId!=''" >
+                and ea.paper_id =#{paperId}
+            </if>
+            <if test="teacherId!=null and teacherId!=''" >
+                and ea.teacher_id =#{teacherId}
             </if>
 
         </where>

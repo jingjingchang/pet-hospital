@@ -304,12 +304,14 @@ public class WXEventController {
                     if(examinationAnswer==null){
                         ExaminationPaper examinationPaper = examinationPaperService.getByOpenStatus();
                         OrderStudent orderStudent = orderStudentService.getLatestOrderByStudentId(student.getId());
-                        List<ExaminationQuestion> list = examinationQuestionService.getPaperQuestionsByPaperId(examinationPaper.getId());
-                        view.addAttribute("questions",list);
-                        view.addAttribute("examinationPaper",examinationPaper);
-                        view.addAttribute("orderStudent",orderStudent);
-                        System.out.println("进入评教页面");
-                        return "wx/stuexam";
+                        if(orderStudent!=null){
+                            List<ExaminationQuestion> list = examinationQuestionService.getPaperQuestionsByPaperId(examinationPaper.getId());
+                            view.addAttribute("questions",list);
+                            view.addAttribute("examinationPaper",examinationPaper);
+                            view.addAttribute("orderStudent",orderStudent);
+                            System.out.println("进入评教页面");
+                            return "wx/stuexam";
+                        }
                     }
                 }
 

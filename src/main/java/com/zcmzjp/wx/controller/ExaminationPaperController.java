@@ -81,4 +81,10 @@ public class ExaminationPaperController extends BaseController<ExaminationPaper>
         }
         return getMessage(ret);
     }
+
+    @RequestMapping("/checkStatisticsList/{paperId}")
+    public String checkStatisticsList(Model view, @PathVariable String paperId){
+        view.addAttribute("paperId",paperId);
+        return "examinationPaper/checkStatisticsList";
+    }
 }

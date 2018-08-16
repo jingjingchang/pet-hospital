@@ -76,7 +76,7 @@ var ExaminationPaperList = function () {
                 title: '操作',
                 formatter : function (value, row, index) {
                     var arr = [];
-                    arr.push("&nbsp;&nbsp;<a title='查看统计' href='/admin/sys/examinationPaper/addQuestions/"+row.id+"'><i class='fa fa-plus-circle text-primary'></i></a>");
+                    arr.push("&nbsp;&nbsp;<a title='查看统计' href='/admin/sys/examinationPaper/checkStatisticsList/"+row.id+"'><i class='fa fa-bar-chart-o text-primary'></i></a>");
                     arr.push("&nbsp;&nbsp;<a title='预览' href='/admin/sys/examinationPaper/preview/"+row.id+"'><i class='fa fa-plus-circle text-primary'></i></a>");
                     arr.push("&nbsp;&nbsp;<a title='添加问题' href='/admin/sys/examinationPaper/queryQuestions/"+row.id+"'><i class='fa fa-plus text-primary'></i></a>");
                     arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/examinationPaper/edit/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
