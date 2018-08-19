@@ -1,6 +1,8 @@
 package com.zcmzjp.wx.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.zcmzjp.wx.entity.JsonResult;
+import com.zcmzjp.wx.entity.Page;
 import com.zcmzjp.wx.entity.Teacher;
 import com.zcmzjp.wx.entity.Unit;
 import com.zcmzjp.wx.service.BaseService;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Chris on 2017-08-09.
@@ -69,5 +73,27 @@ public class TeacherController extends BaseController<Teacher> {
     @RequestMapping("/getTeacherListWithOutByUnitId")
     public List<Teacher> getTeacherListWithOutByUnitId(Integer unitId){
         return teacherService.getTeacherListWithOutByUnitId(unitId);
+    }
+
+    @RequestMapping({"/getTeacherExamResultList"})
+    @ResponseBody
+    public Object getTeacherExamResultList(Page page,String mouth)
+    {
+        Map<String, Object> map = new HashMap();
+        map.put("pageNum", Integer.valueOf(page.getOffset() + 1));
+        map.put("pageSize", Integer.valueOf(page.getLimit()));
+        map.put("keyword", page.getSearch());
+        map.put("mouth", mouth);
+        PageInfo info = teacherService.getTeacherExamResultList(map);
+        Map<String, Object> jsonMap = new HashMap();
+        jsonMap.put("rows", info.getList());
+        jsonMap.put("total", Long.valueOf(info.getTotal()));
+
+        return jsonMap;
+    }
+
+    @RequestMapping("/getTeacherExamResultPage")
+    public String getTeacherExamResultPage(String menuId, Model view) {
+        return "examinationAnswer/teacherExamResult";
     }
 }

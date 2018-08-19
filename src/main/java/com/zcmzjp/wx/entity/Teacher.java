@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Date;
 
 /**
  * Created by Chris on 2018-01-11.
@@ -45,6 +46,8 @@ public class Teacher {
     private String identityNo;
 
     private String pwd;
+
+    private Date created;
 
     @Transient
     private Integer tId;
@@ -176,5 +179,13 @@ public class Teacher {
 
     public void setSubTwo(Integer subTwo) {
         this.subTwo = subTwo;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

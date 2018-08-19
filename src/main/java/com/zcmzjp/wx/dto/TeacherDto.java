@@ -15,6 +15,13 @@ public class TeacherDto extends Teacher {
 
     private String uname;
 
+    private Integer yesNum;
+
+    private String noNum;
+
+    //合格率
+    private double okRate;
+
     public Double getaLevel() {
         return aLevel;
     }
@@ -29,5 +36,31 @@ public class TeacherDto extends Teacher {
 
     public void setUname(String uname) {
         this.uname = uname;
+    }
+
+    public Integer getYesNum() {
+        return yesNum;
+    }
+
+    public void setYesNum(Integer yesNum) {
+        this.yesNum = yesNum;
+    }
+
+    public String getNoNum() {
+        return noNum;
+    }
+
+    public void setNoNum(String noNum) {
+        this.noNum = noNum;
+    }
+
+
+
+    public double getOkRate() {
+        return okRate;
+    }
+
+    public void setOkRate(double okRate) {
+        this.okRate = okRate;
     }
 }

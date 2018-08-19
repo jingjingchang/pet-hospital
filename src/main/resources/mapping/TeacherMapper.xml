@@ -22,6 +22,8 @@
   <resultMap id="dto" type="com.zcmzjp.wx.dto.TeacherDto" extends="BaseResultMap">
     <result column="aLevel" jdbcType="DOUBLE" property="aLevel" />
     <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="yesNum" jdbcType="INTEGER" property="yesNum" />
+    <result column="noNum" jdbcType="INTEGER" property="noNum" />
   </resultMap>
 
   <sql id="basic_list">
@@ -73,6 +75,24 @@
       <if test="pwd!=null and pwd!=''">
         and pwd = #{pwd}
       </if>
+    </where>
+  </select>
+
+  <select id="getTeacherExamResultList" parameterType="map" resultMap="dto">
+    SELECT t.*,(
+    SELECT COUNT(ea.id)
+    FROM b_examination_answer ea
+    WHERE ea.teacher_id=t.id AND ea.answer='yes' and substring(ea.created,1,7) = #{mouth}) AS yesNum,(
+    SELECT COUNT(ea.id)
+    FROM b_examination_answer ea
+    WHERE ea.teacher_id=t.id AND ea.answer='no' and substring(ea.created,1,7) = #{mouth}) AS noNum
+    FROM b_teachers t
+
+    <where>
+         t.`status`=1
+        <if test="keyword!=null and keyword!=''">
+            and t.name like CONCAT('%',#{keyword},'%')
+        </if>
     </where>
   </select>
 </mapper>

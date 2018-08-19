@@ -39,6 +39,9 @@ var OrderStudentList = function () {
             queryParams:function (param) {
                 return $.extend(that.params, param);
             },
+            queryParams:function (param) {
+                return $.extend(that.params, param);
+            },
             formatSearch: function () {
                 return '搜索';
             },

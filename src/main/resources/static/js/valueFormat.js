@@ -136,6 +136,13 @@ DM.format = {
         var D = date.getDate() + ' ';
         var selectDate = Y + '-' + M + ( parseInt(D) < 10 ? '0' + D : D) + '';
         return (selectDate);
+    },
+    getNowMouth: function() {
+        var date = new Date();
+        var Y = date.getFullYear();
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        var selectDate = Y + '-' + M;
+        return (selectDate);
     }
 }
 
