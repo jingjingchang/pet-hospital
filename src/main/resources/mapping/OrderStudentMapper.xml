@@ -182,7 +182,9 @@
       <if test="studentId!=null and studentId!=''" >
         AND os.stu_id =#{studentId}
       </if>
+      and os.sms=1
     </where>
+    order by os.created  desc
     limit 1
   </select>
 </mapper>

@@ -22,10 +22,10 @@
         </div>
         <div class="ibox-content">
             <form id="view_form">
-            <input type="text" id="paperId" type="hidden" th:value="${examinationPaper.id}"/>
-            <input type="text" id="studentId"  type="hidden" th:value="${orderStudent.stuId}"/>
-            <input type="text" id="orderId"  type="hidden" th:value="${orderStudent.id}"/>
-            <input type="text" id="teacherId"  type="hidden" th:value="${orderStudent.teachId}"/>
+            <input type="hidden" id="paperId" th:value="${examinationPaper.id}"/>
+            <input type="hidden" id="studentId"   th:value="${orderStudent.stuId}"/>
+            <input type="hidden" id="orderId"   th:value="${orderStudent.id}"/>
+            <input type="hidden" id="teacherId"  th:value="${orderStudent.teachId}"/>
             <br/>
             <div class="row">
             <th:block th:each="list:${questions}">
