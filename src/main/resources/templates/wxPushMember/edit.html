@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>问题管理</h2>
+                <ol class="breadcrumb">
+                    <li><a href="/admin">首页</a></li>
+                    <li><a href="javascript:void(0)">问题管理</a></li>
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>问题编辑</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="ibox">
+                    <form id="examinationPaper">
+                        <input id="id" name="id" type="hidden" th:value="${examinationPaper.id}"/>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="name" id="name"  class="form-control" th:value="${examinationPaper.name}"/>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">简介</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" name="brief" id="brief"  class="form-control" th:text="${examinationPaper.brief}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">状态</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="status">
+                                        <option value="1" th:selected="${examinationPaper.status==1?'selected':null}">启用</option>
+                                        <option value="0" th:selected="${examinationPaper.status==0?'selected':null}">禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <div class="ibox-content btn-center" style="text-align: center">
+                        <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="save()">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                        </button>
+
+                        <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                            <i class="fa fa-times" aria-hidden="true"></i> 返回
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+<script src="/js/examinationPaper_list.js"></script>
+<script>
+    var examinationPaperList = new ExaminationPaperList();
+    $(function(){
+        examinationPaperList.init();
+    });
+    function save() {
+        examinationPaperList.updateExaminationPaper();
+    }
+</script>
+
+</body>
+</html>

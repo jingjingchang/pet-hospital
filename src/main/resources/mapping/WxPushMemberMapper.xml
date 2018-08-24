@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.WxPushMemberMapper">
+    <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.WxPushMember">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="member_id" jdbcType="INTEGER" property="memberId" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+    </resultMap>
+
+    <resultMap id="dto" type="com.zcmzjp.wx.dto.WxPushMemberDto" extends="BaseResultMap">
+        <result column="memberName" jdbcType="VARCHAR" property="memberName" />
+        <result column="wxOpenId" jdbcType="VARCHAR" property="wxOpenId" />
+        <result column="memberGender" jdbcType="INTEGER" property="memberGender" />
+        <result column="memberMobile" jdbcType="VARCHAR" property="memberMobile" />
+    </resultMap>
+
+    <sql id="basic_list">
+     wp.id,wp.type,wp.member_id,wp.status,wp.created
+    </sql>
+
+    <select id="listByPage" parameterType="map" resultMap="dto">
+
+        SELECT
+        <include refid="basic_list"/>,m.name as memberName,m.wxOpenId as wxOpenId,m.gender as memberGender,m.mobile as memberMobile
+        FROM
+        b_wx_push_member wp
+        left join b_members m on m.id = wp.member_id
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and m.name like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+
+        ORDER BY Id desc
+    </select>
+
+    <select id="getListByTypeCode" resultMap="dto" parameterType="Integer">
+        SELECT
+        <include refid="basic_list"/>,m.name as memberName,m.wxOpenId as wxOpenId,m.gender as memberGender,m.mobile as memberMobile
+        FROM
+        b_wx_push_member wp
+        left join b_members m on m.id = wp.member_id
+        where wp.type =#{type} and wp.status=1
+        ORDER BY Id desc
+    </select>
+
+</mapper>

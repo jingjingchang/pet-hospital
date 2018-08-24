@@ -1,7 +1,10 @@
 package com.zcmzjp.wx.controller.client;
 
 import com.zcmzjp.wx.dto.OrderStudentDto;
+import com.zcmzjp.wx.dto.WxPushMemberDto;
+import com.zcmzjp.wx.entity.WxPushMember;
 import com.zcmzjp.wx.service.OrderStudentService;
+import com.zcmzjp.wx.service.WxPushMemberService;
 import com.zcmzjp.wx.utils.DateUtils;
 import com.zcmzjp.wx.utils.WeixinUtil;
 import net.sf.json.JSONArray;
@@ -25,6 +28,9 @@ public class OrderTask {
     @Autowired
     OrderStudentService orderStudentService;
 
+    @Autowired
+    WxPushMemberService wxPushMemberService;
+
     @Scheduled(cron = "0 0 20 * * ?")
     public void sendToBoss() throws Exception{
         System.out.println("执行定时任务测试："+ new Date(System.currentTimeMillis()));
@@ -33,8 +39,12 @@ public class OrderTask {
         JSONArray ja = JSONArray.fromObject(list.toString());
         String onum = ja.getJSONObject(0).getString("num");
         String date = sdf.format(DateUtils.getBeginDayOfTomorrow());
-        WeixinUtil.sendMessage("o2zgNs43UzOgbAYyoq_nZ7ChWEjE","text","【征诚驾培】提醒您\n截止："+ DateUtils.getNow()+"\n明日："+date+"\n预约学车人数："+onum+"\n请做好安排后及时发送学车短信通知学员。");
+        List<WxPushMemberDto> memberList = wxPushMemberService.getListByTypeCode(1);
+        for(WxPushMemberDto wxPushMember:memberList){
+            WeixinUtil.sendMessage(wxPushMember.getWxOpenId(),"text","【征诚驾培】提醒您\n截止："+ DateUtils.getNow()+"\n明日："+date+"\n预约学车人数："+onum+"\n请做好安排后及时发送学车短信通知学员。");
+        }
+       /* WeixinUtil.sendMessage("o2zgNs43UzOgbAYyoq_nZ7ChWEjE","text","【征诚驾培】提醒您\n截止："+ DateUtils.getNow()+"\n明日："+date+"\n预约学车人数："+onum+"\n请做好安排后及时发送学车短信通知学员。");
         WeixinUtil.sendMessage("o2zgNs89Bku73OUz_jB6SQ5Q7G9k","text","【征诚驾培】提醒您\n截止："+ DateUtils.getNow()+"\n明日："+date+"\n预约学车人数："+onum+"\n请做好安排后及时发送学车短信通知学员。");
         WeixinUtil.sendMessage("o2zgNswDAYYNDPPhIvkZkyI28Lbo","text","【征诚驾培】提醒您\n截止："+ DateUtils.getNow()+"\n明日："+date+"\n预约学车人数："+onum+"\n请做好安排后及时发送学车短信通知学员。");
-    }
+   */ }
 }
