@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcmzjp.wx.mapper.BuildBuildingWinnersMapper">
+  <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.BuildBuildingWinners">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="wxopenid" jdbcType="VARCHAR" property="wxopenid" />
+    <result column="build_info_id" jdbcType="VARCHAR" property="buildInfoId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="mobile" jdbcType="INTEGER" property="mobile" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <sql id="basic_list">
+    a.id,a.wxopenid,a.build_info_id,a.name,a.gender,a.mobile,a.address,a.status,a.created,m.name as memberName,info.number as number
+  </sql>
+  <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_build_building_winners a
+    left join b_build_building_info bi on bi.id = a.build_info_id
+    left join b_members m on m.wxOpenId = a.wxopenid
+    <where>
+      <if test="keyword!=null and keyword!=''" >
+        and m.name like CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+
+    ORDER BY a.created desc
+  </select>
+</mapper>

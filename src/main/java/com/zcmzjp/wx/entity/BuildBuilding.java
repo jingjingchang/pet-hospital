@@ -26,6 +26,8 @@ public class BuildBuilding {
 
     private String endTime;
 
+    private Integer status;
+
     private Date created;
 
     public Integer getId() {
@@ -74,6 +76,14 @@ public class BuildBuilding {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getCreated() {

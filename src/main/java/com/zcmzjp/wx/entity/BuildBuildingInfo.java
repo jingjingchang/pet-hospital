@@ -3,6 +3,7 @@ package com.zcmzjp.wx.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -25,6 +26,13 @@ public class BuildBuildingInfo {
     private String words;
 
     private Date created;
+
+    @Transient
+    private String title;
+
+    @Transient
+    private String memberName;
+
 
     public Integer getId() {
         return id;
@@ -72,5 +80,21 @@ public class BuildBuildingInfo {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 }

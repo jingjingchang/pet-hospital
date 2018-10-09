@@ -3,6 +3,7 @@ package com.zcmzjp.wx.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -31,6 +32,13 @@ public class BuildBuildingWinners {
     private Integer status;
 
     private Date created;
+
+
+    @Transient
+    private String title;
+
+    @Transient
+    private String luckNumber;
 
     public Integer getId() {
         return id;
@@ -102,5 +110,21 @@ public class BuildBuildingWinners {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getLuckNumber() {
+        return luckNumber;
+    }
+
+    public void setLuckNumber(String luckNumber) {
+        this.luckNumber = luckNumber;
     }
 }
