@@ -22,6 +22,8 @@ public class SysConfig {
 
     private String code;
 
+    private String value;
+
     private String remark;
 
     private Date created;
@@ -74,5 +76,13 @@ public class SysConfig {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
