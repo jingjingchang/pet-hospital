@@ -610,6 +610,8 @@ public class WXEventController {
                     }
                 }
         }else if(msgType.equals(GlobalParameter.WX_MSGTYPE_TEXT)){
+
+            //查询是否添加有关键字回复内容
             WxReply wxReply = wxReplyService.getReplyByKeyName(content);
             if(wxReply!=null){
                 if(wxReply.getKeyType().equals("text")){
