@@ -15,6 +15,7 @@
   <sql id="basic_list">
     a.id,a.build_id,a.wxopenid,a.number,a.words,a.created,bb.title as title,m.name as memberName
   </sql>
+
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
 
     SELECT
@@ -31,4 +32,8 @@
 
     ORDER BY a.created desc
   </select>
+
+  <insert id="insertByNumber" parameterType="map">
+    INSERT INTO `b_build_building_info` (`id`, `build_id`, `wxopenid`, `number`, `words`, `created`) VALUES (uuid(),#{buildId},#{wxopenid},(select ifnull(max(bi.number),0)+1 from b_build_building_info bi where bi.build_id=#{buildId}),#{words},null);
+  </insert>
 </mapper>

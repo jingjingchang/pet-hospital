@@ -20,4 +20,8 @@ public class BuildBuildingInfoService extends BaseService<BuildBuildingInfo> {
     public BaseMapper<BuildBuildingInfo> getMapper() {
         return buildBuildingInfoMapper;
     }
+
+    public Integer insertByNumber(BuildBuildingInfo buildBuildingInfo){
+        return  buildBuildingInfoMapper.insertByNumber(buildBuildingInfo);
+    }
 }

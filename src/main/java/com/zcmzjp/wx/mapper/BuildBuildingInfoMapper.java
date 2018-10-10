@@ -9,4 +9,5 @@ import com.zcmzjp.wx.entity.BuildBuildingInfo;
  * @Date: 2018-07-20 14:10
  */
 public interface BuildBuildingInfoMapper extends BaseMapper<BuildBuildingInfo> {
+    public Integer insertByNumber(BuildBuildingInfo buildBuildingInfo);
 }
