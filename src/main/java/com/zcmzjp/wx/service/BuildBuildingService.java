@@ -20,4 +20,8 @@ public class BuildBuildingService extends BaseService<BuildBuilding> {
     public BaseMapper<BuildBuilding> getMapper() {
         return buildBuildingMapper;
     }
+
+    public BuildBuilding getNowBuildBuilding(){
+      return buildBuildingMapper.getNowBuildBuilding();
+    }
 }

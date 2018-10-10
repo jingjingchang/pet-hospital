@@ -96,6 +96,12 @@ public class WXEventController {
     @Autowired
     ExaminationQuestionService examinationQuestionService;
 
+    @Autowired
+    BuildBuildingService buildBuildingService;
+
+    @Autowired
+    BuildBuildingInfoService buildBuildingInfoService;
+
     //微信配置拦截地址验证
     @RequestMapping(value = "/getEvent",method = RequestMethod.GET)
     public void getEvent(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -633,16 +639,47 @@ public class WXEventController {
                     WeixinUtil.sendNewsMessage(fromUserName,joList);
                 }
             }else{
-                String str =null;
-                str = TulingApiUtil.getTulingResult(content);
-                if(str==null){
-                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，您说的话太高深了，俺暂时无法理解呢");
+
+                SysConfig sysConfig = sysConfigService.getByCode("IsOpenBuilding");
+                //判断是否开启堆楼活动
+                if(sysConfig!=null && sysConfig.getStatus().equals(1)){
+                    BuildBuilding buildBuilding = buildBuildingService.getNowBuildBuilding();
+                    //如果现在有堆楼活动
+                    if(buildBuilding!=null){
+                        //如果回复内容和堆楼口令相同
+                        if(content.equals(buildBuilding.getKeyword())){
+                            BuildBuildingInfo buildBuildingInfo = new BuildBuildingInfo();
+                            buildBuildingInfo.setBuildId(buildBuilding.getId());
+                            buildBuildingInfo.setWxopenid(fromUserName);
+                            buildBuildingInfo.setWords(content);
+                            buildBuildingInfoService.add(buildBuildingInfo);
+
+                        }else{
+                            //如果不相同则返回图灵答案
+                            getTulingAnswer(fromUserName,content);
+                        }
+                    }else{
+                        //如果没有堆楼活动则返回图灵答案
+                        getTulingAnswer(fromUserName,content);
+                    }
+                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，堆楼活动暂未完善，请谅解！");
                 }else{
-                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,str);
+                    //如果没有开启堆楼活动则返回图灵答案
+                    getTulingAnswer(fromUserName,content);
                 }
             }
         }else{
             WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，此功能暂未开放");
+        }
+    }
+
+    private void getTulingAnswer(String fromUserName,String content){
+        String str =null;
+        str = TulingApiUtil.getTulingResult(content);
+        if(str==null){
+            WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，您说的话太高深了，俺暂时无法理解呢");
+        }else{
+            WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,str);
         }
     }
 }

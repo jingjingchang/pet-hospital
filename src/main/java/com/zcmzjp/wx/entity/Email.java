@@ -1,8 +1,6 @@
 package com.zcmzjp.wx.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -13,7 +11,8 @@ import java.util.Date;
 public class Email {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+    private String id;
 
     private String subject;
 
@@ -30,11 +29,11 @@ public class Email {
 
     private Date created;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

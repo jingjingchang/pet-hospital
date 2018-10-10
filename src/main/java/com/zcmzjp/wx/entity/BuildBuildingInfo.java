@@ -1,9 +1,6 @@
 package com.zcmzjp.wx.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,10 +11,11 @@ import java.util.Date;
 public class BuildBuildingInfo {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+    private String id;
 
     @Column(name = "build_id")
-    private Integer buildId;
+    private String buildId;
 
     private String wxopenid;
 
@@ -33,20 +31,19 @@ public class BuildBuildingInfo {
     @Transient
     private String memberName;
 
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getBuildId() {
+    public String getBuildId() {
         return buildId;
     }
 
-    public void setBuildId(Integer buildId) {
+    public void setBuildId(String buildId) {
         this.buildId = buildId;
     }
 

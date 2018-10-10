@@ -1,8 +1,6 @@
 package com.zcmzjp.wx.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -13,9 +11,12 @@ import java.util.Date;
 public class BuildBuilding {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+    private String id;
 
     private String title;
+
+    private String keyword;
 
     @Column(name = "luck_number")
     private String luckNumber;
@@ -30,11 +31,11 @@ public class BuildBuilding {
 
     private Date created;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -92,5 +93,13 @@ public class BuildBuilding {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

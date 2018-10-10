@@ -42,6 +42,7 @@ public class EmailController extends BaseController<Email>{
         Message msg = new Message();
         obj.setSender("chris@zhouhongxing.cn");
         obj.setStatus(1);
+        obj.setId(null);
         boolean flag = emailService.add(obj);
         if (flag){
             mailSendService.sendHtmlEmail(obj.getAddressee(),obj.getSubject(),obj.getContent());

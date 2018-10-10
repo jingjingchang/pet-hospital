@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zcmzjp.wx.mapper.BuildBuildingInfoMapper">
   <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.BuildBuildingInfo">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="build_id" jdbcType="VARCHAR" property="build_id" />
     <result column="wxopenid" jdbcType="VARCHAR" property="wxopenid" />
     <result column="number" jdbcType="INTEGER" property="number" />

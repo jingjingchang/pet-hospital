@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zcmzjp.wx.mapper.BuildBuildingMapper">
   <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.BuildBuilding">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="luck_number" jdbcType="VARCHAR" property="luckNumber" />
     <result column="type" jdbcType="INTEGER" property="type" />
@@ -12,7 +12,7 @@
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.title,a.luck_number,a.type,a.startTime,a.endTime,a.status,a.created
+    a.id,a.title,a.luck_number,a.type,a.start_time,a.end_time,a.status,a.created
   </sql>
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -27,5 +27,17 @@
     </where>
 
     ORDER BY a.created desc
+  </select>
+
+  <select id="getNowBuildBuilding" parameterType="String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="basic_list"/>
+    FROM
+    b_build_building a
+    <where>
+      now()>a.start_time and a.end_time >now()
+    </where>
+    order by a.start_time asc
+    limit 1
   </select>
 </mapper>
