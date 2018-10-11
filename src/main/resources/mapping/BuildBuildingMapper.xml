@@ -12,7 +12,7 @@
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.title,a.luck_number,a.type,a.start_time,a.end_time,a.status,a.created
+    a.id,a.title,a.luck_number,a.keyword,a.type,a.start_time,a.end_time,a.status,a.created
   </sql>
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
 

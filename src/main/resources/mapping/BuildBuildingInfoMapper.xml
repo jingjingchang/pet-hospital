@@ -33,7 +33,7 @@
     ORDER BY a.created desc
   </select>
 
-  <insert id="insertByNumber" parameterType="map">
-    INSERT INTO `b_build_building_info` (`id`, `build_id`, `wxopenid`, `number`, `words`, `created`) VALUES (uuid(),#{buildId},#{wxopenid},(select ifnull(max(bi.number),0)+1 from b_build_building_info bi where bi.build_id=#{buildId}),#{words},null);
+  <insert id="insertByNumber" useGeneratedKeys="true" >
+    INSERT INTO `b_build_building_info` (`id`, `build_id`, `wxopenid`, `number`, `words`, `created`) VALUES (#{id},#{buildId},#{wxopenid},(select ifnull(max(bi.number),0)+1 from b_build_building_info bi where bi.build_id=#{buildId}),#{words},null);
   </insert>
 </mapper>

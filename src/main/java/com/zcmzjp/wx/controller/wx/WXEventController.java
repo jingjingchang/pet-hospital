@@ -652,30 +652,40 @@ public class WXEventController {
                             buildBuildingInfo.setBuildId(buildBuilding.getId());
                             buildBuildingInfo.setWxopenid(fromUserName);
                             buildBuildingInfo.setWords(content);
+                            buildBuildingInfo.setId(UUIDUtil.getUUID());
                             int count =  buildBuildingInfoService.insertByNumber(buildBuildingInfo);
                             if(count>0){
                                 BuildBuildingInfo buildinfo =  buildBuildingInfoService.getById(buildBuildingInfo.getId());
                                 //如果设置的是想等
+                                boolean luckFlag = false;
                                 if(buildBuilding.getType().equals(0)){
                                     String numbers[] = buildBuilding.getLuckNumber().split("、");
                                     for(String number:numbers){
                                         //如果相等
-                                        if(number.equals(buildinfo.getNumber())){
+                                        if(number.equals(buildinfo.getNumber().toString())){
                                             WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼,/n请点击此链接填写您的信息以便我们联系您！");
+                                            luckFlag = true;
                                             return;
                                         }
                                     }
-                                }else if(buildBuilding.getType().equals(0)){
+                                }else if(buildBuilding.getType().equals(1)){
                                     //如果设置的是包含
                                     if(buildBuilding.getLuckNumber().contains(buildinfo.getNumber().toString())){
-                                        WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼,/n请点击此链接填写您的信息以便我们联系您！");
+                                        WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼,\n请点击此链接填写您的信息以便我们联系您！");
+                                        luckFlag = true;
                                         return;
                                     }
 
                                 }else{
                                     //如果设置的是尾数
-
                                     WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，堆楼活动暂未完善，请谅解！");
+                                    luckFlag = true;
+                                }
+
+                                if(!luckFlag){
+                                    //未中奖但是堆楼成功
+                                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"您所在楼层："+buildinfo.getNumber()+"层,暂未中奖，请再接再厉！");
+
                                 }
                             }
 
@@ -689,7 +699,6 @@ public class WXEventController {
                         //如果没有堆楼活动则返回图灵答案
                         getTulingAnswer(fromUserName,content);
                     }
-                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，堆楼活动暂未完善，请谅解！");
                 }else{
                     //如果没有开启堆楼活动则返回图灵答案
                     getTulingAnswer(fromUserName,content);
