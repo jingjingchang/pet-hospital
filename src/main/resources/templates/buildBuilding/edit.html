@@ -4,6 +4,7 @@
 <body>
 <div th:replace="common::JS"></div>
 <div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
                 <h2>资产分类管理</h2>
@@ -21,7 +22,7 @@
             </div>
             <div class="ibox-content">
                 <div class="ibox">
-                    <form id="assetsCategory">
+                    <form id="buildBuilding_from">
                         <div class="form-horizontal">
                             <input type="hidden" name="id" id="id" th:value="${buildBuilding.id}"/>
                             <div class="form-group">
@@ -54,7 +55,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label require">中奖楼层</label>
                                 <div class="col-sm-8">
-                                    <textarea type="text" name="luckNumber" id="luckNumber"  class="form-control" th:text="${buildBuilding.luckNumber}"/>
+                                    <textarea type="text" name="luckNumber" id="luckNumber"  class="form-control" placeholder="请填入数字，并用“、”号隔开"  th:text="${buildBuilding.luckNumber}"/>
                                 </div>
                             </div>
 
@@ -101,16 +102,14 @@
 
         </div>
 
-
-<script src="/js/sha256.js"></script>
-<script src="/js/assetsCategory_list.js"></script>
+<script src="/js/buildBuilding_list.js"></script>
 <script>
-    var assetsCategory = new AssetsCategoryList();
+    var buildBuilding = new BuildBuildingList();
     $(function(){
-        assetsCategory.validInit();
+        buildBuilding.validInit();
     });
     function save() {
-        assetsCategory.updateAssetsCategory();
+        buildBuilding.updatBuildBuilding();
     }
 
 </script>

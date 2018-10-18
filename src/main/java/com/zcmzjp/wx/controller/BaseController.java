@@ -91,8 +91,6 @@ public abstract class BaseController<T>
     {
         T obj = findById(id);
         view.addAttribute(getViewPrefix(), obj);
-        String test = getViewPrefix();
-        System.out.println(test);
         return getViewPrefix() + "/edit";
     }
 
@@ -101,8 +99,6 @@ public abstract class BaseController<T>
     {
         T obj = findById(id);
         view.addAttribute(getViewPrefix(), obj);
-        String test = getViewPrefix();
-        System.out.println(test);
         return getViewPrefix() + "/edit";
     }
 

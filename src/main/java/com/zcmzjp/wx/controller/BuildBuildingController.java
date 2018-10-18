@@ -22,6 +22,6 @@ public class BuildBuildingController extends BaseController<BuildBuilding> {
 
     @Override
     public String getViewPrefix() {
-        return "buildbuilding";
+        return "buildBuilding";
     }
 }

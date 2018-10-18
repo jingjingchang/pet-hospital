@@ -162,7 +162,7 @@ var BuildBuildingList = function () {
         var that = this;
         $.ajax({
             type: 'POST',
-            url: that.url.updatePartTimeJob,
+            url: that.url.update,
             data: $("#buildBuilding_from").serialize(),
             success: function (data) {
                 if(data.status){
