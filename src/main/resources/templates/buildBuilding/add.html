@@ -4,6 +4,7 @@
 <body>
 <div th:replace="common::JS"></div>
 <div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
                 <h2>资产分类管理</h2>
@@ -21,22 +22,52 @@
             </div>
             <div class="ibox-content">
                 <div class="ibox">
-                    <form id="assetsCategory">
+                    <form id="buildBuilding_from">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label require">名称</label>
+                                <label class="col-sm-2 control-label require">主题</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="name" id="name"  class="form-control"/>
+                                    <input type="text" name="title" id="title"  class="form-control"/>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label require">代码</label>
+                                <label class="col-sm-2 control-label require">口令</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="code" id="code"  class="form-control"/>
+                                    <input type="text" name="keyword" id="keyword"  class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">中奖规则</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="type">
+                                        <option value="0">楼层号相等</option>
+                                        <option value="1">楼层号包含</option>
+                                        <option value="2">楼层尾数相等</option>
+                                    </select>
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">中奖楼层</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" name="luckNumber" id="luckNumber"  class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">开始时间</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="startTime" id="startTime"  class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">结束时间</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="endTime" id="endTime"  class="form-control"/>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label require">状态</label>
                                 <div class="col-sm-8">
@@ -64,16 +95,14 @@
 
         </div>
 
-
-<script src="/js/sha256.js"></script>
-<script src="/js/assetsCategory_list.js"></script>
+<script src="/js/buildBuilding_list.js"></script>
 <script>
-    var assetsCategory = new AssetsCategoryList();
+    var buildBuilding = new BuildBuildingList();
     $(function(){
-        assetsCategory.validInit();
+        buildBuilding.init();
     });
     function save() {
-        assetsCategory.save();
+        buildBuilding.save();
     }
 
 </script>

@@ -7,8 +7,8 @@
     <result column="luck_number" jdbcType="VARCHAR" property="luckNumber" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="startTime" jdbcType="VARCHAR" property="start_time" />
-    <result column="endTime" jdbcType="VARCHAR" property="end_time" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="basic_list">

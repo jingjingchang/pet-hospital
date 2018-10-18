@@ -96,6 +96,16 @@ public abstract class BaseController<T>
         return getViewPrefix() + "/edit";
     }
 
+    @RequestMapping({"/editById/{id}"})
+    public String editById(Model view, @PathVariable String id)
+    {
+        T obj = findById(id);
+        view.addAttribute(getViewPrefix(), obj);
+        String test = getViewPrefix();
+        System.out.println(test);
+        return getViewPrefix() + "/edit";
+    }
+
     @RequestMapping({"/edit"})
     public String editEntity(Model view, T obj)
     {
@@ -104,6 +114,11 @@ public abstract class BaseController<T>
     }
 
     public T findById(Integer id)
+    {
+        T msg = getService().getById(id);
+        return msg;
+    }
+    public T findById(String id)
     {
         T msg = getService().getById(id);
         return msg;

@@ -656,7 +656,7 @@ public class WXEventController {
                             int count =  buildBuildingInfoService.insertByNumber(buildBuildingInfo);
                             if(count>0){
                                 BuildBuildingInfo buildinfo =  buildBuildingInfoService.getById(buildBuildingInfo.getId());
-                                //如果设置的是想等
+
                                 boolean luckFlag = false;
                                 if(buildBuilding.getType().equals(0)){
                                     String numbers[] = buildBuilding.getLuckNumber().split("、");

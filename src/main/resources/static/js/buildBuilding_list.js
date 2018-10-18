@@ -1,21 +1,21 @@
-var PartTimeJobList = function () {
+var BuildBuildingList = function () {
     this.url = {
-        listByPage:"/admin/sys/partTimeJob/listByPage",
-        create:"/admin/sys/partTimeJob/create",
-        deletePartTimeJob:"/admin/sys/partTimeJob/remove",
-        updatePartTimeJob:"/admin/sys/partTimeJob/update",
+        listByPage:"/admin/sys/buildBuilding/listByPage",
+        create:"/admin/sys/buildBuilding/create",
+        delete:"/admin/sys/buildBuilding/remove",
+        update:"/admin/sys/buildBuilding/update",
     };
     this.init = function () {
         this.validInit();
         $("#startTime,#endTime").datetimepicker({
-            format: 'yyyy-MM-dd',
+            format: 'yyyy-MM-dd hh:mm',
             language:  'zh-CN',
             weekStart: 1,
             todayBtn:  true,
             autoclose: true,
             todayHighlight: true,
             startView: 2,
-            minView: 2,
+            minView: 0,
             forceParse: false
         });
 
@@ -23,7 +23,7 @@ var PartTimeJobList = function () {
     this.loadTableData = function () {
         var that = this;
 
-        $('#partTimeJob').bootstrapTable({
+        $('#buildBuilding_table').bootstrapTable({
             striped: true,
             pagination: true,
             toorbar:'#news_cate_bar',
@@ -45,9 +45,9 @@ var PartTimeJobList = function () {
                 align: 'center',
                 title: 'ID'
             },{
-                field: 'name',
+                field: 'title',
                 align: 'center',
-                title: '名称'
+                title: '活动主题'
             },{
                 field: 'startTime',
                 align: 'center',
@@ -57,17 +57,30 @@ var PartTimeJobList = function () {
                 align: 'center',
                 title: '结束时间'
             },{
-                field: 'maxNum',
+                field: 'keyword',
                 align: 'center',
-                title: '需求人数'
+                title: '口令'
             },{
-                field: 'salary',
+                field: 'type',
                 align: 'center',
-                title: '工资'
+                title: '中奖规则',
+                formatter:function (value,row,index) {
+                    switch (value){
+                        case 0:
+                            return "相等"
+                            break;
+                        case 1:
+                            return "包含"
+                            break;
+                        case 2:
+                            return "尾数相等"
+                            break;
+                    }
+                }
             },{
-                field: 'applyNum',
+                field: 'luckNumber',
                 align: 'center',
-                title: '报名人数'
+                title: '中奖号码'
             },{
                 field: 'status',
                 align: 'center',
@@ -85,30 +98,27 @@ var PartTimeJobList = function () {
                 title: '操作',
                 formatter : function (value, row, index) {
                     var arr = [];
-                    arr.push("&nbsp;&nbsp;<a title='查看兼职报名人员' href='/admin/sys/partTimeJobApply/getApplyListPage/"+row.id+"'><i class='fa fa-search text-primary'></i></a>");
-                    arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/partTimeJob/edit/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
-                    arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deletePartTimeJob("+row.id+")'><i class='fa fa-trash-o text-warning'></i></a>");
+                    arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/buildBuilding/editById/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
+                    arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deleteBuildBuilding("+row.id+")'><i class='fa fa-trash-o text-warning'></i></a>");
                     return arr;
                 }
             }]
         });
     };
     this.save = function () {
-        var valid = $('#partTimeJob').valid();
+        var valid = $('#buildBuilding_from').valid();
         if (!valid) {
             return false;
         }
         var that = this;
-        editor.sync();
-        $("#content").val($("#editor_id").val());
         $.ajax({
             type: 'POST',
             url: that.url.create,
-            data: $("#partTimeJob").serialize(),
+            data: $("#buildBuilding_from").serialize(),
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                            location.href='/admin/sys/partTimeJob/list';
+                            location.href='/admin/sys/buildBuilding/list';
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -122,7 +132,7 @@ var PartTimeJobList = function () {
             }
         });
     };
-    this.deletePartTimeJob = function (id) {
+    this.deleteBuildBuilding = function (id) {
         var that = this;
         $.ajax({
             type: 'POST',
@@ -131,7 +141,7 @@ var PartTimeJobList = function () {
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                        location.href='/admin/sys/partTimeJob/list';
+                        location.href='/admin/sys/buildBuilding/list';
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -144,22 +154,20 @@ var PartTimeJobList = function () {
             }
         });
     }
-    this.updatePartTimeJob = function () {
-        var valid = $('#partTimeJob').valid();
+    this.updatBuildBuilding = function () {
+        var valid = $('#buildBuilding_from').valid();
         if (!valid) {
             return false;
         }
         var that = this;
-        editor.sync();
-        $("#content").val($("#editor_id").val());
         $.ajax({
             type: 'POST',
             url: that.url.updatePartTimeJob,
-            data: $("#partTimeJob").serialize(),
+            data: $("#buildBuilding_from").serialize(),
             success: function (data) {
                 if(data.status){
                     Messager.success("操作成功！", function() {
-                        location.href='/admin/sys/partTimeJob/list';
+                        location.href='/admin/sys/buildBuilding/list';
                     });
                 }else{
                     Messager.alert("操作失败！");
@@ -175,25 +183,29 @@ var PartTimeJobList = function () {
     };
     this.validInit  = function () {
         WX.validate.init({
-            selector : '#partTimeJob',
+            selector : '#buildBuilding_from',
             rules : {
-                name : {
+                title : {
                     required : true,
                     maxlength : 30
                 },
-                 salary: {
+                startTime: {
                     required : false,
                     maxlength : 15,
                 },
-                brief : {
+                endTime : {
                     required : true,
-                    maxlength : 300,
+                    maxlength : 30,
                 },
                 startTime : {
                     required : true,
                     maxlength : 30
                 },
-                endTime : {
+                keyword : {
+                    required : true,
+                    maxlength : 20
+                },
+                luckNumber : {
                     required : true,
                     maxlength : 20
                 }

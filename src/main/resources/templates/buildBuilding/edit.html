@@ -23,29 +23,54 @@
                 <div class="ibox">
                     <form id="assetsCategory">
                         <div class="form-horizontal">
-                            <input type="hidden" name="id" id="id" th:value="${assetsCategory.id}"/>
+                            <input type="hidden" name="id" id="id" th:value="${buildBuilding.id}"/>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label require">上级分类</label>
+                                <label class="col-sm-2 control-label require">主题</label>
                                 <div class="col-sm-8">
-                                    <select id="parentId" name="parentId"  class="form-control">
-                                        <option value="">无</option>
-                                        <th:block th:each="list:${category}">
-                                            <option th:value="${list.id}" th:text="${list.name}" th:selected="${assetsCategory.parentId==list.id?'selected':null}"></option>
-                                        </th:block>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label require">名称</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="name" id="name"  class="form-control" th:value="${assetsCategory.name}"/>
+                                    <input type="text" name="title" id="title"  class="form-control" th:value="${buildBuilding.title}"/>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label require">代码</label>
+                                <label class="col-sm-2 control-label require">口令</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="code" id="code"  class="form-control" th:value="${assetsCategory.code}"/>
+                                    <input type="text" name="keyword" id="keyword"  class="form-control" th:value="${buildBuilding.keyword}"/>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">中奖规则</label>
+                                <div class="col-sm-8">
+                                    <select class=" form-control" name="type">
+                                        <option value="0" th:selected="${buildBuilding.type==0?'selected':null}">楼层号相等</option>
+                                        <option value="1" th:selected="${buildBuilding.type==1?'selected':null}">楼层号包含</option>
+                                        <option value="2" th:selected="${buildBuilding.type==2?'selected':null}">楼层尾数相等</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">中奖楼层</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" name="luckNumber" id="luckNumber"  class="form-control" th:text="${buildBuilding.luckNumber}"/>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">开始时间</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="startTime" id="startTime"  class="form-control" th:value="${buildBuilding.startTime}"/>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label require">结束时间</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="endTime" id="endTime"  class="form-control" th:value="${buildBuilding.endTime}"/>
                                 </div>
                             </div>
 
@@ -53,8 +78,8 @@
                                 <label class="col-sm-2 control-label require">状态</label>
                                 <div class="col-sm-8">
                                     <select class=" form-control" name="status">
-                                        <option value="1" th:selected="${assetsCategory.status==1?'selected':null}">启用</option>
-                                        <option value="0" th:selected="${assetsCategory.status==0?'selected':null}">禁用</option>
+                                        <option value="1" th:selected="${buildBuilding.status==1?'selected':null}">启用</option>
+                                        <option value="0" th:selected="${buildBuilding.status==0?'selected':null}">禁用</option>
                                     </select>
                                 </div>
                             </div>
