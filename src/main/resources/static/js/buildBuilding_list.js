@@ -61,6 +61,10 @@ var BuildBuildingList = function () {
                 align: 'center',
                 title: '口令'
             },{
+                field: 'maxTimes',
+                align: 'center',
+                title: '每人最多中奖次数'
+            },{
                 field: 'type',
                 align: 'center',
                 title: '中奖规则',

@@ -648,49 +648,64 @@ public class WXEventController {
                     if(buildBuilding!=null){
                         //如果回复内容和堆楼口令相同
                         if(content.equals(buildBuilding.getKeyword())){
-                            BuildBuildingInfo buildBuildingInfo = new BuildBuildingInfo();
-                            buildBuildingInfo.setBuildId(buildBuilding.getId());
-                            buildBuildingInfo.setWxopenid(fromUserName);
-                            buildBuildingInfo.setWords(content);
-                            buildBuildingInfo.setId(UUIDUtil.getUUID());
-                            int count =  buildBuildingInfoService.insertByNumber(buildBuildingInfo);
-                            if(count>0){
-                                BuildBuildingInfo buildinfo =  buildBuildingInfoService.getById(buildBuildingInfo.getId());
+                            //判断是否达到中奖次数上限
+                            Map<String,Object> luckMaps = new HashMap<>(3);
+                            luckMaps.put("wxopenid",fromUserName);
+                            luckMaps.put("buildId",buildBuilding.getId());
+                            Integer myTimes = buildBuildingInfoService.getLuckTimesByParams(luckMaps);
+                            if(myTimes>=buildBuilding.getMaxTimes()){
+                                WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，您已中奖:"+myTimes+"次，\n已达到此次活动个人中奖上限，无法继续堆楼！");
+                                return;
+                            }else{
+                                BuildBuildingInfo buildBuildingInfo = new BuildBuildingInfo();
+                                buildBuildingInfo.setBuildId(buildBuilding.getId());
+                                buildBuildingInfo.setWxopenid(fromUserName);
+                                buildBuildingInfo.setWords(content);
+                                buildBuildingInfo.setSuccess(false);
+                                buildBuildingInfo.setId(UUIDUtil.getUUID());
+                                int count =  buildBuildingInfoService.insertByNumber(buildBuildingInfo);
+                                if(count>0){
+                                    BuildBuildingInfo buildinfo =  buildBuildingInfoService.getById(buildBuildingInfo.getId());
 
-                                boolean luckFlag = false;
-                                if(buildBuilding.getType().equals(0)){
-                                    String numbers[] = buildBuilding.getLuckNumber().split("、");
-                                    for(String number:numbers){
-                                        //如果相等
-                                        if(number.equals(buildinfo.getNumber().toString())){
-                                            WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼,/n请点击此链接填写您的信息以便我们联系您！");
+                                    boolean luckFlag = false;
+                                    if(buildBuilding.getType().equals(0)){
+                                        String numbers[] = buildBuilding.getLuckNumber().split("、");
+                                        for(String number:numbers){
+                                            //如果相等
+                                            if(number.equals(buildinfo.getNumber().toString())){
+                                                WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼，\n<a href=\""+GlobalParameter.HOST_ADDRESS+"/wx/getLuckInfoPage?wxopenid="+fromUserName+"&buildId="+buildBuilding.getId()+"\">请点击此链接填写您的信息以便我们联系您！</a>");
+                                                luckFlag = true;
+                                                buildinfo.setSuccess(true);
+                                                buildBuildingInfoService.update(buildinfo);
+                                                return;
+                                            }
+                                        }
+                                    }else if(buildBuilding.getType().equals(1)){
+                                        //如果设置的是包含
+                                        if(buildBuilding.getLuckNumber().contains(buildinfo.getNumber().toString())){
+                                            WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼，\n<a href=\""+GlobalParameter.HOST_ADDRESS+"/wx/getLuckInfoPage?wxopenid="+fromUserName+"&buildId="+buildBuilding.getId()+"\">请点击此链接填写您的信息以便我们联系您！</a>");
                                             luckFlag = true;
+                                            buildinfo.setSuccess(true);
+                                            buildBuildingInfoService.update(buildinfo);
                                             return;
                                         }
-                                    }
-                                }else if(buildBuilding.getType().equals(1)){
-                                    //如果设置的是包含
-                                    if(buildBuilding.getLuckNumber().contains(buildinfo.getNumber().toString())){
-                                        WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"恭喜您成功堆楼到:"+buildinfo.getNumber()+"楼,\n请点击此链接填写您的信息以便我们联系您！");
+
+                                    }else{
+                                        //如果设置的是尾数
+                                        WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，堆楼活动暂未完善，请谅解！");
                                         luckFlag = true;
+                                        buildinfo.setSuccess(true);
+                                        buildBuildingInfoService.update(buildinfo);
                                         return;
                                     }
 
-                                }else{
-                                    //如果设置的是尾数
-                                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"对不起，堆楼活动暂未完善，请谅解！");
-                                    luckFlag = true;
-                                }
+                                    if(!luckFlag){
+                                        //未中奖但是堆楼成功
+                                        WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"您所在楼层："+buildinfo.getNumber()+"层，暂未中奖，请再接再厉！");
 
-                                if(!luckFlag){
-                                    //未中奖但是堆楼成功
-                                    WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,"您所在楼层："+buildinfo.getNumber()+"层,暂未中奖，请再接再厉！");
-
+                                    }
                                 }
                             }
-
-
-
                         }else{
                             //如果不相同则返回图灵答案
                             getTulingAnswer(fromUserName,content);
@@ -717,5 +732,9 @@ public class WXEventController {
         }else{
             WeixinUtil.sendMessage(fromUserName,GlobalParameter.WX_REPLY_TYPE_TEXT,str);
         }
+    }
+
+    private void pushLuckMessage(){
+
     }
 }

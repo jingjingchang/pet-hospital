@@ -25,6 +25,9 @@ public class BuildBuildingInfo {
 
     private Date created;
 
+    //是否中奖状态
+    private boolean success;
+
     @Transient
     private String title;
 
@@ -93,5 +96,13 @@ public class BuildBuildingInfo {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }

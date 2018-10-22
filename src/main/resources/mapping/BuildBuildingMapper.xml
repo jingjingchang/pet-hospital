@@ -7,12 +7,13 @@
     <result column="luck_number" jdbcType="VARCHAR" property="luckNumber" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="max_times" jdbcType="INTEGER" property="maxTimes" />
     <result column="start_time" jdbcType="VARCHAR" property="startTime" />
     <result column="end_time" jdbcType="VARCHAR" property="endTime" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.title,a.luck_number,a.keyword,a.type,a.start_time,a.end_time,a.status,a.created
+    a.id,a.title,a.luck_number,a.keyword,a.max_times,a.type,a.start_time,a.end_time,a.status,a.created
   </sql>
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
 

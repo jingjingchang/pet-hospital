@@ -22,7 +22,7 @@ public class BuildBuilding {
     private String luckNumber;
 
     @Column(name = "max_times")
-    private String maxTimes;
+    private Integer maxTimes;
 
     private Integer type;
 
@@ -106,11 +106,11 @@ public class BuildBuilding {
         this.keyword = keyword;
     }
 
-    public String getMaxTimes() {
+    public Integer getMaxTimes() {
         return maxTimes;
     }
 
-    public void setMaxTimes(String maxTimes) {
+    public void setMaxTimes(Integer maxTimes) {
         this.maxTimes = maxTimes;
     }
 }

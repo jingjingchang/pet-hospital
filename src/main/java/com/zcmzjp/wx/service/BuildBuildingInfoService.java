@@ -6,6 +6,8 @@ import com.zcmzjp.wx.mapper.BuildBuildingInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * @Author: Chris E-mail:961860916@qq.com
  * @Date: 2018-07-20 14:09
@@ -23,5 +25,10 @@ public class BuildBuildingInfoService extends BaseService<BuildBuildingInfo> {
 
     public Integer insertByNumber(BuildBuildingInfo buildBuildingInfo){
         return  buildBuildingInfoMapper.insertByNumber(buildBuildingInfo);
+    }
+
+
+    public Integer getLuckTimesByParams(Map<String,Object> map){
+       return buildBuildingInfoMapper.getLuckTimesByParams(map);
     }
 }

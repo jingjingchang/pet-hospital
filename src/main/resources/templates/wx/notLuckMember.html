@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>通知</title>
+</head>
+
+<body class="white-bg">
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+
+</body>
+</html>
+<script>
+    $(function () {
+        Messager.error("对不起，您不在此次活动中奖名单中，请中奖后再试！",function () {
+            location.href="/wx/getPartTimeJobList";
+        })
+    })
+</script>

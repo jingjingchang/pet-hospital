@@ -34,6 +34,10 @@
   </select>
 
   <insert id="insertByNumber" useGeneratedKeys="true" >
-    INSERT INTO `b_build_building_info` (`id`, `build_id`, `wxopenid`, `number`, `words`, `created`) VALUES (#{id},#{buildId},#{wxopenid},(select ifnull(max(bi.number),0)+1 from b_build_building_info bi where bi.build_id=#{buildId}),#{words},null);
+    INSERT INTO `b_build_building_info` (`id`, `build_id`, `wxopenid`, `number`, `words`, `success`,`created`) VALUES (#{id},#{buildId},#{wxopenid},(select ifnull(max(bi.number),0)+1 from b_build_building_info bi where bi.build_id=#{buildId}),#{words},#{success},null);
   </insert>
+  
+  <select id="getLuckTimesByParams" parameterType="map" resultType="int">
+      select count(0)  from b_build_building_info bi where bi.success=true and bi.build_id=#{buildId} and bi.wxopenid=#{wxopenid}
+  </select>
 </mapper>

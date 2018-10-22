@@ -76,6 +76,9 @@ public class WXController {
     @Autowired
     ExaminationAnswerService examinationAnswerService;
 
+    @Autowired
+    BuildBuildingInfoService buildBuildingInfoService;
+
     @RequestMapping("/userInfo")
     public String userInfo(Model view){
         Member member =  memberService.getById(1);
@@ -176,16 +179,37 @@ public class WXController {
         view.addAttribute("teachers",teachers);
         return "wx/teachers";
     }
-/*
-    @RequestMapping("/getOrderPage")
-    public String getOrderPage(Model view){
-            List<OrderDto> list = orderService.getOrderAndChildren();
-            OrderTime orderTime = orderTimeService.getById(1);
-            view.addAttribute("orderTime",orderTime);
-            view.addAttribute("orderDto",list);
-        return "wx/orderPage";
+
+    //堆楼活动中奖，进入填写中奖信息页面
+    @RequestMapping("/getLuckInfoPage")
+    public String getOrderPage(Model view,HttpServletRequest request,HttpServletResponse response,String wxopenid,String buildId){
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        if(member==null){
+            try {
+                session.setAttribute("url","/wx/getLuckInfoPage?wxopenid="+wxopenid+"&buildId="+buildId);
+                response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+GlobalParameter.AppID+"&redirect_uri="+GlobalParameter.sessionURL+"&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }else{
+
+            if(member.getWxopenid().equals(wxopenid)){
+                BuildBuildingInfo b = new BuildBuildingInfo();
+                b.setSuccess(true);
+                b.setWxopenid(wxopenid);
+                b.setBuildId(buildId);
+                BuildBuildingInfo buildBuildingInfo  = buildBuildingInfoService.getByObj(b);
+                view.addAttribute("member",member);
+                return "wx/luckInfoForm";
+            }else{
+                //非中奖用户无法填写
+                return "wx/notLuckMember";
+            }
+        }
+
     }
-*/
     @ResponseBody
     @RequestMapping("/sendToNoOrderStudent")
     public JsonResult sendToNoOrderStudent(HttpServletRequest request, HttpServletResponse response){

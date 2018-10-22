@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>信息完善</title>
+    <link href="/plugins/form/css/JCheck.css"  rel="stylesheet"/>
+    <link href="/plugins/form/css/style.css"  rel="stylesheet"/>
+<!--    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>-->
+    <!-- Sweet Alert -->
+    <link href="/plugins/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="login-container">
+    <h1>征诚驾培</h1>
+
+    <div class="connect">
+        <p>征.诚.铭.志. </p>
+    </div>
+
+    <form id="memberInfo">
+        <input type="hidden" name="id" th:value="${member.id}"/>
+        <input type="hidden" name="gender" id="gender" th:value="${member.gender==0?'0':'1'}"/>
+        <div>
+            <input type="text" name="name" id="name" th:value="${member.name}" class="name" placeholder="姓名" autocomplete="off"/>
+        </div>
+        <div class="radio-group-1">
+            <label class="u-radio" id="r1" data-name="gender">
+                <input name="radio1" type="radio"  value="1"/>
+                <i class="icon"></i>
+                <span class="text">男</span>
+            </label>
+            <label class="u-radio" id="r2" data-name="gender" style="margin-left: 20px;">
+                <input name="radio1" type="radio"  value="0"/>
+                <i class="icon"></i>
+                <span class="text">女</span>
+            </label>
+        </div>
+        <div>
+            <input type="text" name="mobile" id="mobile" placeholder="手机号" th:value="${member.mobile}"  autocomplete="off"/>
+        </div>
+        <div>
+            <input type="text" name="address" id="address" placeholder="请输入您的地址" th:value="${member.address}" autocomplete="off"/>
+        </div>
+        <button id="submit" class="ladda-button btn btn-primary" onclick="save()">提 交</button>
+    </form>
+</div>
+</body>
+
+<script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+<!--<script src="/plugins/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>-->
+<script src="/plugins/form/js/JCheck.js"></script>
+<!--背景图片自动更换-->
+<script src="/plugins/form/js/supersized.3.2.7.min.js"></script>
+<script src="/plugins/form/js/supersized-init.js"></script>
+<!--表单验证-->
+<script src="/plugins/form/js/jquery.validate.min.js?var1.14.0"></script>
+<script src="/js/common.js"></script>
+<script src="/js/validate.js"></script>
+<script src="/plugins/js/plugins/ladda/spin.min.js"></script>
+<script src="/plugins/js/plugins/ladda/ladda.min.js"></script>
+<script src="/plugins/js/plugins/ladda/ladda.jquery.min.js"></script>
+<link href="/plugins/css/plugins/ladda/ladda-themeless.min.css"/>
+<script src="/plugins/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/plugins/js/plugins/sweetalert/messager.js"></script>
+<script src="/js/wx/memberInfo.js"></script>
+<script>
+    var options;
+    $(function () {
+        options = $('.u-radio').jRadio({
+            checkedClass: "z-checked", // 选中状态类名
+            onChange: function (e) {
+                $("#gender").val(e[0].children[0].value);
+            }
+        });
+        if($("#gender").val()==1){
+            $("#r1").addClass("z-checked");
+        }else{
+            $("#r2").addClass("z-checked");
+        }
+
+    });
+</script>
+<script th:inline="javascript">
+    var url = [[${url}]]
+    var ladda;
+    var userInfo = new AddUserInfo();
+    $(function () {
+        ladda = $('.ladda-button').ladda();
+        userInfo.init();
+
+    })
+    function save() {
+        userInfo.save(url);
+    }
+</script>
+</html>

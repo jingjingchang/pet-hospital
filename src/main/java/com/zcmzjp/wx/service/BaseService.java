@@ -58,6 +58,10 @@ public abstract class BaseService<T> {
         return (T)getMapper().selectByPrimaryKey(hId);
     }
 
+    public T getByObj(T obj) {
+        return (T)getMapper().select(obj);
+    }
+
     @Override
     public String toString() {
         return "BaseService{}";
