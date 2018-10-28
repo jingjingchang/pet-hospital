@@ -7,10 +7,10 @@ package com.zcmzjp.wx.entity;
 public class GlobalParameter {
 
     //测试帐号
-    public static String HOST_ADDRESS = "http://h8qs9n.natappfree.cc";
+    public static String HOST_ADDRESS = "http://w3fgsg.natappfree.cc";
     public static String AppID = "wx428db2722153d12d";
     public static String  AppSecret="e1e8aed568ff374cb368428529c78d13";
-    public static String encodingURL= "http%3a%2f%2fh8qs9n.natappfree.cc";
+    public static String encodingURL= "http%3a%2f%2fw3fgsg.natappfree.cc";
     public static String webSite = encodingURL+"%2fweChat%2fwxEvent%2freg";
     public static String sessionURL = encodingURL+"%2fweChat%2fwxEvent%2fuserReg";
     public static String newsURL = HOST_ADDRESS+"/";

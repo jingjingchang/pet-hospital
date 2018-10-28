@@ -200,7 +200,6 @@ public class WXController {
                 b.setSuccess(true);
                 b.setWxopenid(wxopenid);
                 b.setBuildId(buildId);
-                BuildBuildingInfo buildBuildingInfo  = buildBuildingInfoService.getByObj(b);
                 view.addAttribute("member",member);
                 return "wx/luckInfoForm";
             }else{
