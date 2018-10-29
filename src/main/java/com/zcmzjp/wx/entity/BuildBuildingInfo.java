@@ -82,6 +82,14 @@ public class BuildBuildingInfo {
         this.created = created;
     }
 
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -96,13 +104,5 @@ public class BuildBuildingInfo {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 }

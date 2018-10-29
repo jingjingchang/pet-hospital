@@ -196,10 +196,6 @@ public class WXController {
         }else{
 
             if(member.getWxopenid().equals(wxopenid)){
-                BuildBuildingInfo b = new BuildBuildingInfo();
-                b.setSuccess(true);
-                b.setWxopenid(wxopenid);
-                b.setBuildId(buildId);
                 view.addAttribute("member",member);
                 return "wx/luckInfoForm";
             }else{

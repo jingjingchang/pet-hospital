@@ -102,6 +102,7 @@ var BuildBuildingList = function () {
                 title: '操作',
                 formatter : function (value, row, index) {
                     var arr = [];
+                    arr.push("&nbsp;&nbsp;<a title='查看堆楼信息' href='/admin/sys/buildBuilding/showBuildInfoPageByBuildingId/"+row.id+"'><i class='fa fa-search text-primary'></i></a>");
                     arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/buildBuilding/editById/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
                     arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deleteBuildBuilding("+row.id+")'><i class='fa fa-trash-o text-warning'></i></a>");
                     return arr;
@@ -211,7 +212,6 @@ var BuildBuildingList = function () {
                 },
                 luckNumber : {
                     required : true,
-                    maxlength : 20
                 }
             }
         });

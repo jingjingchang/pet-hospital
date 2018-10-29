@@ -1,6 +1,6 @@
-var PartTimeJobList = function () {
+var BuilBuilddingInfoList = function () {
     this.url = {
-        listByPage:"/admin/sys/buildBuildingInfo/listByPage",
+        listByPage:"/admin/sys/buildBuildingInfo/listQueryByPage",
         create:"/admin/sys/buildBuildingInfo/create",
         deleteBuildBuildingInfo:"/admin/sys/buildBuildingInfo/remove",
         updateBuildBuildingInfo:"/admin/sys/buildBuildingInfo/update",

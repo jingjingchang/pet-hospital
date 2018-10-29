@@ -8,12 +8,13 @@
     <result column="number" jdbcType="INTEGER" property="number" />
     <result column="words" jdbcType="VARCHAR" property="words" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="success" jdbcType="BIT" property="success" />
 
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="memberName" jdbcType="VARCHAR" property="memberName" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.build_id,a.wxopenid,a.number,a.words,a.created,bb.title as title,m.name as memberName
+    a.id,a.build_id,a.wxopenid,a.number,a.words,a.success,a.created,bb.title as title,m.name as memberName
   </sql>
 
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">
@@ -26,7 +27,13 @@
     left join b_members m on m.wxOpenId=a.wxopenid
     <where>
       <if test="keyword!=null and keyword!=''" >
-        and a.number like CONCAT('%',#{keyword},'%')
+        and m.name like CONCAT('%',#{keyword},'%')
+      </if>
+      <if test="buildId!=null and buildId!=''" >
+        and a.build_id = #{buildId}
+      </if>
+      <if test="success!=null and success!=''" >
+        and a.success like CONCAT('%',#{success},'%')
       </if>
     </where>
 
