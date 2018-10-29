@@ -3,7 +3,7 @@
 <mapper namespace="com.zcmzjp.wx.mapper.BuildBuildingInfoMapper">
   <resultMap id="BaseResultMap" type="com.zcmzjp.wx.entity.BuildBuildingInfo">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="build_id" jdbcType="VARCHAR" property="build_id" />
+    <result column="build_id" jdbcType="VARCHAR" property="buildId" />
     <result column="wxopenid" jdbcType="VARCHAR" property="wxopenid" />
     <result column="number" jdbcType="INTEGER" property="number" />
     <result column="words" jdbcType="VARCHAR" property="words" />
@@ -14,7 +14,7 @@
     <result column="memberName" jdbcType="VARCHAR" property="memberName" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.build_id,a.wxopenid,a.number,a.words,a.success,a.created,bb.title as title,m.name as memberName
+    a.id,a.build_id as build_id,a.wxopenid,a.number,a.words,a.success,a.created,bb.title as title,m.name as memberName
   </sql>
 
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">

@@ -33,30 +33,44 @@ var BuilBuilddingInfoList = function () {
                 align: 'center',
                 title: 'ID'
             },{
-                field: 'title',
+                field: 'memberName',
                 align: 'center',
                 title: '姓名'
             },{
-                field: 'name',
-                align: 'center',
-                title: '姓名'
-            },{
-                field: 'startTime',
+                field: 'gender',
                 align: 'center',
                 title: '性别',
+                formatter : function (value, row, index){
+                if(value==1){
+                    return "男"
+                }else{
+                    return "女"
+                }
+        }
             },{
                 field: 'number',
                 align: 'center',
                 title: '楼层'
+            },{
+                field: 'success',
+                align: 'center',
+                title: '状态',
+                formatter : function (value, row, index){
+                    if(value){
+                        return "中奖"
+                    }else{
+                        return "未中奖"
+                    }
+                }
             },{
                 field: 'status',
                 align: 'center',
                 title: '状态',
                 formatter : function (value, row, index){
                     if(value==1){
-                        return "激活"
+                        return "已派发奖品"
                     }else{
-                        return "停用"
+                        return "未派发"
                     }
                 }
             },{
@@ -65,7 +79,6 @@ var BuilBuilddingInfoList = function () {
                 title: '操作',
                 formatter : function (value, row, index) {
                     var arr = [];
-                    arr.push("&nbsp;&nbsp;<a title='编辑' href='/admin/sys/buildBuildingInfo/edit/"+row.id+"'><i class='fa fa-edit text-primary'></i></a>");
                     arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deleteBuildBuildingInfo("+row.id+")'><i class='fa fa-trash-o text-warning'></i></a>");
                     return arr;
                 }
