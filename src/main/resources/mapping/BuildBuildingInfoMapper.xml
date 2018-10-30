@@ -9,12 +9,14 @@
     <result column="words" jdbcType="VARCHAR" property="words" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="success" jdbcType="BIT" property="success" />
+    <result column="status" jdbcType="INTEGER" property="status" />
 
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="memberName" jdbcType="VARCHAR" property="memberName" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.build_id as build_id,a.wxopenid,a.number,a.words,a.success,a.created,bb.title as title,m.name as memberName
+    a.id,a.build_id as build_id,a.wxopenid,a.number,a.words,a.success,a.created,a.status,bb.title as title,m.name as memberName,m.gender as gender
   </sql>
 
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">

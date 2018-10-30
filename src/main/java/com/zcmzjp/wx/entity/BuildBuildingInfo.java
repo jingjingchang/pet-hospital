@@ -28,6 +28,12 @@ public class BuildBuildingInfo {
     //是否中奖状态
     private boolean success;
 
+    //是否已发放奖品
+    private Integer status;
+
+    @Transient
+    private Integer gender;
+
     @Transient
     private String title;
 
@@ -104,5 +110,21 @@ public class BuildBuildingInfo {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

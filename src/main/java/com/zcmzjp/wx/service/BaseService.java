@@ -50,6 +50,12 @@ public abstract class BaseService<T> {
         return deleteCount>0?true:false;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean deleteById(String id) {
+        int deleteCount = getMapper().deleteByPrimaryKey(id);
+        return deleteCount>0?true:false;
+    }
+
     public T getById(Integer hId) {
         return (T)getMapper().selectByPrimaryKey(hId);
     }

@@ -145,6 +145,14 @@ public abstract class BaseController<T>
         return getMessage(ret);
     }
 
+    @PostMapping({"/delete"})
+    @ResponseBody
+    public Message deleteById(@RequestParam String id)
+    {
+        boolean ret = getService().deleteById(id);
+        return getMessage(ret);
+    }
+
     @ResponseBody
     @RequestMapping({"/getById/{id}"})
     public Object getById(@PathVariable int id)

@@ -41,9 +41,9 @@
                 <div class="ibox-content">
                     <div class="table-container">
                         <div class="fixed-table-toolbar">
-                            <div class="bs-bars pull-left" id="news_cate_bar">
-                                <a class="btn btn-primary" href="/admin/sys/buildBuildingInfo/add">
-                                    <i class="fa fa-plus"></i> 新增
+                            <div class="bs-bars pull-left" id="buildInfo_bar">
+                                <a class="btn btn-default"  href="javascript:void(0)"  onclick="DM.back()">
+                                    <i class="fa fa-times" aria-hidden="true"></i> 返回
                                 </a>
                             </div>
                         </div>
@@ -63,10 +63,15 @@
         $(function(){
             buildingInfo.loadTableData();
         });
-        function deleteBuildBuildingInfo(id) {
+        function deleteObj(id) {
             Messager.confirm("是否删除？",function () {
                 buildingInfo.deleteBuildBuildingInfo(id);
             })
+        }
+        function showConfirm(id) {
+            Messager.confirm("确定已派发奖品吗?", function() {
+                buildingInfo.changeStatus(id);
+            });
         }
     </script>
 
