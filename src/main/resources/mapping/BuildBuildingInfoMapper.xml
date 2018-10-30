@@ -14,9 +14,11 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="memberName" jdbcType="VARCHAR" property="memberName" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
   </resultMap>
   <sql id="basic_list">
-    a.id,a.build_id as build_id,a.wxopenid,a.number,a.words,a.success,a.created,a.status,bb.title as title,m.name as memberName,m.gender as gender
+    a.id,a.build_id as build_id,a.wxopenid,a.number,a.words,a.success,a.created,a.status,bb.title as title,m.name as memberName,m.gender as gender,m.mobile as mobile,m.address as address
   </sql>
 
   <select id="listByPage" parameterType="map" resultMap="BaseResultMap">

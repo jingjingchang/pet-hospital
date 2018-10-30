@@ -81,7 +81,10 @@ var BuilBuilddingInfoList = function () {
                 formatter : function (value, row, index) {
                     var arr = [];
                     if(row.success&&!row.status){
+                        arr.push("&nbsp;&nbsp;<a title='查看收获地址' href='javascript:void(0)' onclick='showAddressInfo(\""+row.memberName+"\",\""+row.mobile+"\",\""+row.address+"\")'><i class='fa fa-info-circle text-success'></i></a>");
                         arr.push("&nbsp;&nbsp;<a title='确认已派发奖品' href='javascript:void(0)' onclick='showConfirm(\""+row.id+"\")'><i class='fa fa-envelope-o text-info'></i></a>");
+                    }else if(row.success&&row.status){
+                        arr.push("&nbsp;&nbsp;<a title='查看收获地址' href='javascript:void(0)' onclick='showAddressInfo(\""+row.memberName+"\",\""+row.mobile+"\",\""+row.address+"\")'><i class='fa fa-trash-o text-warning'></i></a>");
                     }else if(!row.success){
                         arr.push("&nbsp;&nbsp;<a title='删除' href='javascript:void(0)' onclick='deleteObj(\""+row.id+"\")'><i class='fa fa-trash-o text-warning'></i></a>");
                     }

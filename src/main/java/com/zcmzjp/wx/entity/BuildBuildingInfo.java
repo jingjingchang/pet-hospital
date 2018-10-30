@@ -40,6 +40,12 @@ public class BuildBuildingInfo {
     @Transient
     private String memberName;
 
+    @Transient
+    private String address;
+
+    @Transient
+    private String mobile;
+
     public String getId() {
         return id;
     }
@@ -126,5 +132,21 @@ public class BuildBuildingInfo {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }
