@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<body>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::JS"></div>
+<div class="wrapper wrapper-content">
+    <div class="ibox-content">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>最新动态</h5>
+            </div>
+            <div class="ibox-content" >
+
+                <div>
+                    <div  align="center">
+                        <img src="/img/liuyanban.png" style="width: 100%;height:400px;background-repeat: no-repeat;">
+                    </div>
+                    <div class="feed-activity-list">
+                        <th:block th:each="list:${walls}">
+                            <div class="feed-element">
+                                <a href="#" class="pull-left">
+                                    <img alt="image" class="img-circle" th:src="${list.avatar==null?'/img/a1.jpg':list.avatar}">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right text-navy"
+                                           th:text="${#dates.format(list.created,'yyyy-MM-dd HH:mm:ss')}">1天前
+                                    </small>
+                                    <strong th:text="${list.userName}"></strong>
+                                    <br>
+                                    <small class="text-muted" th:text="${list.content}">54分钟前 来自 皮皮时光机</small>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧边栏结束-->
+    <div id="small-chat" onclick="show()">
+        <a class="open-small-chat">
+            <i class="fa fa-comments"></i>
+        </a>
+    </div>
+</div>
+
+<div id="modalForm" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel" >发表评价</h4>
+                </div>
+                <br/>
+                <form id="wallForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">我想说：</label>
+                        <div class="col-sm-7">
+                            <textarea type="text" name="content" id="content" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="ibox-content" style="text-align: center">
+                    <input type="hidden" id="tId"/>
+                    <button class="ladda-button btn btn-primary"  data-style="expand-left" onclick="wall.publish()">
+                        <span class="ladda-label"><i class="fa fa-floppy-o" aria-hidden="true"></i> 确定</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <a href="javascript:void(0)" id="cancel" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-times" aria-hidden="true"></i> 取消
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/wall_list.js"></script>
+<script>
+    var wall = new WallList();
+
+    function publish() {
+        console.log("11");
+        wall.publish();
+    }
+
+    function show() {
+        console.log("11111");
+        $('#modalForm').modal('show');
+    }
+</script>
+
+
+</body>
+</html>

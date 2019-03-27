@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.pethospital.mapper.PetOrderMapper">
+    <resultMap id="BaseResultMap" type="com.chris.pethospital.entity.PetOrder">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="pet_id" jdbcType="VARCHAR" property="petId" />
+        <result column="order_time" jdbcType="VARCHAR" property="orderTime" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="petName" jdbcType="VARCHAR" property="petName" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    </resultMap>
+
+
+    <select id="getListByParams" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        po.*,p.name as petName,ot.name as typeName,u.name as userName,u.mobile as mobile
+        FROM
+        pet_order po
+        left join pet p on p.id = po.pet_id
+        left join  order_type ot on ot.id = po.type_id
+        left join users u on u.id = p.user_id
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and  p.name like CONCAT('%',#{keyword},'%')
+            </if>
+            <if test="status!=null and status!=''" >
+                and po.status = #{status}
+            </if>
+            <if test="userId!=null and userId!=''" >
+                and  p.user_id=#{userId}
+            </if>
+        </where>
+
+        ORDER BY po.id desc
+    </select>
+
+</mapper>

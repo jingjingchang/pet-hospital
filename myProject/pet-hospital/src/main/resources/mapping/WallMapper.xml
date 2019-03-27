@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.pethospital.mapper.WallMapper">
+    <resultMap id="BaseResultMap" type="com.chris.pethospital.entity.Wall">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="created" jdbcType="TIMESTAMP" property="created" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    </resultMap>
+
+
+    <select id="getListByParams" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT  w.*,u.name as userName,u.avatar as avatar
+        FROM wall w
+        left join users u on u.id = w.user_id
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and w.content like CONCAT('%',#{keyword},'%')
+            </if>
+            <if test="status!=null and status!=''" >
+                and w.status = #{status}
+            </if>
+            <if test="userId!=null and userId!=''" >
+                and w.user_id=#{userId}
+            </if>
+        </where>
+
+        ORDER by w.created  desc
+    </select>
+
+</mapper>

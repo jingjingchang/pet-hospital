@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::webUploader"></div>
+<div th:replace="common::editor"></div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>医生管理</h2>
+        <ol class="breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li><a href="javascript:void(0)">医生新增</a></li>
+        </ol>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="ibox-title">
+        <h5>医生管理</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="ibox">
+            <form id="doctor">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">姓名</label>
+                        <input th:value="${doctor.id}" name="id" hidden="hidden"/>
+                        <div class="col-sm-8">
+                            <input type="text" name="name" id="name" th:value="${doctor.name}" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">头像</label>
+                        <div class="col-sm-8">
+                            <input name="avatar" id="avatar" th:value="${doctor.avatar}" hidden="hidden"/>
+                            <p><a id="uploadBtn" title=" 上传" class="btn btn-default" href="javascript:void(0)">上传</a>
+                            </p>
+                            <div id="pic" class="gallery">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">性别</label>
+                        <div class="col-sm-8">
+                            <select class=" form-control" name="sex">
+                                <option value="1" th:selected="${doctor.sex==1?'selected':null}">男</option>
+                                <option value="0" th:selected="${doctor.sex==0?'selected':null}">女</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">手机号</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="mobile" id="mobile" th:value="${doctor.mobile}"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">年龄</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="age" id="age" th:value="${doctor.age}"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">工作时间</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="workTime" id="workTime" th:value="${doctor.workTime}"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">职称</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="title" id="title" th:value="${doctor.title}" class="form-control"/>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">状态</label>
+                        <div class="col-sm-8">
+                            <select class=" form-control" name="status">
+                                <option value="1" th:selected="${doctor.status==1?'selected':null}">启用</option>
+                                <option value="0" th:selected="${doctor.status==0?'selected':null}">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="text" hidden="hidden" id="brief" name="brief"/>
+                    <div class="ibox-title" >
+                        <h5>简介</h5>
+                    </div>
+
+                    <form name="editor" method="post">
+                        <textarea  id="editor_id" cols="100" rows="8" style="width:100%;height:100%;visibility:hidden;" th:text="${doctor.brief}"></textarea>
+                        <br />
+                    </form>
+                </div>
+            </form>
+
+            <div class="ibox-content btn-center" style="text-align: center">
+                <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left"
+                        onclick="save()">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                </button>
+
+                <a href="javascript:void(0)" class="btn btn-default" onclick="DM.back()">
+                    <i class="fa fa-times" aria-hidden="true"></i> 返回
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/js/doctor_list.js"></script>
+<script>
+    var doctor = new DoctorList()
+    $(function () {
+        doctor.init();
+        window.editor = KindEditor.create('#editor_id', {
+            uploadJson :  '/upload/fileUpload',
+            fileManagerJson :  '/dm/newsinfo',
+            allowFileManager : false,
+            afterCreate: function () {
+                //要取值设置这里 这个函数就是同步KindEditor的值到textarea文本框
+                this.sync();
+            },
+            afterBlur: function () {  //同时设置这里
+                this.sync();
+            }});
+    });
+
+    function save() {
+        doctor.update();
+    }
+</script>
+
+
+</body>
+</html>

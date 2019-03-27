@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::dateTimePicker"></div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>宠物管理</h2>
+        <ol class="breadcrumb">
+            <li><a href="/admin">首页</a></li>
+            <li><a href="javascript:void(0)">宠物管理</a></li>
+        </ol>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="ibox-title">
+        <h5>宠物编辑</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="ibox">
+            <form id="pet">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">宠物选择</label>
+                        <div class="col-sm-8">
+                            <select id="petId" name="petId"  class="form-control">
+                                <option value="">请选择您的宠物</option>
+                                <th:block th:each="list:${pets}">
+                                    <option th:value="${list.id}" th:selected="${list.id==petorder.petId?'selected':null}" th:text="${list.name}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">服务类型</label>
+                        <div class="col-sm-8">
+                            <select id="typeId" name="typeId"  class="form-control">
+                                <option value="">请选预约的服务类型</option>
+                                <th:block th:each="list:${orderTypes}">
+                                    <option th:value="${list.id}" th:selected="${list.id==petorder.typeId?'selected':null}" th:text="${list.name}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">预约时间</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="orderTime" id="orderTime" th:value="${petorder.orderTime}"  class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label ">备注</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="remark" id="remark" th:value="${petorder.remark}"  class="form-control"/>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="ibox-content btn-center" style="text-align: center">
+                <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="save()">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                </button>
+
+                <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                    <i class="fa fa-times" aria-hidden="true"></i> 返回
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/pet_list.js"></script>
+<script>
+    var pet = new PetList()
+    $(function(){
+        pet.init();
+
+    });
+    function save() {
+        pet.update();
+    }
+
+</script>
+
+
+</body>
+</html>

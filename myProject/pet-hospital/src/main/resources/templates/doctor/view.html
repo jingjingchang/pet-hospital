@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <th:block th:each="list:${doctors}">
+        <div class="col-sm-4">
+            <div class="contact-box">
+                <a th:href="@{'/doctor/detail/'+${list.id}}">
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <img alt="image" class="img-circle center-block" style="height:60px;width:60px;" th:src="${list.avatar==null?'/img/a2.jpg':list.avatar}" src="">
+                            <div class="m-t-xs font-bold" th:text="${list.title}">CTO</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <h3>姓名：<strong th:text="${list.name}"></strong></h3>
+                        性别：<span th:text="${list.sex==1?'男':'女'}"></span><br/>
+                        年龄： <span th:text="${list.age}"></span><br/>
+                        电话号码: <span th:text="${list.mobile}"></span><br/>
+                        值班时间: <span th:text="${list.workTime}"></span><br/>
+                    </div>
+                    <div class="clearfix" ><span th:utext="${list.brief}"></span></div>
+                </a>
+            </div>
+        </div>
+        </th:block>
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

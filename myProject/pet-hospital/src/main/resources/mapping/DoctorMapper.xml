@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.pethospital.mapper.DoctorMapper">
+    <resultMap id="BaseResultMap" type="com.chris.pethospital.entity.Doctor">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="avatar" jdbcType="INTEGER" property="avatar" />
+        <result column="sex" jdbcType="INTEGER" property="sex" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+        <result column="work_time" jdbcType="VARCHAR" property="workTime" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+    </resultMap>
+
+
+    <select id="getListByParams" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        id,name,mobile,avatar,sex,work_time,status,title,age
+        FROM
+        doctor d
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and d.name like CONCAT('%',#{keyword},'%')
+            </if>
+
+            <if test="status!=null and status!=''" >
+                and d.status  = #{status}
+            </if>
+        </where>
+
+        ORDER BY d.id desc
+    </select>
+
+</mapper>

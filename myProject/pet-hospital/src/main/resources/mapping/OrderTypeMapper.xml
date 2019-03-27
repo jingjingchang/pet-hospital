@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.pethospital.mapper.OrderTypeMapper">
+    <resultMap id="BaseResultMap" type="com.chris.pethospital.entity.OrderType">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+
+    <select id="getListByParams" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        id,name,code,status
+        FROM
+        order_type
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and name like CONCAT('%',#{keyword},'%')
+            </if>
+            <if test="code!=null and code!=''" >
+                and code = #{code}
+            </if>
+            <if test="status!=null and status!=''" >
+                and status = #{status}
+            </if>
+        </where>
+
+        ORDER BY Id desc
+    </select>
+
+    <select id="getOrderTypeStatistics" resultType="map">
+        select ot.name,count(po.id) as num  from order_type ot
+        left join pet_order po on po.type_id = ot.id and po.status = 1
+        where ot.status =1
+        group by ot.id
+    </select>
+</mapper>

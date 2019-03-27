@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.pethospital.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.chris.pethospital.entity.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+
+    <select id="getListByParams" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        id,name,avatar,username,password,mobile,email,status,type
+        FROM
+        users u
+        <where>
+            <if test="keyword!=null and keyword!=''" >
+                and u.username like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+
+        ORDER BY u.id desc
+    </select>
+
+    <select id="userLogin" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        id,name,avatar,username,password,mobile,email,status,type
+        FROM
+        users u
+        <where>
+            u.username = #{username}
+                and u.password = #{password}
+        </where>
+        ORDER BY u.id desc
+    </select>
+
+    <select id="getByUsername" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        id,name,avatar,username,password,mobile,email,status,type
+        FROM
+        users
+        <where>
+                username = #{0}
+        </where>
+    </select>
+
+</mapper>

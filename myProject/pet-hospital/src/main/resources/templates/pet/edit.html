@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>首页</title>
+
+</head>
+
+<body>
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>宠物管理</h2>
+        <ol class="breadcrumb">
+            <li><a href="/admin">首页</a></li>
+            <li><a href="javascript:void(0)">宠物管理</a></li>
+        </ol>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="ibox-title">
+        <h5>宠物编辑</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="ibox">
+            <form id="pet">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">名称</label>
+                        <input th:value="${pet.id}" name="id" hidden="hidden"/>
+                        <div class="col-sm-8">
+                            <input type="text" name="name" id="name" th:value="${pet.name}" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">血统</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="breed" id="breed" th:value="${pet.breed}"  class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">性别</label>
+                        <div class="col-sm-8">
+                            <select class=" form-control" name="sex">
+                                <option value="1" th:selected="${pet.sex==1?'selected':null}">雄</option>
+                                <option value="0" th:selected="${pet.sex==0?'selected':null}">雌</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">是否婚配</label>
+                        <div class="col-sm-8">
+                            <select class=" form-control" name="married">
+                                <option value="1" th:selected="${pet.married==1?'selected':null}">是</option>
+                                <option value="0" th:selected="${pet.married==0?'selected':null}">否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label require">状态</label>
+                        <div class="col-sm-8">
+                            <select class=" form-control" name="status">
+                                <option value="1" th:selected="${pet.status==1?'selected':null}">启用</option>
+                                <option value="0" th:selected="${pet.status==0?'selected':null}">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="ibox-content btn-center" style="text-align: center">
+                <button type="submit" name="button" class="ladda-button btn btn-primary" data-style="expand-left" onclick="save()">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> 保存
+                </button>
+
+                <a href="javascript:void(0)" class="btn btn-default"   onclick="DM.back()">
+                    <i class="fa fa-times" aria-hidden="true"></i> 返回
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/pet_list.js"></script>
+<script>
+    var pet = new PetList()
+    $(function(){
+        pet.init();
+    });
+    function save() {
+        pet.update();
+    }
+
+</script>
+
+
+</body>
+</html>

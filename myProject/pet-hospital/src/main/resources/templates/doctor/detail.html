@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>教练详情</title>
+</head>
+<body class="white-bg">
+<div th:replace="common::JS"></div>
+<div th:replace="common::CSS"></div>
+<div th:replace="common::editor"></div>
+<div class="row" >
+    <div class="col-lg-12 ">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>医生介绍</h5>
+            </div>
+            <div class="ibox-content" style="text-align: center">
+                <img class="img-responsive center-block" th:src="${doctor.avatar}" style="max-height: 200px;max-width: 150px;"/><br/>
+                <strong th:text="${doctor.name}" style="font-size: 18px;">曾宝仪</strong><br/>
+                <strong style="font-size: 16px;">职务</strong><strong>：</strong><strong th:text="${doctor.title}" style="font-size: 16px;"></strong><br/>
+                <strong th:utext="${doctor.brief}"></strong>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

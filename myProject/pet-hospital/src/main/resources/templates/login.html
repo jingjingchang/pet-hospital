@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>登录</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="/plugins/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/plugins/css/font-awesome.min.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/plugins/css/animate.css" rel="stylesheet"/>
+    <link href="/plugins/css/style.css?v=4.1.0" rel="stylesheet"/>
+    <!--[if lte IE 8]>
+    <script src="/plugins/static/ace/js/html5shiv.js"></script>
+    <script src="/plugins/static/ace/js/respond.js"></script>
+    <![endif]-->
+</head>
+
+<body style="background-color: white;">
+
+<div class=" animated fadeInDown" style="height: 100%">
+
+    <div class="row" style="background-image: url('/img/background.png');background-repeat: no-repeat;width:100%;height: 95%;align:center;">
+        <div class="col-md-offset-7 col-md-5">
+            <div class="ibox-content" style="margin-top: 40%;margin-right: 5%;width: 80%;border: 2px solid #009BB0">
+                <form id="loginForm" class="m-t" role="form" action="login" method="post">
+                    <div id="error" style="display:none;font-size:x-small;color: red;"></div>
+                    <hr/>
+                    <div class="form-group">
+                        <input type="text"  class="form-control" placeholder="用户名" id="username" name="username"  tabindex="1"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password"  class="form-control" placeholder="密码" id="password" name="password"  tabindex="2"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <input type="text"  name="inputVcode" id="inputVcode" class="form-control" placeholder="验证码" tabindex="3"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="javascript:void(0)" onclick="WX.login.flushImg()" style="float: left;"><img class="vc-pic" width="65" height="35"/></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button id="loginBtn" type="button" class="btn btn-primary block full-width m-b m-t" onclick="WX.login.login();">确定</button>
+                    </div>
+                     <p style="text-align: right;">
+                        <a href="/register"><small>创建账户</small></a>
+                    </p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/sha256.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script src="/plugins/js/jquery.min.js?v=2.1.4"></script>
+<script src="/plugins/js/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript">
+    $(function($) {
+        $("#username").focus();
+        document.onkeydown = function(e) {
+            var theEvent = window.event || e;
+            var code = theEvent.keyCode || theEvent.which;
+            if (code == 13) {
+                $("#loginBtn").click();
+            }
+        };
+        if (self.location != top.location) {
+            top.location = $('base')[0].href + "/";
+        }
+        WX.login.flushImg();
+    });
+</script>
+</body>
+
+</html>
