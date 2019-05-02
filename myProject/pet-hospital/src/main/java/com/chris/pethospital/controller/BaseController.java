@@ -1,6 +1,7 @@
 package com.chris.pethospital.controller;
 
 import com.chris.pethospital.entity.JsonResult;
+import com.chris.pethospital.entity.Page;
 import com.chris.pethospital.service.BaseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
@@ -19,7 +20,6 @@ import java.util.Map;
  * TODO
  *
  * @author Administrator
- * @date 2017/7/19.
  */
 public abstract class BaseController<T> {
 
@@ -37,12 +37,16 @@ public abstract class BaseController<T> {
 
     @RequestMapping("/listByPage")
     @ResponseBody
-    public Object listByPage( Map<String,Object> params) {
+    public Object listByPage(Page page) {
         //根据不同的参数配置,有些传递的是offset
-        params.put("pageNum", params.get("pageNum"));
-        params.put("pageSize",  params.get("pageSize"));
-        params.put("keyword",  params.get("keyword"));
-        PageInfo info = getService().listByPage(params);
+        Map<String,Object> map = new HashMap<>();
+//        params.put("pageNum", params.get("pageNum"));
+//        params.put("pageSize",  params.get("pageSize"));
+        map.put("pageNum", Integer.valueOf(page.getOffset() + 1));
+        map.put("pageSize", Integer.valueOf(page.getLimit()));
+        map.put("keyword", page.getSearch());
+
+        PageInfo info = getService().listByPage(map);
 
         Map<String,Object> jsonMap = new HashMap<>();
         jsonMap.put("rows", info.getList());
